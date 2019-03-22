@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	.  "github.com/abproject/mock-server/internal/init"
+	.  "github.com/abproject/mock-server/internal"
 	"net/http"
 )
 

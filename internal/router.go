@@ -1,4 +1,4 @@
-package init
+package internal
 
 import (
 	. "github.com/abproject/mock-server/internal/rest"

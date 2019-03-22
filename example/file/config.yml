@@ -1,0 +1,12 @@
+rest:
+  global:
+    response:
+      status: 200
+      headers:
+        Content-Type: application/octet-stream
+  controllers:
+  - request:
+      method: GET
+      path: file
+    response:
+      file: example/file/file.txt

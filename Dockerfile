@@ -4,6 +4,7 @@ COPY . .
 RUN go get -d -v ./...
 RUN go install -v ./...
 RUN "./scripts/compile.sh"
+RUN ls -lh ./.bin/mock-server | cut -d' ' -f5
 
 FROM scratch
 COPY --from=build /go/src/mock-server/.bin/mock-server mock-server

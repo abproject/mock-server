@@ -1,8 +1,8 @@
-package internal
+package init
 
 import (
+	. "github.com/abproject/mock-server/internal/rest"
 	"log"
-	.  "mock-server/internal/rest"
 	"net/http"
 )
 

@@ -2,7 +2,7 @@ package rest
 
 import (
 	. "mock-server/internal/testing"
-	"testing"
+	"github.com/abproject/mock-server/internal/testing"
 )
 
 func TestRequestPatch(t *testing.T) {

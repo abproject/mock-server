@@ -2,7 +2,7 @@ package shared
 
 import (
 	"reflect"
-	"testing"
+	"github.com/abproject/mock-server/internal/mock-server/testingrver/testing"
 )
 
 type TestCase struct {

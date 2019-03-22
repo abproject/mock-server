@@ -1,10 +1,10 @@
-package internal
+package init
 
 import (
+	"github.com/abproject/mock-server/internal/rest"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
-	"mock-server/internal/rest"
 )
 
 type Config struct {

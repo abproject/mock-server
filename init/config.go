@@ -1,7 +1,7 @@
-package internal
+package init
 
 import (
-	"github.com/abproject/mock-server/internal/rest"
+	"github.com/abproject/mock-server/rest"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"

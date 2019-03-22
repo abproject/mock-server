@@ -3,7 +3,7 @@ package rest
 import (
 	. "mock-server/internal/testing"
 	"net/http"
-	"github.com/abproject/mock-server/internal/testing"
+	"github.com/abproject/mock-server/testing"
 )
 func TestRequestIsEqual(t *testing.T) {
 	v := Validation{T: t}

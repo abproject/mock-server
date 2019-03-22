@@ -2,7 +2,7 @@ package rest
 
 import (
 	. "mock-server/internal/testing"
-	"github.com/abproject/mock-server/internal/testing"
+	"github.com/abproject/mock-server/testing"
 )
 
 func TestRequestCompareTo(t *testing.T) {

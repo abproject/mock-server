@@ -16,9 +16,7 @@ variables:
 
 steps:
 - script: |
-    echo $(test)
-    echo $(dockerPassword)
-    # docker login -u $(dockerId) -p $(dockerPassword)
-    # docker build -f Dockerfile -t $(dockerId)/$(imageName) .
-    # docker push $(dockerId)/$(imageName)
+    docker build -f Dockerfile -t $(dockerId)/$(imageName) .
+    docker login -u $(dockerId) -p $(dockerPassword)
+    docker push $(dockerId)/$(imageName)
   displayName: docker

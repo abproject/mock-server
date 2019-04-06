@@ -16,9 +16,8 @@ variables:
 
 steps:
 - script: |
-    echo $env:pswd
+    docker login -u $(dockerId) -p $(env:pswd)
     docker build -f Dockerfile -t $(dockerId)/$(imageName) .
-    docker login -u $(dockerId) -p $env:pswd
     docker push $(dockerId)/$(imageName)
   displayName: docker
   env:

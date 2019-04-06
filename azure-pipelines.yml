@@ -10,8 +10,11 @@ pool:
   vmImage: 'Ubuntu-16.04'
 
 variables:
-  imageName: 'abezpalov/mock-server:$(build.buildId)'
+  version: '0.0.$(build.buildId)'
+  imageName: 'abezpalov/mock-server:$(version)'
 
 steps:
 - script: docker build -f Dockerfile -t $(imageName) .
   displayName: 'docker build'
+- script: docker push $(imageName)
+  displayName: 'docker push'

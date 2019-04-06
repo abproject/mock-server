@@ -16,17 +16,9 @@ variables:
 
 steps:
 - script: |
-    echo testword
-    echo $test
-    echo $maptest
     echo $(test)
-    echo $(maptest)
-    echo $env:maptest
-    echo $(env:maptest)
-    # docker login -u $(dockerId) -p $(env:pswd)
+    echo $(dockerPassword)
+    # docker login -u $(dockerId) -p $(dockerPassword)
     # docker build -f Dockerfile -t $(dockerId)/$(imageName) .
     # docker push $(dockerId)/$(imageName)
   displayName: docker
-  env:
-    pswd: $(dockerPassword)
-    maptest: $(test)

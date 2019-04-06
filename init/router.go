@@ -32,6 +32,5 @@ func (router *Router) Request(w http.ResponseWriter, r *http.Request) {
 		} else {
 			w.Write([]byte(controller.Response.Body))
 		}
-
 	}
 }

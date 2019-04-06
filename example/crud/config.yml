@@ -4,7 +4,7 @@ rest:
       status: 200
       headers:
         Content-Type: application/json
-  controllers:
+  endpoints:
     - request:
         method: GET
         path: users

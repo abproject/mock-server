@@ -4,7 +4,7 @@ rest:
       status: 200
       headers:
         Content-Type: application/octet-stream
-  controllers:
+  endpoints:
   - request:
       method: GET
       path: file

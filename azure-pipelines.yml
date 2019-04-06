@@ -11,7 +11,7 @@ pool:
 
 variables:
   dockerId: abezpalov
-  image: mock-server:$(version)
+  image: mock-server
   version: 0.0.$(build.buildId)
 
 steps:

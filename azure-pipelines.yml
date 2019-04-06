@@ -10,13 +10,15 @@ pool:
   vmImage: 'Ubuntu-16.04'
 
 variables:
-  version: 0.0.$(build.buildId)
   dockerId: abezpalov
-  imageName: mock-server:$(version)
+  image: mock-server:$(version)
+  version: 0.0.$(build.buildId)
 
 steps:
 - script: |
-    docker build -f Dockerfile -t $(dockerId)/$(imageName) .
+    docker build -f Dockerfile -t $(dockerId)/$(image):$(version) .
     docker login -u $(dockerId) -p $(dockerPassword)
-    docker push $(dockerId)/$(imageName)
+    docker tag $(dockerId)/$(image):$(version) $(dockerId)/$(image):latest
+    docker push $(dockerId)/$(image):$(version)
+    docker push $(dockerId)/$(image):latest
   displayName: docker

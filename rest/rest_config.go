@@ -2,7 +2,7 @@ package rest
 
 type RestConfig struct {
 	Global      ControllerConfig   `yaml:"global"`
-	Controllers []ControllerConfig `yaml:"controllers"`
+	Controllers []ControllerConfig `yaml:"endpoints"`
 }
 
 func (restConfig *RestConfig) Init() Rest {

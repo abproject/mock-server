@@ -44,7 +44,7 @@ func (rest *Rest) FindController(r *http.Request) (error, Controller) {
 	})
 
 	if len(filtered) == 0 {
-		return errors.New("NO CONTROLLER FOUND"), Controller{}
+		return errors.New("NO ENDPOINT FOUND"), Controller{}
 	}
 	return nil, filtered[0]
 }

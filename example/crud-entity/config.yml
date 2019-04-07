@@ -1,0 +1,61 @@
+rest:
+  global:
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+  entities:
+    - path: users
+      methods:
+        - request:
+          method: GET
+          response:
+            body: >
+              [
+                {
+                  "id": 1,
+                  "firstname": "John",
+                  "lastname": "Galt"
+                },
+                {
+                  "id": 2,
+                  "firstname": "Guy",
+                  "lastname": "Montag"
+                }
+              ]
+        - request:
+            method: GET
+            path: users/:id
+          response:
+            body: >
+              {
+                "id": 1,
+                "firstname": "John",
+                "lastname": "Galt"
+              }
+        - request:
+            method: POST
+            path: users
+          response:
+            status: 201
+            body: >
+              {
+                "id": 1,
+                "firstname": "John",
+                "lastname": "Galt"
+              }
+        - request:
+            method: PUT
+            path: users/:id
+          response:
+            body: >
+              {
+                "id": 1,
+                "firstname": "John",
+                "lastname": "Galt"
+              }
+        - request:
+            method: DELETE
+            path: users/:id
+
+

@@ -1,19 +1,18 @@
-package init
+package config
 
 import (
-	"github.com/abproject/mock-server/rest"
-	"github.com/abproject/mock-server/websocket"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
 )
 
 type Config struct {
-	RestConfig rest.RestConfig `yaml:"rest"`
-	WebsocketConfig websocket.WebsocketConfig `yaml:"websocket"`
+	Rest      RestConfig      `yaml:"rest"`
+	Websocket WebsocketConfig `yaml:"websocket"`
 }
 
-func (config *Config) Parse(filePath string) {
+func ParseConfig(filePath string) *Config {
+	config := new(Config)
 	yamlFile, err := ioutil.ReadFile(filePath)
 	if err != nil {
 		log.Printf("File parse err #%v ", err)
@@ -22,4 +21,5 @@ func (config *Config) Parse(filePath string) {
 	if err != nil {
 		log.Fatalf("Unmarshal: %#v", err)
 	}
+	return config
 }

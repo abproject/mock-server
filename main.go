@@ -3,7 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
-	.  "github.com/abproject/mock-server/init"
+	.  "github.com/abproject/mock-server/config"
+	.  "github.com/abproject/mock-server/router"
 	"log"
 	"net/http"
 )
@@ -15,11 +16,8 @@ func main() {
 	log.Printf("Port: %d\n", *port)
 	log.Printf("File: %s\n", *file)
 
-	var config Config
-	config.Parse(*file)
-
-	var router Router
-	router.Init(config)
+	config := ParseConfig(*file)
+	router := NewRouter(*config)
 
 	http.HandleFunc("/", router.Request)
 	http.ListenAndServe(fmt.Sprintf(":%d", *port), nil)

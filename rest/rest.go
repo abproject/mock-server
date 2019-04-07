@@ -2,6 +2,7 @@ package rest
 
 import (
 	"errors"
+	.  "github.com/abproject/mock-server/config"
 	"net/http"
 	"sort"
 )
@@ -11,16 +12,15 @@ type Rest struct {
 	config      RestConfig
 }
 
-func (rest *Rest) Init(config RestConfig) {
+func NewRest(config RestConfig) *Rest {
 	var controllers = make([]Controller, len(config.Controllers))
-
 	for index, controllerConfig := range config.Controllers {
-		var controller Controller
-		controller.Init(controllerConfig)
+		controller := NewController(controllerConfig)
 		controller.Patch(config.Global)
-		controllers[index] = controller
+		controllers[index] = *controller
 	}
-	*rest = Rest{
+
+	return &Rest{
 		config: config,
 		controllers: controllers,
 	}

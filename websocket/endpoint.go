@@ -2,6 +2,7 @@ package websocket
 
 import (
 	"fmt"
+	. "github.com/abproject/mock-server/config"
 	. "github.com/abproject/mock-server/shared"
 	"log"
 	"strconv"
@@ -17,11 +18,7 @@ type Endpoint struct {
 	Messages []string
 }
 
-func (endpoint *Endpoint) Init(config EndpointConfig) {
-	endpoint.parse(config)
-}
-
-func (endpoint *Endpoint) parse(config EndpointConfig) {
+func NewEndpoint(config WebsocketEndpointConfig) *Endpoint {
 	if config.Url == "" {
 		log.Fatal(fmt.Sprintf("Websocket Config: Url is required\n%#v", config))
 	}
@@ -49,7 +46,7 @@ func (endpoint *Endpoint) parse(config EndpointConfig) {
 		log.Fatal(fmt.Sprintf("Websocket Config: Repeat must be 'infinite' or a number\n%#v", config))
 	}
 
-	*endpoint = Endpoint{
+	return &Endpoint{
 		GetRandomId(),
 		config.Url,
 		config.Interval,

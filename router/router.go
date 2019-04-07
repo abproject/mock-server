@@ -1,6 +1,7 @@
-package init
+package router
 
 import (
+	. "github.com/abproject/mock-server/config"
 	. "github.com/abproject/mock-server/rest"
 	. "github.com/abproject/mock-server/websocket"
 	"log"
@@ -12,9 +13,11 @@ type Router struct {
 	Websocket Websocket
 }
 
-func (router *Router) Init(config Config) {
-	router.Rest = config.RestConfig.Init()
-	router.Websocket = config.WebsocketConfig.Init()
+func NewRouter(config Config) *Router {
+	return &Router{
+		Rest: *NewRest(config.Rest),
+		Websocket: *NewWebsocket(config.Websocket),
+	}
 }
 
 func (router *Router) Request(w http.ResponseWriter, r *http.Request) {

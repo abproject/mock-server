@@ -1,9 +1,14 @@
-package websocket
+package config
 
-type EndpointConfig struct {
+type WebsocketConfig struct {
+	Endpoints []WebsocketEndpointConfig `yaml:"endpoints"`
+}
+
+type WebsocketEndpointConfig struct {
 	Url      string   `json:"url" yaml:"url"`
 	Interval int      `json:"interval" yaml:"interval"`
 	Repeat   string   `json:"repeat" yaml:"repeat"`
 	Order    string   `json:"order" yaml:"order"`
 	Messages []string `json:"messages" yaml:"messages"`
 }
+

@@ -2,6 +2,7 @@ package websocket
 
 import (
 	"errors"
+	.  "github.com/abproject/mock-server/config"
 	"github.com/gorilla/websocket"
 	"log"
 	"math/rand"
@@ -14,15 +15,14 @@ type Websocket struct {
 	endpoints []Endpoint
 }
 
-func (ws *Websocket) Init(config WebsocketConfig) {
+func NewWebsocket(config WebsocketConfig) *Websocket {
 	var endpoints = make([]Endpoint, len(config.Endpoints))
 
 	for index, endpointConfig := range config.Endpoints {
-		var endpoint Endpoint
-		endpoint.Init(endpointConfig)
-		endpoints[index] = endpoint
+		endpoint := NewEndpoint(endpointConfig)
+		endpoints[index] = *endpoint
 	}
-	*ws = Websocket{
+	return &Websocket{
 		endpoints: endpoints,
 	}
 }
@@ -50,7 +50,7 @@ func (ws *Websocket) Subscribe(w http.ResponseWriter, r *http.Request, endpoint 
 		log.Printf("Connection\n%s", err)
 		return
 	}
-	ws.emitMessages(conn, endpoint, r.Header.Get("Sec-Websocket-Key") )
+	ws.emitMessages(conn, endpoint, r.Header.Get("Sec-Websocket-Key"))
 }
 
 func (ws *Websocket) emitMessages(conn *websocket.Conn, endpoint Endpoint, client string) {

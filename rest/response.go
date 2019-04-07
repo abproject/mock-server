@@ -2,6 +2,7 @@ package rest
 
 import (
 	"fmt"
+	.  "github.com/abproject/mock-server/config"
 	"io/ioutil"
 	"log"
 )
@@ -11,10 +12,10 @@ type Response struct {
 	File    []byte
 	Status  int
 	Headers map[string]string
-	source  ResponseConfig
+	source  RestResponseConfig
 }
 
-func (response *Response) Init(config ResponseConfig) {
+func NewResponse(config RestResponseConfig) *Response {
 	var status = config.Status
 	if status == 0 {
 		status = 200
@@ -34,7 +35,7 @@ func (response *Response) Init(config ResponseConfig) {
 		file = data
 	}
 
-	*response = Response{
+	return &Response{
 		Body: config.Body,
 		File: file,
 		Status: status,
@@ -43,7 +44,7 @@ func (response *Response) Init(config ResponseConfig) {
 	}
 }
 
-func (response *Response) Patch(config ResponseConfig) {
+func (response *Response) Patch(config RestResponseConfig) {
 
 	if response.Body == "" && config.Body != "" {
 		response.Body = config.Body

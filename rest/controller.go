@@ -1,6 +1,9 @@
 package rest
 
-import .  "github.com/abproject/mock-server/shared"
+import (
+	. "github.com/abproject/mock-server/config"
+	. "github.com/abproject/mock-server/shared"
+)
 
 type Controller struct {
 	Id       string
@@ -8,13 +11,15 @@ type Controller struct {
 	Response Response
 }
 
-func (controller *Controller) Init(config ControllerConfig) {
-	controller.Id = GetRandomId()
-	controller.Request.Init(config.Request)
-	controller.Response.Init(config.Response)
+func NewController(config RestControllerConfig) *Controller {
+	return &Controller {
+		Id: GetRandomId(),
+		Request: *NewRequest(config.Request),
+		Response: *NewResponse(config.Response),
+	}
 }
 
-func (controller *Controller) Patch(config ControllerConfig) {
+func (controller *Controller) Patch(config RestControllerConfig) {
 	controller.Request.Patch(config.Request)
 	controller.Response.Patch(config.Response)
 }

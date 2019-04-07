@@ -2,6 +2,7 @@ package rest
 
 import (
 	"fmt"
+	.  "github.com/abproject/mock-server/config"
 	"log"
 	"net/http"
 	"regexp"
@@ -13,14 +14,16 @@ type Request struct {
 	Path      string
 	IsPathReg bool
 	Headers   map[string][]string
-	source    RequestConfig
+	source    RestRequestConfig
 }
 
-func (request *Request) Init(config RequestConfig) {
+func NewRequest(config RestRequestConfig) *Request {
+	request := new(Request)
 	request.parse(config)
+	return request
 }
 
-func (request *Request) Patch(config RequestConfig) {
+func (request *Request) Patch(config RestRequestConfig) {
 	for headerKey, headers := range config.Headers {
 		if _, exist := request.Headers[headerKey]; !exist {
 			request.Headers[headerKey] = Split(headers, ";")
@@ -106,7 +109,7 @@ func (request *Request) CompareTo(otherRequest *Request) bool {
 	return true
 }
 
-func (request *Request) parse(config RequestConfig) {
+func (request *Request) parse(config RestRequestConfig) {
 	if config.Path == "" && config.PathReg == "" {
 		log.Fatal(fmt.Sprintf("Rest Config: Request 'path' or 'pathReg' is required\n%#v", config))
 	}

@@ -1,9 +1,6 @@
 package rest
 
-import (
-	"encoding/hex"
-	"math/rand"
-)
+import .  "github.com/abproject/mock-server/shared"
 
 type Controller struct {
 	Id       string
@@ -12,7 +9,7 @@ type Controller struct {
 }
 
 func (controller *Controller) Init(config ControllerConfig) {
-	controller.Id = getRandomId()
+	controller.Id = GetRandomId()
 	controller.Request.Init(config.Request)
 	controller.Response.Init(config.Response)
 }
@@ -22,10 +19,3 @@ func (controller *Controller) Patch(config ControllerConfig) {
 	controller.Response.Patch(config.Response)
 }
 
-func getRandomId() string {
-	u := make([]byte, 16)
-	rand.Read(u)
-	u[8] = (u[8] | 0x80) & 0xBF
-	u[6] = (u[6] | 0x40) & 0x4F
-	return hex.EncodeToString(u)
-}

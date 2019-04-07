@@ -1,7 +1,8 @@
 package rest
 
 import (
-	"errors"
+	"fmt"
+	"log"
 	"net/http"
 	"regexp"
 	. "strings"
@@ -15,8 +16,8 @@ type Request struct {
 	source    RequestConfig
 }
 
-func (request *Request) Init(config RequestConfig) error {
-	return request.parse(config)
+func (request *Request) Init(config RequestConfig) {
+	request.parse(config)
 }
 
 func (request *Request) Patch(config RequestConfig) {
@@ -105,9 +106,9 @@ func (request *Request) CompareTo(otherRequest *Request) bool {
 	return true
 }
 
-func (request *Request) parse(config RequestConfig) error {
+func (request *Request) parse(config RequestConfig) {
 	if config.Path == "" && config.PathReg == "" {
-		return errors.New("Request 'path' or 'pathReg' is required\n")
+		log.Fatal(fmt.Sprintf("Rest Config: Request 'path' or 'pathReg' is required\n%#v", config))
 	}
 
 	var method = ToUpper(config.Method)
@@ -129,7 +130,6 @@ func (request *Request) parse(config RequestConfig) error {
 		}
 	}
 
-
 	var headers = make(map[string][]string)
 	for headerKey, headerValue := range config.Headers {
 		headers[headerKey] = Split(headerValue, ";")
@@ -142,8 +142,6 @@ func (request *Request) parse(config RequestConfig) error {
 		headers,
 		config,
 	}
-
-	return nil
 }
 
 func (request *Request) isValid() bool {

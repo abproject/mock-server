@@ -1,0 +1,25 @@
+websocket:
+  endpoints:
+    - url: ws-test #Required
+      interval: 100 #Default: 0. interval in ms
+      repeat: infinite # Default: 1. Values: infinite | end | random
+      order: end # Default: start. Values: start | end | random
+      messages:
+        - >
+          {
+            "id": 1,
+            "firstname": "John",
+            "lastname": "Galt"
+          }
+        - >
+          {
+            "id": 2,
+            "firstname": "Guy",
+            "lastname": "Montag"
+          }
+        - >
+          {
+            "id": 3,
+            "firstname": "Winston",
+            "lastname": "Smith"
+          }

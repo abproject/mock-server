@@ -29,7 +29,7 @@ func (response *Response) Init(config ResponseConfig) {
 	if config.File != "" {
 		data, err := ioutil.ReadFile(config.File)
 		if err != nil {
-			log.Fatal(fmt.Sprintf("Required file in config '%s' not found", config.File))
+			log.Fatal(fmt.Sprintf("Rest Config: Required file in config '%s' not found", config.File))
 		}
 		file = data
 	}

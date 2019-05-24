@@ -1,33 +1,33 @@
 package rest
 
 import (
-	. "github.com/abproject/mock-server/validation"
+	"github.com/abproject/mock-server/internal"
 	"net/http"
 	"testing"
 )
 
 func TestRequestInit(t *testing.T) {
-	v := Validation{T: t}
+	v := internal.Validation{T: t}
 
 	tables := []struct {
 		given        RequestConfig
-		expected     Request
+		expected     internal.Request
 		errorMessage string
 	}{
 		{
 			RequestConfig{},
-			Request{},
+			internal.Request{},
 			"Request 'path' or 'pathReg' is required\n",
 		},
 		{
 			RequestConfig{
 				Path: "path/test",
 			},
-			Request{
+			internal.Request{
 				Method:    "ALL",
 				Path:      "path/test",
 				IsPathReg: false,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 				source: RequestConfig{
 					Path: "path/test",
 				},
@@ -39,11 +39,11 @@ func TestRequestInit(t *testing.T) {
 				Method: "GET",
 				Path:   "path",
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 				source: RequestConfig{
 					Method: "GET",
 					Path:   "path",
@@ -56,11 +56,11 @@ func TestRequestInit(t *testing.T) {
 				Method: "post",
 				Path:   "path",
 			},
-			Request{
+			internal.Request{
 				Method:    "POST",
 				Path:      "path",
 				IsPathReg: false,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 				source: RequestConfig{
 					Method: "post",
 					Path:   "path",
@@ -73,11 +73,11 @@ func TestRequestInit(t *testing.T) {
 				Method: "GET",
 				Path:   "path/:id",
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "^/path/[a-zA-Z0-9_-]+$",
 				IsPathReg: true,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 				source: RequestConfig{
 					Method: "GET",
 					Path:   "path/:id",
@@ -90,11 +90,11 @@ func TestRequestInit(t *testing.T) {
 				Method: "GET",
 				Path:   "path/:id/:code",
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "^/path/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$",
 				IsPathReg: true,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 				source: RequestConfig{
 					Method: "GET",
 					Path:   "path/:id/:code",
@@ -107,11 +107,11 @@ func TestRequestInit(t *testing.T) {
 				Method:  "GET",
 				PathReg: "path?",
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path?",
 				IsPathReg: true,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 				source: RequestConfig{
 					Method:  "GET",
 					PathReg: "path?",
@@ -125,11 +125,11 @@ func TestRequestInit(t *testing.T) {
 				Path:    "path",
 				PathReg: "path?",
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path?",
 				IsPathReg: true,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 				source: RequestConfig{
 					Method:  "GET",
 					Path:    "path",
@@ -147,7 +147,7 @@ func TestRequestInit(t *testing.T) {
 					"header2": "value3",
 				},
 			},
-			Request{
+			internal.Request{
 				Method: "GET",
 				Path:   "test",
 				Headers: map[string][]string{
@@ -173,14 +173,14 @@ func TestRequestInit(t *testing.T) {
 		var expectedRequest = table.expected
 		var expectedErrorMessage = table.errorMessage
 
-		var request Request
+		var request internal.Request
 		var err = request.Init(requestConfig)
 
-		v.IsEqual(ValidationConfig{
+		v.IsEqual(internal.ValidationConfig{
 			Expected: expectedRequest,
 			Given:    request,
 		})
-		v.IsEqualError(ValidationConfig{
+		v.IsEqualError(internal.ValidationConfig{
 			Expected: expectedErrorMessage,
 			Given:    err,
 		})
@@ -188,197 +188,197 @@ func TestRequestInit(t *testing.T) {
 }
 
 func TestRequestIsEqual(t *testing.T) {
-	v := Validation{T: t}
+	v := internal.Validation{T: t}
 
 	tables := []struct {
-		request     Request
+		request     internal.Request
 		httpRequest http.Request
 		isEqual     bool
 	}{
 		{
-			Request{},
+			internal.Request{},
 			http.Request{},
 			false,
 		},
 		{
-			Request{
-				Method: "GET",
-				Path: "path",
+			internal.Request{
+				Method:    "GET",
+				Path:      "path",
 				IsPathReg: false,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/path",
 			},
 			true,
 		},
 		{
-			Request{
-				Method: "POST",
-				Path: "path",
+			internal.Request{
+				Method:    "POST",
+				Path:      "path",
 				IsPathReg: false,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/path",
 			},
 			false,
 		},
 		{
-			Request{
-				Method: "ALL",
-				Path: "path",
+			internal.Request{
+				Method:    "ALL",
+				Path:      "path",
 				IsPathReg: false,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/path",
 			},
 			true,
 		},
 		{
-			Request{
-				Method: "GET",
+			internal.Request{
+				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/path",
 			},
 
 			true,
 		},
 		{
-			Request{
-				Method: "GET",
+			internal.Request{
+				Method:    "GET",
 				Path:      "path/hello/world",
 				IsPathReg: false,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/path/hello/world",
 			},
 			true,
 		},
 		{
-			Request{
-				Method: "GET",
+			internal.Request{
+				Method:    "GET",
 				Path:      "/path",
 				IsPathReg: false,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/path",
 			},
 			true,
 		},
 		{
-			Request{
-				Method: "GET",
+			internal.Request{
+				Method:    "GET",
 				Path:      "//path",
 				IsPathReg: false,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/path",
 			},
 			false,
 		},
 		{
-			Request{
-				Method: "GET",
+			internal.Request{
+				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/pat",
 			},
 			false,
 		},
 		{
-			Request{
-				Method: "GET",
+			internal.Request{
+				Method:    "GET",
 				Path:      "pat",
 				IsPathReg: false,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/path",
 			},
 			false,
 		},
 		{
-			Request{
-				Method: "GET",
+			internal.Request{
+				Method:    "GET",
 				Path:      "^/path/.*",
 				IsPathReg: true,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/path/hello",
 			},
 			true,
 		},
 		{
-			Request{
-				Method: "GET",
+			internal.Request{
+				Method:    "GET",
 				Path:      "^/path/.*",
 				IsPathReg: true,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/path",
 			},
 			false,
 		},
 		{
-			Request{
-				Method: "GET",
+			internal.Request{
+				Method:    "GET",
 				Path:      "^/path(/.*)?",
 				IsPathReg: true,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/path/hello",
 			},
 			true,
 		},
 		{
-			Request{
-				Method: "GET",
+			internal.Request{
+				Method:    "GET",
 				Path:      "^/path(/.*)?",
 				IsPathReg: true,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/path",
 			},
 			true,
 		},
 		{
-			Request{
-				Method: "GET",
+			internal.Request{
+				Method:    "GET",
 				Path:      "/path",
 				IsPathReg: false,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/path",
 				Header: map[string][]string{
 					"header1": {"header1-value1", "header1-value2"},
@@ -388,22 +388,22 @@ func TestRequestIsEqual(t *testing.T) {
 			true,
 		},
 		{
-			Request{
-				Method: "GET",
+			internal.Request{
+				Method:    "GET",
 				Path:      "/path",
 				IsPathReg: false,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/path",
-				Header: map[string][]string{},
+				Header:     map[string][]string{},
 			},
 			true,
 		},
 		{
-			Request{
-				Method: "GET",
+			internal.Request{
+				Method:    "GET",
 				Path:      "/path",
 				IsPathReg: false,
 				Headers: map[string][]string{
@@ -412,15 +412,15 @@ func TestRequestIsEqual(t *testing.T) {
 				},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/path",
-				Header: map[string][]string{},
+				Header:     map[string][]string{},
 			},
 			false,
 		},
 		{
-			Request{
-				Method: "GET",
+			internal.Request{
+				Method:    "GET",
 				Path:      "/path",
 				IsPathReg: false,
 				Headers: map[string][]string{
@@ -429,7 +429,7 @@ func TestRequestIsEqual(t *testing.T) {
 				},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/path",
 				Header: map[string][]string{
 					"header1": {"header1-value1", "header1-value2"},
@@ -439,8 +439,8 @@ func TestRequestIsEqual(t *testing.T) {
 			true,
 		},
 		{
-			Request{
-				Method: "GET",
+			internal.Request{
+				Method:    "GET",
 				Path:      "/path",
 				IsPathReg: false,
 				Headers: map[string][]string{
@@ -449,7 +449,7 @@ func TestRequestIsEqual(t *testing.T) {
 				},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/path",
 				Header: map[string][]string{
 					"header1": {"header1-value1", "header1-value2"},
@@ -460,8 +460,8 @@ func TestRequestIsEqual(t *testing.T) {
 			true,
 		},
 		{
-			Request{
-				Method: "GET",
+			internal.Request{
+				Method:    "GET",
 				Path:      "/path",
 				IsPathReg: false,
 				Headers: map[string][]string{
@@ -470,7 +470,7 @@ func TestRequestIsEqual(t *testing.T) {
 				},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/path",
 				Header: map[string][]string{
 					"header1": {"header1-value1", "header1-value2"},
@@ -479,8 +479,8 @@ func TestRequestIsEqual(t *testing.T) {
 			false,
 		},
 		{
-			Request{
-				Method: "GET",
+			internal.Request{
+				Method:    "GET",
 				Path:      "/path",
 				IsPathReg: false,
 				Headers: map[string][]string{
@@ -489,7 +489,7 @@ func TestRequestIsEqual(t *testing.T) {
 				},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/path",
 				Header: map[string][]string{
 					"header1": {"header1-value1", "header1-value2"},
@@ -499,8 +499,8 @@ func TestRequestIsEqual(t *testing.T) {
 			false,
 		},
 		{
-			Request{
-				Method: "GET",
+			internal.Request{
+				Method:    "GET",
 				Path:      "/path",
 				IsPathReg: false,
 				Headers: map[string][]string{
@@ -508,7 +508,7 @@ func TestRequestIsEqual(t *testing.T) {
 				},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/path",
 				Header: map[string][]string{
 					"header1": {"header1-value-3", "header1-value1", "header1-value2"},
@@ -517,8 +517,8 @@ func TestRequestIsEqual(t *testing.T) {
 			true,
 		},
 		{
-			Request{
-				Method: "GET",
+			internal.Request{
+				Method:    "GET",
 				Path:      "/path",
 				IsPathReg: false,
 				Headers: map[string][]string{
@@ -526,7 +526,7 @@ func TestRequestIsEqual(t *testing.T) {
 				},
 			},
 			http.Request{
-				Method: "GET",
+				Method:     "GET",
 				RequestURI: "/path",
 				Header: map[string][]string{
 					"Header-Name": {"header1-value-3", "header1-value1", "header1-value2"},
@@ -544,30 +544,29 @@ func TestRequestIsEqual(t *testing.T) {
 
 		var equal = request.IsEqual(&httpRequest)
 
-		v.IsEqual(ValidationConfig{
+		v.IsEqual(internal.ValidationConfig{
 			Expected: ExpectedIsEqual,
 			Given:    equal,
 		})
 	}
 }
 
-
 func TestRequestPatch(t *testing.T) {
-	v := Validation{T: t}
+	v := internal.Validation{T: t}
 
 	tables := []struct {
 		givenConfig  RequestConfig
-		givenRequest Request
-		expected     Request
+		givenRequest internal.Request
+		expected     internal.Request
 	}{
 		{
 			RequestConfig{},
-			Request{},
-			Request{},
+			internal.Request{},
+			internal.Request{},
 		},
 		{
 			RequestConfig{},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -577,30 +576,7 @@ func TestRequestPatch(t *testing.T) {
 					Path:   "path",
 				},
 			},
-			Request{
-				Method:    "GET",
-				Path:      "path",
-				IsPathReg: false,
-				Headers:   map[string][]string{},
-				source: RequestConfig{
-					Method: "GET",
-					Path:   "path",
-				},
-			},
-		},
-		{
-			RequestConfig{},
-			Request{
-				Method:    "GET",
-				Path:      "path",
-				IsPathReg: false,
-				Headers:   map[string][]string{},
-				source: RequestConfig{
-					Method: "GET",
-					Path:   "path",
-				},
-			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -613,7 +589,30 @@ func TestRequestPatch(t *testing.T) {
 		},
 		{
 			RequestConfig{},
-			Request{
+			internal.Request{
+				Method:    "GET",
+				Path:      "path",
+				IsPathReg: false,
+				Headers:   map[string][]string{},
+				source: RequestConfig{
+					Method: "GET",
+					Path:   "path",
+				},
+			},
+			internal.Request{
+				Method:    "GET",
+				Path:      "path",
+				IsPathReg: false,
+				Headers:   map[string][]string{},
+				source: RequestConfig{
+					Method: "GET",
+					Path:   "path",
+				},
+			},
+		},
+		{
+			RequestConfig{},
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -630,7 +629,7 @@ func TestRequestPatch(t *testing.T) {
 					},
 				},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -655,7 +654,7 @@ func TestRequestPatch(t *testing.T) {
 					"header2": "header2-value",
 				},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -672,7 +671,7 @@ func TestRequestPatch(t *testing.T) {
 					},
 				},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -697,7 +696,7 @@ func TestRequestPatch(t *testing.T) {
 					"header2": "header2-value",
 				},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -714,7 +713,7 @@ func TestRequestPatch(t *testing.T) {
 					},
 				},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -740,7 +739,7 @@ func TestRequestPatch(t *testing.T) {
 					"header4": "header4-value",
 				},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -757,7 +756,7 @@ func TestRequestPatch(t *testing.T) {
 					},
 				},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -783,7 +782,7 @@ func TestRequestPatch(t *testing.T) {
 					"header2": "header2-new-value",
 				},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -800,7 +799,7 @@ func TestRequestPatch(t *testing.T) {
 					},
 				},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -825,7 +824,7 @@ func TestRequestPatch(t *testing.T) {
 					"header2": "header2-new-value",
 				},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -842,7 +841,7 @@ func TestRequestPatch(t *testing.T) {
 					},
 				},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -870,35 +869,34 @@ func TestRequestPatch(t *testing.T) {
 
 		currentRequest.Patch(requestConfig)
 
-		v.IsEqual(ValidationConfig{
+		v.IsEqual(internal.ValidationConfig{
 			Expected: expectedRequest,
 			Given:    currentRequest,
 		})
 	}
 }
 
-
 func TestRequestCompareTo(t *testing.T) {
-	v := Validation{T: t}
+	v := internal.Validation{T: t}
 
 	tables := []struct {
-		request1 Request
-		request2 Request
+		request1 internal.Request
+		request2 internal.Request
 		compare  bool
 	}{
 		{
-			Request{},
-			Request{},
+			internal.Request{},
+			internal.Request{},
 			true,
 		},
 		{
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
 				Headers:   map[string][]string{},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -907,13 +905,13 @@ func TestRequestCompareTo(t *testing.T) {
 			true,
 		},
 		{
-			Request{
+			internal.Request{
 				Method:    "ALL",
 				Path:      "path",
 				IsPathReg: false,
 				Headers:   map[string][]string{},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -922,13 +920,13 @@ func TestRequestCompareTo(t *testing.T) {
 			false,
 		},
 		{
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
 				Headers:   map[string][]string{},
 			},
-			Request{
+			internal.Request{
 				Method:    "ALL",
 				Path:      "path",
 				IsPathReg: false,
@@ -937,13 +935,13 @@ func TestRequestCompareTo(t *testing.T) {
 			true,
 		},
 		{
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
 				Headers:   map[string][]string{},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path2",
 				IsPathReg: false,
@@ -952,13 +950,13 @@ func TestRequestCompareTo(t *testing.T) {
 			true,
 		},
 		{
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path2",
 				IsPathReg: false,
 				Headers:   map[string][]string{},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -967,13 +965,13 @@ func TestRequestCompareTo(t *testing.T) {
 			true,
 		},
 		{
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: true,
 				Headers:   map[string][]string{},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -982,13 +980,13 @@ func TestRequestCompareTo(t *testing.T) {
 			false,
 		},
 		{
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
 				Headers:   map[string][]string{},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: true,
@@ -997,13 +995,13 @@ func TestRequestCompareTo(t *testing.T) {
 			true,
 		},
 		{
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: true,
 				Headers:   map[string][]string{},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: true,
@@ -1012,7 +1010,7 @@ func TestRequestCompareTo(t *testing.T) {
 			true,
 		},
 		{
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -1021,7 +1019,7 @@ func TestRequestCompareTo(t *testing.T) {
 					"header2": {"value3"},
 				},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -1030,7 +1028,7 @@ func TestRequestCompareTo(t *testing.T) {
 			true,
 		},
 		{
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -1039,7 +1037,7 @@ func TestRequestCompareTo(t *testing.T) {
 					"header2": {"value3"},
 				},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -1051,7 +1049,7 @@ func TestRequestCompareTo(t *testing.T) {
 			true,
 		},
 		{
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -1060,7 +1058,7 @@ func TestRequestCompareTo(t *testing.T) {
 					"header2": {"value3"},
 				},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -1071,7 +1069,7 @@ func TestRequestCompareTo(t *testing.T) {
 			true,
 		},
 		{
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -1080,7 +1078,7 @@ func TestRequestCompareTo(t *testing.T) {
 					"header2": {"value3"},
 				},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -1092,13 +1090,13 @@ func TestRequestCompareTo(t *testing.T) {
 			true,
 		},
 		{
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
 				Headers:   map[string][]string{},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -1110,7 +1108,7 @@ func TestRequestCompareTo(t *testing.T) {
 			false,
 		},
 		{
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -1118,7 +1116,7 @@ func TestRequestCompareTo(t *testing.T) {
 					"header1": {"value1", "value2"},
 				},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -1130,7 +1128,7 @@ func TestRequestCompareTo(t *testing.T) {
 			false,
 		},
 		{
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -1139,7 +1137,7 @@ func TestRequestCompareTo(t *testing.T) {
 					"header2": {"value3"},
 				},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -1151,7 +1149,7 @@ func TestRequestCompareTo(t *testing.T) {
 			false,
 		},
 		{
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -1160,7 +1158,7 @@ func TestRequestCompareTo(t *testing.T) {
 					"header2": {"value3"},
 				},
 			},
-			Request{
+			internal.Request{
 				Method:    "ALL",
 				Path:      "path",
 				IsPathReg: false,
@@ -1172,7 +1170,7 @@ func TestRequestCompareTo(t *testing.T) {
 			true,
 		},
 		{
-			Request{
+			internal.Request{
 				Method:    "ALL",
 				Path:      "path",
 				IsPathReg: false,
@@ -1181,7 +1179,7 @@ func TestRequestCompareTo(t *testing.T) {
 					"header2": {"value3"},
 				},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -1193,38 +1191,38 @@ func TestRequestCompareTo(t *testing.T) {
 			false,
 		},
 		{
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: true,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 			},
-			Request{
+			internal.Request{
 				Method:    "ALL",
 				Path:      "path",
 				IsPathReg: false,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 			},
 			true,
 		},
 		{
-			Request{
+			internal.Request{
 				Method:    "ALL",
 				Path:      "path",
 				IsPathReg: false,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: true,
-				Headers: map[string][]string{},
+				Headers:   map[string][]string{},
 			},
 
 			false,
 		},
 		{
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: true,
@@ -1233,7 +1231,7 @@ func TestRequestCompareTo(t *testing.T) {
 					"header2": {"value3"},
 				},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -1245,7 +1243,7 @@ func TestRequestCompareTo(t *testing.T) {
 			true,
 		},
 		{
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: false,
@@ -1254,7 +1252,7 @@ func TestRequestCompareTo(t *testing.T) {
 					"header2": {"value3"},
 				},
 			},
-			Request{
+			internal.Request{
 				Method:    "GET",
 				Path:      "path",
 				IsPathReg: true,
@@ -1275,7 +1273,7 @@ func TestRequestCompareTo(t *testing.T) {
 
 		var compare = request1.CompareTo(&request2)
 
-		v.IsEqual(ValidationConfig{
+		v.IsEqual(internal.ValidationConfig{
 			Expected: expectedCompare,
 			Given:    compare,
 		})

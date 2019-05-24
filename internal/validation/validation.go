@@ -6,12 +6,12 @@ import (
 )
 
 type TestCase struct {
-	index int
+	index   int
 	context interface{}
 }
 
 type Validation struct {
-	T       *testing.T
+	T        *testing.T
 	testCase TestCase
 }
 
@@ -22,8 +22,8 @@ type ValidationConfig struct {
 }
 
 func (validation *Validation) SetTestCase(index int, context interface{}) {
-	validation.testCase = TestCase {
-		index: index,
+	validation.testCase = TestCase{
+		index:   index,
 		context: context,
 	}
 }
@@ -49,8 +49,8 @@ func (validation *Validation) IsEqualError(config ValidationConfig) {
 	}
 	validation.IsEqual(ValidationConfig{
 		Expected: expectedMessage,
-		Given: errorMessage,
-		Message: "Not Equal Errors",
+		Given:    errorMessage,
+		Message:  "Not Equal Errors",
 	})
 }
 

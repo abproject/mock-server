@@ -2,7 +2,7 @@ package websocket
 
 import (
 	"errors"
-	.  "github.com/abproject/mock-server/config"
+	. "github.com/abproject/mock-server/internal/config"
 	"github.com/gorilla/websocket"
 	"log"
 	"math/rand"
@@ -15,20 +15,21 @@ type Websocket struct {
 	endpoints []Endpoint
 }
 
-func NewWebsocket(config WebsocketConfig) *Websocket {
-	var endpoints = make([]Endpoint, len(config.Endpoints))
+var storage Websocket
 
-	for index, endpointConfig := range config.Endpoints {
-		endpoint := NewEndpoint(endpointConfig)
-		endpoints[index] = *endpoint
-	}
-	return &Websocket{
-		endpoints: endpoints,
+func FileWebsocket(config WebsocketConfig) {
+	for _, endpointConfig := range config.Endpoints {
+		Add(endpointConfig)
 	}
 }
 
-func (ws *Websocket) FindEndpoint(r *http.Request) (error, Endpoint) {
-	for _, endpoint := range ws.endpoints {
+func Add(config WebsocketEndpointConfig) {
+	endpoint := NewEndpoint(config)
+	storage.endpoints = append(storage.endpoints, *endpoint)
+}
+
+func FindEndpoint(r *http.Request) (error, Endpoint) {
+	for _, endpoint := range storage.endpoints {
 		var path = endpoint.Url
 		if path[0] != '/' {
 			path = "/" + path
@@ -40,7 +41,7 @@ func (ws *Websocket) FindEndpoint(r *http.Request) (error, Endpoint) {
 	return errors.New("NO WEBSOCKET FOUND"), Endpoint{}
 }
 
-func (ws *Websocket) Subscribe(w http.ResponseWriter, r *http.Request, endpoint Endpoint) {
+func Subscribe(w http.ResponseWriter, r *http.Request, endpoint Endpoint) {
 	log.Printf("Websocket found: %#v", endpoint)
 	upgrader := websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool { return true },
@@ -50,7 +51,7 @@ func (ws *Websocket) Subscribe(w http.ResponseWriter, r *http.Request, endpoint 
 		log.Printf("Connection\n%s", err)
 		return
 	}
-	ws.emitMessages(conn, endpoint, r.Header.Get("Sec-Websocket-Key"))
+	storage.emitMessages(conn, endpoint, r.Header.Get("Sec-Websocket-Key"))
 }
 
 func (ws *Websocket) emitMessages(conn *websocket.Conn, endpoint Endpoint, client string) {

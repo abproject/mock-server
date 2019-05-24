@@ -26,33 +26,18 @@ rest:
         method: GET
         path: users/:id
       response:
-        body: >
-          {
-            "id": 1,
-            "firstname": "John",
-            "lastname": "Galt"
-          }
+        body: '{"id":1,"firstname":"John","lastname":"Galt"}'
     - request:
         method: POST
         path: users
       response:
         status: 201
-        body: >
-          {
-            "id": 1,
-            "firstname": "John",
-            "lastname": "Galt"
-          }
+        body: "{\"id\":1,\"firstname\":\"John\",\"lastname\":\"Galt\"}"
     - request:
         method: PUT
         path: users/:id
       response:
-        body: >
-          {
-            "id": 1,
-            "firstname": "John",
-            "lastname": "Galt"
-          }
+        body: '{"id":1,"firstname":"John","lastname":"Galt"}'
     - request:
         method: DELETE
         path: users/:id

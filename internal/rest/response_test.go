@@ -1,33 +1,33 @@
 package rest
 
 import (
-	. "github.com/abproject/mock-server/validation"
+	"github.com/abproject/mock-server/internal"
 	"testing"
 )
 
 func TestResponseInit(t *testing.T) {
-	v := Validation{T: t}
+	v := internal.Validation{T: t}
 
 	tables := []struct {
-		given        ResponseConfig
-		expected     Response
+		given    ResponseConfig
+		expected internal.Response
 	}{
 		{
 			ResponseConfig{},
-			Response{
-				Body: "",
-				Status: 200,
+			internal.Response{
+				Body:    "",
+				Status:  200,
 				Headers: map[string]string{},
-				source: ResponseConfig{},
+				source:  ResponseConfig{},
 			},
 		},
 		{
 			ResponseConfig{
 				Body: "Body",
 			},
-			Response{
-				Body: "Body",
-				Status: 200,
+			internal.Response{
+				Body:    "Body",
+				Status:  200,
 				Headers: map[string]string{},
 				source: ResponseConfig{
 					Body: "Body",
@@ -38,9 +38,9 @@ func TestResponseInit(t *testing.T) {
 			ResponseConfig{
 				Status: 201,
 			},
-			Response{
-				Body: "",
-				Status: 201,
+			internal.Response{
+				Body:    "",
+				Status:  201,
 				Headers: map[string]string{},
 				source: ResponseConfig{
 					Status: 201,
@@ -51,9 +51,9 @@ func TestResponseInit(t *testing.T) {
 			ResponseConfig{
 				Status: 0,
 			},
-			Response{
-				Body: "",
-				Status: 200,
+			internal.Response{
+				Body:    "",
+				Status:  200,
 				Headers: map[string]string{},
 				source: ResponseConfig{
 					Status: 0,
@@ -62,20 +62,20 @@ func TestResponseInit(t *testing.T) {
 		},
 		{
 			ResponseConfig{
-				Headers:  map[string]string{
+				Headers: map[string]string{
 					"header1": "value1;value2",
 					"header2": "value3",
 				},
 			},
-			Response{
-				Body: "",
+			internal.Response{
+				Body:   "",
 				Status: 200,
-				Headers:  map[string]string{
+				Headers: map[string]string{
 					"header1": "value1;value2",
 					"header2": "value3",
 				},
 				source: ResponseConfig{
-					Headers:  map[string]string{
+					Headers: map[string]string{
 						"header1": "value1;value2",
 						"header2": "value3",
 					},
@@ -89,53 +89,52 @@ func TestResponseInit(t *testing.T) {
 		var responseConfig = table.given
 		var expectedResponse = table.expected
 
-		var response Response
+		var response internal.Response
 		response.Init(responseConfig)
 
-		v.IsEqual(ValidationConfig{
+		v.IsEqual(internal.ValidationConfig{
 			Expected: expectedResponse,
 			Given:    response,
 		})
 	}
 }
 
-
 func TestResponsePatch(t *testing.T) {
-	v := Validation{T: t}
+	v := internal.Validation{T: t}
 
 	tables := []struct {
 		givenConfig   ResponseConfig
-		givenResponse Response
-		expected      Response
+		givenResponse internal.Response
+		expected      internal.Response
 	}{
 		{
 			ResponseConfig{},
-			Response{
-				Body: "",
-				Status: 200,
+			internal.Response{
+				Body:    "",
+				Status:  200,
 				Headers: map[string]string{},
-				source: ResponseConfig{},
+				source:  ResponseConfig{},
 			},
-			Response{
-				Body: "",
-				Status: 200,
+			internal.Response{
+				Body:    "",
+				Status:  200,
 				Headers: map[string]string{},
-				source: ResponseConfig{},
+				source:  ResponseConfig{},
 			},
 		},
 		{
 			ResponseConfig{},
-			Response{
-				Body: "",
-				Status: 201,
+			internal.Response{
+				Body:    "",
+				Status:  201,
 				Headers: map[string]string{},
 				source: ResponseConfig{
 					Status: 201,
 				},
 			},
-			Response{
-				Body: "",
-				Status: 201,
+			internal.Response{
+				Body:    "",
+				Status:  201,
 				Headers: map[string]string{},
 				source: ResponseConfig{
 					Status: 201,
@@ -146,34 +145,34 @@ func TestResponsePatch(t *testing.T) {
 			ResponseConfig{
 				Status: 300,
 			},
-			Response{
-				Body: "",
-				Status: 200,
+			internal.Response{
+				Body:    "",
+				Status:  200,
 				Headers: map[string]string{},
-				source: ResponseConfig{},
+				source:  ResponseConfig{},
 			},
-			Response{
-				Body: "",
-				Status: 300,
+			internal.Response{
+				Body:    "",
+				Status:  300,
 				Headers: map[string]string{},
-				source: ResponseConfig{},
+				source:  ResponseConfig{},
 			},
 		},
 		{
 			ResponseConfig{
 				Status: 300,
 			},
-			Response{
-				Body: "",
-				Status: 201,
+			internal.Response{
+				Body:    "",
+				Status:  201,
 				Headers: map[string]string{},
 				source: ResponseConfig{
 					Status: 201,
 				},
 			},
-			Response{
-				Body: "",
-				Status: 201,
+			internal.Response{
+				Body:    "",
+				Status:  201,
 				Headers: map[string]string{},
 				source: ResponseConfig{
 					Status: 201,
@@ -184,34 +183,34 @@ func TestResponsePatch(t *testing.T) {
 			ResponseConfig{
 				Body: "config-body",
 			},
-			Response{
-				Body: "",
-				Status: 200,
+			internal.Response{
+				Body:    "",
+				Status:  200,
 				Headers: map[string]string{},
-				source: ResponseConfig{},
+				source:  ResponseConfig{},
 			},
-			Response{
-				Body: "config-body",
-				Status: 200,
+			internal.Response{
+				Body:    "config-body",
+				Status:  200,
 				Headers: map[string]string{},
-				source: ResponseConfig{},
+				source:  ResponseConfig{},
 			},
 		},
 		{
 			ResponseConfig{
 				Body: "config-body",
 			},
-			Response{
-				Body: "response-body",
-				Status: 200,
+			internal.Response{
+				Body:    "response-body",
+				Status:  200,
 				Headers: map[string]string{},
 				source: ResponseConfig{
 					Body: "response-body",
 				},
 			},
-			Response{
-				Body: "response-body",
-				Status: 200,
+			internal.Response{
+				Body:    "response-body",
+				Status:  200,
 				Headers: map[string]string{},
 				source: ResponseConfig{
 					Body: "response-body",
@@ -220,8 +219,8 @@ func TestResponsePatch(t *testing.T) {
 		},
 		{
 			ResponseConfig{},
-			Response{
-				Body: "",
+			internal.Response{
+				Body:   "",
 				Status: 200,
 				Headers: map[string]string{
 					"header-1": "header-value1;header-value2",
@@ -234,8 +233,8 @@ func TestResponsePatch(t *testing.T) {
 					},
 				},
 			},
-			Response{
-				Body: "",
+			internal.Response{
+				Body:   "",
 				Status: 200,
 				Headers: map[string]string{
 					"header-1": "header-value1;header-value2",
@@ -256,14 +255,14 @@ func TestResponsePatch(t *testing.T) {
 					"header-2": "header-value3;header-value4",
 				},
 			},
-			Response{
-				Body: "",
-				Status: 200,
+			internal.Response{
+				Body:    "",
+				Status:  200,
 				Headers: map[string]string{},
-				source: ResponseConfig{},
+				source:  ResponseConfig{},
 			},
-			Response{
-				Body: "",
+			internal.Response{
+				Body:   "",
 				Status: 200,
 				Headers: map[string]string{
 					"header-1": "header-value1;header-value2",
@@ -280,8 +279,8 @@ func TestResponsePatch(t *testing.T) {
 					"header-3": "header-value-7",
 				},
 			},
-			Response{
-				Body: "",
+			internal.Response{
+				Body:   "",
 				Status: 200,
 				Headers: map[string]string{
 					"header-1": "header-value1;header-value2",
@@ -294,8 +293,8 @@ func TestResponsePatch(t *testing.T) {
 					},
 				},
 			},
-			Response{
-				Body: "",
+			internal.Response{
+				Body:   "",
 				Status: 200,
 				Headers: map[string]string{
 					"header-1": "header-value1;header-value2",
@@ -320,7 +319,7 @@ func TestResponsePatch(t *testing.T) {
 
 		givenResponse.Patch(responseConfig)
 
-		v.IsEqual(ValidationConfig{
+		v.IsEqual(internal.ValidationConfig{
 			Expected: expectedResponse,
 			Given:    givenResponse,
 		})

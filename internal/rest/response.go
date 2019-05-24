@@ -2,7 +2,7 @@ package rest
 
 import (
 	"fmt"
-	.  "github.com/abproject/mock-server/config"
+	. "github.com/abproject/mock-server/internal/config"
 	"io/ioutil"
 	"log"
 )
@@ -36,11 +36,11 @@ func NewResponse(config RestResponseConfig) *Response {
 	}
 
 	return &Response{
-		Body: config.Body,
-		File: file,
-		Status: status,
+		Body:    config.Body,
+		File:    file,
+		Status:  status,
 		Headers: headers,
-		source: config,
+		source:  config,
 	}
 }
 

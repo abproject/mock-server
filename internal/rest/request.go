@@ -2,7 +2,7 @@ package rest
 
 import (
 	"fmt"
-	.  "github.com/abproject/mock-server/config"
+	. "github.com/abproject/mock-server/internal/config"
 	"log"
 	"net/http"
 	"regexp"

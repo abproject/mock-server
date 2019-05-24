@@ -1,8 +1,8 @@
 package config
 
 type RestConfig struct {
-	Global      RestControllerConfig   `yaml:"global"`
-	Controllers []RestControllerConfig `yaml:"endpoints"`
+	Global      RestControllerConfig   `json:"global" yaml:"global"`
+	Controllers []RestControllerConfig `json:"endpoints" yaml:"endpoints"`
 }
 
 type RestControllerConfig struct {

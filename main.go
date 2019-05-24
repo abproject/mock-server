@@ -3,8 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	.  "github.com/abproject/mock-server/config"
-	.  "github.com/abproject/mock-server/router"
+	. "github.com/abproject/mock-server/internal/config"
+	"github.com/abproject/mock-server/internal/rest"
+	. "github.com/abproject/mock-server/internal/router"
+	"github.com/abproject/mock-server/internal/websocket"
 	"log"
 	"net/http"
 )
@@ -17,10 +19,9 @@ func main() {
 	log.Printf("File: %s\n", *file)
 
 	config := ParseConfig(*file)
-	router := NewRouter(*config)
+	rest.FileRest(config.Rest)
+	websocket.FileWebsocket(config.Websocket)
 
-	http.HandleFunc("/", router.Request)
+	http.HandleFunc("/", Router)
 	http.ListenAndServe(fmt.Sprintf(":%d", *port), nil)
 }
-
-

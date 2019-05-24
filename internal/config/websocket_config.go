@@ -1,7 +1,7 @@
 package config
 
 type WebsocketConfig struct {
-	Endpoints []WebsocketEndpointConfig `yaml:"endpoints"`
+	Endpoints []WebsocketEndpointConfig `json:"endpoints" yaml:"endpoints"`
 }
 
 type WebsocketEndpointConfig struct {
@@ -11,4 +11,3 @@ type WebsocketEndpointConfig struct {
 	Order    string   `json:"order" yaml:"order"`
 	Messages []string `json:"messages" yaml:"messages"`
 }
-

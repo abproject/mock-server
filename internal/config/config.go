@@ -7,8 +7,8 @@ import (
 )
 
 type Config struct {
-	Rest      RestConfig      `yaml:"rest"`
-	Websocket WebsocketConfig `yaml:"websocket"`
+	Rest      RestConfig      `json:"rest" yaml:"rest"`
+	Websocket WebsocketConfig `json:"websocket" yaml:"websocket"`
 }
 
 func ParseConfig(filePath string) *Config {

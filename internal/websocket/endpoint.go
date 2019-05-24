@@ -2,8 +2,8 @@ package websocket
 
 import (
 	"fmt"
-	. "github.com/abproject/mock-server/config"
-	. "github.com/abproject/mock-server/shared"
+	. "github.com/abproject/mock-server/internal/config"
+	. "github.com/abproject/mock-server/internal/shared"
 	"log"
 	"strconv"
 	. "strings"
@@ -40,7 +40,6 @@ func NewEndpoint(config WebsocketEndpointConfig) *Endpoint {
 	}
 
 	var repeatValue, err = strconv.ParseInt(repeat, 10, 64)
-
 
 	if err != nil {
 		log.Fatal(fmt.Sprintf("Websocket Config: Repeat must be 'infinite' or a number\n%#v", config))

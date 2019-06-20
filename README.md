@@ -21,8 +21,10 @@
 `docker run -p 8000:8000 -v ${PWD}/example:/example abezpalov/mock-server:latest -file=/example/crud/config.yml`
 
 ---
+
 ## Examples
 All examples are based on using Docker image, but it is possible to use compiled binary executable file instead.
+
 ### Hello World
 * Do steps for `YAML`, `JSON` or `API` defined below.
 
@@ -30,7 +32,7 @@ All examples are based on using Docker image, but it is possible to use compiled
   * `curl http://localhost:8123/hello`
   * or open in browser `localhost:8123/hello`
 
-The response with status `200` must be:
+The response with status `200` is:
 ```
 Hello, World!
 ```
@@ -47,7 +49,7 @@ rest:
         status: 200
         body: Hello, World!
 ```
-Run
+Run:
 ```console
 docker run -p 8123:8000 -v ${PWD}/config.yml:/config.yml abezpalov/mock-server -file=config.yml
 
@@ -73,18 +75,18 @@ Create file `config.json` with the content:
   }
 }
 ```
-Run
+Run:
 ```console
 docker run -p 8123:8000 -v ${PWD}/config.json:/config.json abezpalov/mock-server -file=config.json
 
 ```
 
 #### API
-Run
+Run:
 ```console
 docker run -p 8123:8000 abezpalov/mock-server
 ```
-Send POST request:
+Send `POST` request:
 ```console
 curl -v -X POST http://localhost:8123/_api/rest \
 -H "Content-Type: application/json" \

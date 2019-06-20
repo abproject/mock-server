@@ -502,7 +502,7 @@ docker run -p 4242:8000 abezpalov/mock-server
 ```
 Send `POST` request for `GET (all)`:
 ```console
-curl -v -X POST http://localhost:8000/_api/rest \
+curl -v -X POST http://localhost:4242/_api/rest \
 -H "Content-Type: application/json" \
 -d @- << EOF
 
@@ -524,7 +524,7 @@ EOF
 
 Send `POST` request for `GET (id)`:
 ```console
-curl -v -X POST http://localhost:8000/_api/rest \
+curl -v -X POST http://localhost:4242/_api/rest \
 -H "Content-Type: application/json" \
 -d @- << EOF
 
@@ -546,7 +546,7 @@ EOF
 
 Send `POST` request for `POST`:
 ```console
-curl -v -X POST http://localhost:8000/_api/rest \
+curl -v -X POST http://localhost:4242/_api/rest \
 -H "Content-Type: application/json" \
 -d @- << EOF
 
@@ -568,7 +568,7 @@ EOF
 
 Send `POST` request for `PUT`:
 ```console
-curl -v -X POST http://localhost:8000/_api/rest \
+curl -v -X POST http://localhost:4242/_api/rest \
 -H "Content-Type: application/json" \
 -d @- << EOF
 
@@ -590,7 +590,7 @@ EOF
 
 Send `POST` request for `DELETE`:
 ```console
-curl -v -X POST http://localhost:8000/_api/rest \
+curl -v -X POST http://localhost:4242/_api/rest \
 -H "Content-Type: application/json" \
 -d @- << EOF
 
@@ -608,6 +608,99 @@ curl -v -X POST http://localhost:8000/_api/rest \
 }
 EOF
 ```
+
+#### Checking the configuration via API
+* `curl http://localhost:4242/_api/rest`
+* Response:
+    ```json
+    [
+      {
+        "id": "${unique-id}",
+        "request": {
+          "method": "GET",
+          "path": "planets",
+          "pathReg": "",
+          "headers": {}
+        },
+        "response": {
+          "body": "[{\"id\":1,\"name\":\"Mercury\",\"type\":\"Terrestrial planet\",\"period\":0.24,\"atmosphere\":[]},{\"id\":2,\"name\":\"Venus\",\"type\":\"Terrestrial planet\",\"period\":0.62,\"atmosphere\":[\"CO2\",\"N2\"]},{\"id\":3,\"name\":\"Earth\",\"type\":\"Terrestrial planet\",\"period\":1,\"atmosphere\":[\"N2\",\"O2\",\"Ar\"]},{\"id\":4,\"name\":\"Mars\",\"type\":\"Terrestrial planet\",\"period\":1.88,\"atmosphere\":[\"CO2\",\"N2\",\"Ar\"]}]",
+          "file": "",
+          "status": 200,
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      {
+        "id": "${unique-id}",
+        "request": {
+          "method": "GET",
+          "path": "planets/:id",
+          "pathReg": "",
+          "headers": {}
+        },
+        "response": {
+          "body": "{\"id\":3,\"name\":\"Earth\",\"type\":\"Terrestrial planet\",\"period\":1,\"atmosphere\":[\"N2\",\"O2\",\"Ar\"]}",
+          "file": "",
+          "status": 200,
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      {
+        "id": "${unique-id}",
+        "request": {
+            "method": "POST",
+            "path": "planets",
+            "pathReg": "",
+            "headers": {}
+        },
+        "response": {
+            "body": "{\"id\":3,\"name\":\"Earth\",\"type\":\"Terrestrial planet\",\"period\":1,\"atmosphere\":[\"N2\",\"O2\",\"Ar\"]}",
+            "file": "",
+            "status": 201,
+            "headers": {
+              "Content-Type": "application/json"
+            }
+        }
+      },
+      {
+        "id": "${unique-id}",
+        "request": {
+            "method": "PUT",
+            "path": "planets/:id",
+            "pathReg": "",
+            "headers": {}
+        },
+        "response": {
+            "body": "{\"id\":3,\"name\":\"Earth\",\"type\":\"Terrestrial planet\",\"period\":1,\"atmosphere\":[\"N2\",\"O2\",\"Ar\"]}",
+            "file": "",
+            "status": 200,
+            "headers": {
+              "Content-Type": "application/json"
+            }
+        }
+      },
+      {
+        "id": "${unique-id}",
+        "request": {
+          "method": "DELETE",
+          "path": "planets/:id",
+          "pathReg": "",
+          "headers": {}
+        },
+        "response": {
+          "body": "",
+          "file": "",
+          "status": 200,
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ]
+    ```
 
 ### Entity
 ### WebSocket

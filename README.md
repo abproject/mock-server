@@ -8,7 +8,7 @@
 
 ## Table of Contents
 * [Run](#run)
-* [example](#example)
+* [Examples](#examples)
     * [Hello World](#hello-world)
     * [Files](#files)
     * [CRUD](#crud)
@@ -23,7 +23,7 @@
 
 ---
 
-## example
+## Examples
 All example are based on using Docker image, but it is possible to use compiled binary executable file instead.
 
 > It is recommended for probing examples below to create a folder `mkdir example` where all examples will be stored. Or just clone this repository with provided examples.

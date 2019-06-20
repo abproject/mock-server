@@ -8,7 +8,7 @@
 
 ## Table of Contents
 * [Run](#run)
-* [Examples](#examples)
+* [example](#example)
     * [Hello World](#hello-world)
     * [Files](#files)
     * [CRUD](#crud)
@@ -23,14 +23,14 @@
 
 ---
 
-## Examples
-All examples are based on using Docker image, but it is possible to use compiled binary executable file instead.
+## example
+All example are based on using Docker image, but it is possible to use compiled binary executable file instead.
 
-> It is recommended for probing  examples below to create a folder `mkdir examples` where all examples will be stored. Or just clone this repository with provided examples.
+> It is recommended for probing  example below to create a folder `mkdir example` where all example will be stored. Or just clone this repository with provided example.
 
 ### Hello World
 Introductory description of simple `Hello World` endpoint.
-* Create folder `mkdir examples/hello`
+* Create folder `mkdir example/hello`
 
 * Do steps for `YAML`, `JSON` or `API` defined below in this block.
 
@@ -44,7 +44,7 @@ Introductory description of simple `Hello World` endpoint.
     ```
 
 #### YAML
-Create file `examples/hello/config.yml` with the content:
+Create file `example/hello/config.yml` with the content:
 ```yaml
 rest:
   endpoints:
@@ -57,12 +57,12 @@ rest:
 ```
 Run:
 ```console
-docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file=examples/hello/config.yml
+docker run -p 4242:8000 -v ${PWD}/example:/example abezpalov/mock-server -file=example/hello/config.yml
 
 ```
 
 #### JSON
-Create file `examples/hello/config.json` with the content:
+Create file `example/hello/config.json` with the content:
 ```json
 {
   "rest": {
@@ -83,7 +83,7 @@ Create file `examples/hello/config.json` with the content:
 ```
 Run:
 ```console
-docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file=examples/hello/config.json
+docker run -p 4242:8000 -v ${PWD}/example:/example abezpalov/mock-server -file=example/hello/config.json
 
 ```
 
@@ -139,13 +139,13 @@ EOF
 
 In this example the server will return `file.txt` via [http://localhost:4242/file](http://localhost:4242/file) and return a JSON `{ "message": "Hello, World!" }` via [http://localhost:4242/hello](http://localhost:4242/hello) 
 
-* Create folder `mkdir examples/files`
+* Create folder `mkdir example/files`
 
-* Create file `examples/files/file.txt` with the content:
+* Create file `example/files/file.txt` with the content:
     ```
     Hello from file!
     ```
-* Create file `examples/files/hello.json` with the content:
+* Create file `example/files/hello.json` with the content:
     ```json
     {
       "message": "Hello, World!"
@@ -170,7 +170,7 @@ In this example the server will return `file.txt` via [http://localhost:4242/fil
          ```
          
 #### YAML
-Create file `examples/files/config.yml` with the content:
+Create file `example/files/config.yml` with the content:
 ```yaml
 rest:
   endpoints:
@@ -178,7 +178,7 @@ rest:
         method: GET
         path: file
       response:
-        file: examples/files/file.txt
+        file: example/files/file.txt
         status: 200
         headers:
           Content-Type: application/octet-stream
@@ -186,7 +186,7 @@ rest:
         method: GET
         path: hello
       response:
-        file: examples/files/hello.json
+        file: example/files/hello.json
         status: 200
         headers:
           Content-Type: application/json
@@ -194,13 +194,13 @@ rest:
 
 Run:
 ```console
-docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file=examples/files/config.yml
+docker run -p 4242:8000 -v ${PWD}/example:/example abezpalov/mock-server -file=example/files/config.yml
 
 ```
 
 
 #### JSON
-Create file `examples/files/config.json` with the content:
+Create file `example/files/config.json` with the content:
   ```json
   {
     "rest": {
@@ -211,7 +211,7 @@ Create file `examples/files/config.json` with the content:
             "path": "file"
           },
           "response": {
-            "file": "examples/files/file.txt",
+            "file": "example/files/file.txt",
             "status": 200,
             "headers": {
               "Content-Type": "application/octet-stream"
@@ -224,7 +224,7 @@ Create file `examples/files/config.json` with the content:
             "path": "hello"
           },
           "response": {
-            "file": "examples/files/hello.json",
+            "file": "example/files/hello.json",
             "status": 200,
             "headers": {
               "Content-Type": "application/json"
@@ -237,7 +237,7 @@ Create file `examples/files/config.json` with the content:
   ```
 Run:
 ```console
-docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file=examples/hello/config.json
+docker run -p 4242:8000 -v ${PWD}/example:/example abezpalov/mock-server -file=example/hello/config.json
 
 ```
 
@@ -256,7 +256,7 @@ docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file
       },
       "response": {
         "body": "",
-        "file": "examples/files/file.txt",
+        "file": "example/files/file.txt",
         "status": 200,
         "headers": {
             "Content-Type": "application/octet-stream"
@@ -273,7 +273,7 @@ docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file
       },
       "response": {
         "body": "",
-        "file": "examples/files/hello.json",
+        "file": "example/files/hello.json",
         "status": 200,
         "headers": {
             "Content-Type": "application/json"

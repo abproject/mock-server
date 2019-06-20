@@ -1,0 +1,57 @@
+{
+  "rest": {
+    "global": {
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    "endpoints": [
+      {
+        "request": {
+          "method": "GET",
+          "path": "planets"
+        },
+        "response": {
+          "body": "[{\"id\":1,\"name\":\"Mercury\",\"type\":\"Terrestrial planet\",\"period\":0.24,\"atmosphere\":[]},{\"id\":2,\"name\":\"Venus\",\"type\":\"Terrestrial planet\",\"period\":0.62,\"atmosphere\":[\"CO2\",\"N2\"]},{\"id\":3,\"name\":\"Earth\",\"type\":\"Terrestrial planet\",\"period\":1,\"atmosphere\":[\"N2\",\"O2\",\"Ar\"]},{\"id\":4,\"name\":\"Mars\",\"type\":\"Terrestrial planet\",\"period\":1.88,\"atmosphere\":[\"CO2\",\"N2\",\"Ar\"]}]"
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "path": "planets/:id"
+        },
+        "response": {
+          "body": "{\"id\":3,\"name\":\"Earth\",\"type\":\"Terrestrial planet\",\"period\":1,\"atmosphere\":[\"N2\",\"O2\",\"Ar\"]}"
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "path": "planets"
+        },
+        "response": {
+          "status": 201,
+          "body": "{\"id\":3,\"name\":\"Earth\",\"type\":\"Terrestrial planet\",\"period\":1,\"atmosphere\":[\"N2\",\"O2\",\"Ar\"]}"
+        }
+      },
+      {
+        "request": {
+          "method": "PUT",
+          "path": "planets/:id"
+        },
+        "response": {
+          "body": "{\"id\":3,\"name\":\"Earth\",\"type\":\"Terrestrial planet\",\"period\":1,\"atmosphere\":[\"N2\",\"O2\",\"Ar\"]}"
+        }
+      },
+      {
+        "request": {
+          "method": "DELETE",
+          "path": "planets/:id"
+        }
+      }
+    ]
+  }
+}

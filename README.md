@@ -105,6 +105,31 @@ curl -v -X POST http://localhost:8123/_api/rest \
 EOF
 ```
 
+#### Details
+Checking the configuration via API:
+* `curl http://localhost:8123/_api/rest`
+* Response:
+    ```json
+    [
+        {
+            "id": "${unique-id}",
+            "request": {
+                "method": "GET",
+                "path": "hello",
+                "pathReg": "",
+                "headers": null
+            },
+            "response": {
+                "body": "Hello, World!",
+                "file": "",
+                "status": 200,
+                "headers": null
+            }
+        }
+    ]
+    ```
+
+
 ### Files
 ### CRUD
 ### Entity

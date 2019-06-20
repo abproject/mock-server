@@ -26,7 +26,8 @@
 All examples are based on using Docker image, but it is possible to use compiled binary executable file instead.
 
 ### Hello World
-* Do steps for `YAML`, `JSON` or `API` defined below.
+Introductory description of simple `Hello World` application.
+* Do steps for `YAML`, `JSON` or `API` defined below in this block.
 
 * Test via `GET` request:
   * `curl http://localhost:8123/hello`
@@ -105,8 +106,7 @@ curl -v -X POST http://localhost:8123/_api/rest \
 EOF
 ```
 
-#### Details
-Checking the configuration via API:
+#### Checking the configuration via API
 * `curl http://localhost:8123/_api/rest`
 * Response:
     ```json
@@ -117,18 +117,17 @@ Checking the configuration via API:
                 "method": "GET",
                 "path": "hello",
                 "pathReg": "",
-                "headers": null
+                "headers": {}
             },
             "response": {
                 "body": "Hello, World!",
                 "file": "",
                 "status": 200,
-                "headers": null
+                "headers": {}
             }
         }
     ]
     ```
-
 
 ### Files
 ### CRUD

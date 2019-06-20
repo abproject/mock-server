@@ -1,5 +1,5 @@
 # mock-server
-> **mock-server** is a tiny Web Server (Docker image <10 MB) that allows easily to emulate the REST and WebSocket services.
+> **mock-server** is a tiny Web Server (Docker image <10 MB) that allows easily to emulate the RESTful and WebSocket services.
 > 
 > It could be useful for:
 > * FrontEnd Developers: fast mocking the BackEnd endpoints during implementation of the UI prototypes

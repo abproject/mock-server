@@ -32,7 +32,7 @@ Introductory description of simple `Hello World` application.
 
 * Test via `GET` request:
   * `curl http://localhost:8123/hello`
-  * or open in browser `localhost:8123/hello`
+  * or open in browser [http://localhost:8123/hello](http://localhost:8123/hello)
 
 The response with status `200` is:
 ```

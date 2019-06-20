@@ -14,6 +14,7 @@
     * [CRUD](#crud)
     * [Entity](#entity)
     * [WebSocket](#websocket)
+* [File Configuration](#file-configuration)
 * [API](#api)
 
 ---
@@ -283,8 +284,223 @@ docker run -p 4242:8000 -v ${PWD}/example:/example abezpalov/mock-server -file=e
   ]
   ```
 ### CRUD
+Simple example of basic [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) over `planets` entity.
+
+* Create folder `mkdir example/crud`
+
+* Do steps for `YAML`, `JSON` or `API` defined below in this block.
+
+* Test:
+  * GET (all): `curl http://localhost:4242/planets` status `200`
+      ```json
+      [
+        {
+          "id": 1,
+          "name": "Mercury",
+          "type": "Terrestrial planet",
+          "period": 0.24,
+          "atmosphere": []
+        },
+        {
+          "id": 2,
+          "name": "Venus",
+          "type": "Terrestrial planet",
+          "period": 0.62,
+          "atmosphere": ["CO2", "N2"]
+        },
+        {
+          "id": 3,
+          "name": "Earth",
+          "type": "Terrestrial planet",
+          "period": 1,
+          "atmosphere": ["N2", "O2", "Ar"]
+        },
+        {
+          "id": 4,
+          "name": "Mars",
+          "type": "Terrestrial planet",
+          "period": 1.88,
+          "atmosphere": ["CO2", "N2", "Ar"]
+        }
+      ]
+    ```
+  * GET (id): `curl http://localhost:4242/planets/3` status `200`
+    ```json
+    {
+      "id": 3,
+      "name": "Earth",
+      "type": "Terrestrial planet",
+      "period": 1,
+      "atmosphere": ["N2", "O2", "Ar"]
+    }
+    ```
+  * POST: `curl -X POST http://localhost:4242/planets` status `201`
+    ```json
+      {
+        "id": 3,
+        "name": "Earth",
+        "type": "Terrestrial planet",
+        "period": 1,
+        "atmosphere": ["N2", "O2", "Ar"]
+      }
+      ```
+  * PUT: `curl -X PUT http://localhost:4242/planets/3` status `200`
+    ```json
+      {
+        "id": 3,
+        "name": "Earth",
+        "type": "Terrestrial planet",
+        "period": 1,
+        "atmosphere": ["N2", "O2", "Ar"]
+      }
+      ```  
+  * DELETE: `curl -X DELETE http://localhost:4242/planets/3` status `200`
+> **In this example for any `id` there is always the same response**
+
+#### YAML
+Create file `example/crud/config.yml` with the content:
+```yaml
+rest:
+  global:
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+  endpoints:
+    - request:
+        method: GET
+        path: planets
+      response:
+        body: >
+          [
+            {
+              "id": 1,
+              "name": "Mercury",
+              "type": "Terrestrial planet",
+              "period": 0.24,
+              "atmosphere": []
+            },
+            {
+              "id": 2,
+              "name": "Venus",
+              "type": "Terrestrial planet",
+              "period": 0.62,
+              "atmosphere": ["CO2", "N2"]
+            },
+            {
+              "id": 3,
+              "name": "Earth",
+              "type": "Terrestrial planet",
+              "period": 1,
+              "atmosphere": ["N2", "O2", "Ar"]
+            },
+            {
+              "id": 4,
+              "name": "Mars",
+              "type": "Terrestrial planet",
+              "period": 1.88,
+              "atmosphere": ["CO2", "N2", "Ar"]
+            }
+          ]
+    - request:
+        method: GET
+        path: planets/:id
+      response:
+        body: '{"id":3,"name":"Earth","type":"Terrestrial planet","period":1,"atmosphere":["N2","O2","Ar"]}'
+    - request:
+        method: POST
+        path: planets
+      response:
+        status: 201
+        body: "{\"id\":3,\"name\":\"Earth\",\"type\":\"Terrestrial planet\",\"period\":1,\"atmosphere\":[\"N2\",\"O2\",\"Ar\"]}"
+    - request:
+        method: PUT
+        path: planets/:id
+      response:
+        body: '{"id":3,"name":"Earth","type":"Terrestrial planet","period":1,"atmosphere":["N2","O2","Ar"]}'
+    - request:
+        method: DELETE
+        path: planets/:id
+```
+Run:
+```console
+docker run -p 4242:8000 -v ${PWD}/example:/example abezpalov/mock-server -file=example/crud/config.yml
+
+```
+
+#### JSON
+Create file `example/crud/config.json` with the content:
+```json
+{
+  "rest": {
+    "global": {
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    "endpoints": [
+      {
+        "request": {
+          "method": "GET",
+          "path": "planets"
+        },
+        "response": {
+          "body": "[{\"id\":1,\"name\":\"Mercury\",\"type\":\"Terrestrial planet\",\"period\":0.24,\"atmosphere\":[]},{\"id\":2,\"name\":\"Venus\",\"type\":\"Terrestrial planet\",\"period\":0.62,\"atmosphere\":[\"CO2\",\"N2\"]},{\"id\":3,\"name\":\"Earth\",\"type\":\"Terrestrial planet\",\"period\":1,\"atmosphere\":[\"N2\",\"O2\",\"Ar\"]},{\"id\":4,\"name\":\"Mars\",\"type\":\"Terrestrial planet\",\"period\":1.88,\"atmosphere\":[\"CO2\",\"N2\",\"Ar\"]}]"
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "path": "planets/:id"
+        },
+        "response": {
+          "body": "{\"id\":3,\"name\":\"Earth\",\"type\":\"Terrestrial planet\",\"period\":1,\"atmosphere\":[\"N2\",\"O2\",\"Ar\"]}"
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "path": "planets"
+        },
+        "response": {
+          "status": 201,
+          "body": "{\"id\":3,\"name\":\"Earth\",\"type\":\"Terrestrial planet\",\"period\":1,\"atmosphere\":[\"N2\",\"O2\",\"Ar\"]}"
+        }
+      },
+      {
+        "request": {
+          "method": "PUT",
+          "path": "planets/:id"
+        },
+        "response": {
+          "body": "{\"id\":3,\"name\":\"Earth\",\"type\":\"Terrestrial planet\",\"period\":1,\"atmosphere\":[\"N2\",\"O2\",\"Ar\"]}"
+        }
+      },
+      {
+        "request": {
+          "method": "DELETE",
+          "path": "planets/:id"
+        }
+      }
+    ]
+  }
+}
+```
+Run:
+```console
+docker run -p 4242:8000 -v ${PWD}/example:/example abezpalov/mock-server -file=example/crud/config.json
+
+```
+
 ### Entity
 ### WebSocket
+
+
+---
+## File Configuration
 
 ---
 ## API

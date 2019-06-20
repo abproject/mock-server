@@ -38,35 +38,7 @@ rest:
               "type": "Terrestrial planet",
               "period": 1.88,
               "atmosphere": ["CO2", "N2", "Ar"]
-            },
-            {
-              "id": 5,
-              "name": "Jupiter",
-              "type": "Gas giant",
-              "period": 11.86,
-              "atmosphere": ["H2", "He"]
-            },
-            {
-              "id": 6,
-              "name": "Saturn",
-              "type": "Gas giant",
-              "period": 29.46,
-              "atmosphere": ["H2", "He"]
-            },
-            {
-              "id": 7,
-              "name": "Uranus",
-              "type": "Ice giant",
-              "period": 84.01,
-              "atmosphere": ["H2", "He", "CH4"]
-            },
-            {
-              "id": 8,
-              "name": "Neptune",
-              "type": "Ice giant",
-              "period": 164.8,
-              "atmosphere": ["H2", "He", "CH4"]
-            },
+            }
           ]
     - request:
         method: GET

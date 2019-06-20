@@ -703,8 +703,540 @@ EOF
     ```
 
 ### Entity
-### WebSocket
+As CRUD example requires a lot of boilerplate there is the `entity` configuration that simplifies basic CRUD description.
+> Entity provides an endpoint for each `id` in the list unlike `/:id` in the CRUD example  
 
+* Create folder `mkdir example/entity`
+
+* Do steps for `YAML`, `JSON` or `API` defined below in this block.
+
+* Test:
+  * GET (all): `curl http://localhost:4242/planets` status `200`
+  * GET (id): 
+    * `id = 1` `curl http://localhost:4242/planets/1` status `200`
+      ```json
+      {
+        "id": 1,
+        "name": "Mercury",
+        "type": "Terrestrial planet",
+        "period": 0.24,
+        "atmosphere": []
+      }
+      ```
+    * ...
+    * `id = 3` `curl http://localhost:4242/planets/3` status `200`
+      ```json
+      {
+        "id": 3,
+        "name": "Earth",
+        "type": "Terrestrial planet",
+        "period": 1,
+        "atmosphere": ["N2", "O2", "Ar"]
+      }
+      ```
+    * ...
+  * POST (id): 
+    * `id = 1` `curl -X POST http://localhost:4242/planets` status `201`
+      ```json
+      {
+        "id": 1,
+        "name": "Mercury",
+        "type": "Terrestrial planet",
+        "period": 0.24,
+        "atmosphere": []
+      }
+      ```
+   * PUT (id): 
+     * `id = 1` `curl -X PUT http://localhost:4242/planets/1` status `200`
+       ```json
+       {
+         "id": 1,
+         "name": "Mercury",
+         "type": "Terrestrial planet",
+         "period": 0.24,
+         "atmosphere": []
+       }
+       ```
+     * ...
+     * `id = 3` `curl -X PUT http://localhost:4242/planets/3` status `200`
+       ```json
+       {
+         "id": 3,
+         "name": "Earth",
+         "type": "Terrestrial planet",
+         "period": 1,
+         "atmosphere": ["N2", "O2", "Ar"]
+       }
+       ```
+     * ...
+   * DELETE (id): 
+      * `id = 1` `curl -X DELETE http://localhost:4242/planets/1` status `200`
+      * ...
+      * `id = 3` `curl -X DELETE http://localhost:4242/planets/3` status `200`
+      * ...
+
+#### YAML
+Create file `example/entity/config.yml` with the content:
+```yaml
+entity:
+  path: planets
+  data: >
+    [
+      {
+        "id": 1,
+        "name": "Mercury",
+        "type": "Terrestrial planet",
+        "period": 0.24,
+        "atmosphere": []
+      },
+      {
+        "id": 2,
+        "name": "Venus",
+        "type": "Terrestrial planet",
+        "period": 0.62,
+        "atmosphere": ["CO2", "N2"]
+      },
+      {
+        "id": 3,
+        "name": "Earth",
+        "type": "Terrestrial planet",
+        "period": 1,
+        "atmosphere": ["N2", "O2", "Ar"]
+      },
+      {
+        "id": 4,
+        "name": "Mars",
+        "type": "Terrestrial planet",
+        "period": 1.88,
+        "atmosphere": ["CO2", "N2", "Ar"]
+      },
+      {
+        "id": 5,
+        "name": "Jupiter",
+        "type": "Gas giant",
+        "period": 11.86,
+        "atmosphere": ["H2", "He"]
+      },
+      {
+        "id": 6,
+        "name": "Saturn",
+        "type": "Gas giant",
+        "period": 29.46,
+        "atmosphere": ["H2", "He"]
+      },
+      {
+        "id": 7,
+        "name": "Uranus",
+        "type": "Ice giant",
+        "period": 84.01,
+        "atmosphere": ["H2", "He", "CH4"]
+      },
+      {
+        "id": 8,
+        "name": "Neptune",
+        "type": "Ice giant",
+        "period": 164.8,
+        "atmosphere": ["H2", "He", "CH4"]
+      }
+    ]
+```
+Run:
+```console
+docker run -p 4242:8000 -v ${PWD}/example:/example abezpalov/mock-server -file=example/entity/config.yml
+
+```
+
+> Alternative for best readability: it is possible to use files for data.
+Create file `example/entity/config-short.yml` with the content:
+```yaml
+entity:
+  path: planets
+  file: example/entity/data.json
+```
+
+Create file `example/entity/data.json` with the content:
+```json
+[
+  {
+    "id": 1,
+    "name": "Mercury",
+    "type": "Terrestrial planet",
+    "period": 0.24,
+    "atmosphere": []
+  },
+  {
+    "id": 2,
+    "name": "Venus",
+    "type": "Terrestrial planet",
+    "period": 0.62,
+    "atmosphere": [
+      "CO2",
+      "N2"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Earth",
+    "type": "Terrestrial planet",
+    "period": 1,
+    "atmosphere": [
+      "N2",
+      "O2",
+      "Ar"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Mars",
+    "type": "Terrestrial planet",
+    "period": 1.88,
+    "atmosphere": [
+      "CO2",
+      "N2",
+      "Ar"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Jupiter",
+    "type": "Gas giant",
+    "period": 11.86,
+    "atmosphere": [
+      "H2",
+      "He"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Saturn",
+    "type": "Gas giant",
+    "period": 29.46,
+    "atmosphere": [
+      "H2",
+      "He"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Uranus",
+    "type": "Ice giant",
+    "period": 84.01,
+    "atmosphere": [
+      "H2",
+      "He",
+      "CH4"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Neptune",
+    "type": "Ice giant",
+    "period": 164.8,
+    "atmosphere": [
+      "H2",
+      "He",
+      "CH4"
+    ]
+  }
+]
+```
+
+Run:
+```console
+docker run -p 4242:8000 -v ${PWD}/example:/example abezpalov/mock-server -file=example/entity/config-short.yml
+
+```
+
+
+#### JSON
+Create file `example/entity/config.json` with the content:
+```json
+{
+  "entity": {
+    "path": "planets",
+    "data": "[{\"id\":1,\"name\":\"Mercury\",\"type\":\"Terrestrial planet\",\"period\":0.24,\"atmosphere\":[]},{\"id\":2,\"name\":\"Venus\",\"type\":\"Terrestrial planet\",\"period\":0.62,\"atmosphere\":[\"CO2\",\"N2\"]},{\"id\":3,\"name\":\"Earth\",\"type\":\"Terrestrial planet\",\"period\":1,\"atmosphere\":[\"N2\",\"O2\",\"Ar\"]},{\"id\":4,\"name\":\"Mars\",\"type\":\"Terrestrial planet\",\"period\":1.88,\"atmosphere\":[\"CO2\",\"N2\",\"Ar\"]},{\"id\":5,\"name\":\"Jupiter\",\"type\":\"Gas giant\",\"period\":11.86,\"atmosphere\":[\"H2\",\"He\"]},{\"id\":6,\"name\":\"Saturn\",\"type\":\"Gas giant\",\"period\":29.46,\"atmosphere\":[\"H2\",\"He\"]},{\"id\":7,\"name\":\"Uranus\",\"type\":\"Ice giant\",\"period\":84.01,\"atmosphere\":[\"H2\",\"He\",\"CH4\"]},{\"id\":8,\"name\":\"Neptune\",\"type\":\"Ice giant\",\"period\":164.8,\"atmosphere\":[\"H2\",\"He\",\"CH4\"]}]"
+  }
+}
+```
+Run:
+```console
+docker run -p 4242:8000 -v ${PWD}/example:/example abezpalov/mock-server -file=example/entity/config.json
+
+```
+
+
+> Alternative for best readability: it is possible to use files for data.
+Create file `example/entity/config-short.json` with the content:
+```json
+{
+  "entity": {
+    "path": "planets",
+    "file": "example/entity/data.json"
+  }
+}
+```
+
+Create file `example/entity/data.json` with the content:
+```json
+[
+  {
+    "id": 1,
+    "name": "Mercury",
+    "type": "Terrestrial planet",
+    "period": 0.24,
+    "atmosphere": []
+  },
+  {
+    "id": 2,
+    "name": "Venus",
+    "type": "Terrestrial planet",
+    "period": 0.62,
+    "atmosphere": [
+      "CO2",
+      "N2"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Earth",
+    "type": "Terrestrial planet",
+    "period": 1,
+    "atmosphere": [
+      "N2",
+      "O2",
+      "Ar"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Mars",
+    "type": "Terrestrial planet",
+    "period": 1.88,
+    "atmosphere": [
+      "CO2",
+      "N2",
+      "Ar"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Jupiter",
+    "type": "Gas giant",
+    "period": 11.86,
+    "atmosphere": [
+      "H2",
+      "He"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Saturn",
+    "type": "Gas giant",
+    "period": 29.46,
+    "atmosphere": [
+      "H2",
+      "He"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Uranus",
+    "type": "Ice giant",
+    "period": 84.01,
+    "atmosphere": [
+      "H2",
+      "He",
+      "CH4"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Neptune",
+    "type": "Ice giant",
+    "period": 164.8,
+    "atmosphere": [
+      "H2",
+      "He",
+      "CH4"
+    ]
+  }
+]
+```
+
+Run:
+```console
+docker run -p 4242:8000 -v ${PWD}/example:/example abezpalov/mock-server -file=example/entity/config-short.json
+
+```
+
+#### API
+Run:
+```console
+docker run -p 4242:8000 abezpalov/mock-server
+```
+Send `POST` request:
+```console
+curl -v -X POST http://localhost:4242/_api/entity \
+-H "Content-Type: application/json" \
+-d @- << EOF
+
+{
+  "entity": {
+    "path": "planets",
+    "data": "[{\"id\":1,\"name\":\"Mercury\",\"type\":\"Terrestrial planet\",\"period\":0.24,\"atmosphere\":[]},{\"id\":2,\"name\":\"Venus\",\"type\":\"Terrestrial planet\",\"period\":0.62,\"atmosphere\":[\"CO2\",\"N2\"]},{\"id\":3,\"name\":\"Earth\",\"type\":\"Terrestrial planet\",\"period\":1,\"atmosphere\":[\"N2\",\"O2\",\"Ar\"]},{\"id\":4,\"name\":\"Mars\",\"type\":\"Terrestrial planet\",\"period\":1.88,\"atmosphere\":[\"CO2\",\"N2\",\"Ar\"]},{\"id\":5,\"name\":\"Jupiter\",\"type\":\"Gas giant\",\"period\":11.86,\"atmosphere\":[\"H2\",\"He\"]},{\"id\":6,\"name\":\"Saturn\",\"type\":\"Gas giant\",\"period\":29.46,\"atmosphere\":[\"H2\",\"He\"]},{\"id\":7,\"name\":\"Uranus\",\"type\":\"Ice giant\",\"period\":84.01,\"atmosphere\":[\"H2\",\"He\",\"CH4\"]},{\"id\":8,\"name\":\"Neptune\",\"type\":\"Ice giant\",\"period\":164.8,\"atmosphere\":[\"H2\",\"He\",\"CH4\"]}]"
+  }
+}
+EOF
+```
+
+* `curl http://localhost:4242/_api/rest`
+* Response:
+    ```json
+    [
+      {
+        "id": "${unique-id}",
+        "request": {
+          "method": "GET",
+          "path": "planets",
+          "pathReg": "",
+          "headers": {}
+        },
+        "response": {
+          "body": "[{\"id\":1,\"name\":\"Mercury\",\"type\":\"Terrestrial planet\",\"period\":0.24,\"atmosphere\":[]},{\"id\":2,\"name\":\"Venus\",\"type\":\"Terrestrial planet\",\"period\":0.62,\"atmosphere\":[\"CO2\",\"N2\"]},{\"id\":3,\"name\":\"Earth\",\"type\":\"Terrestrial planet\",\"period\":1,\"atmosphere\":[\"N2\",\"O2\",\"Ar\"]},{\"id\":4,\"name\":\"Mars\",\"type\":\"Terrestrial planet\",\"period\":1.88,\"atmosphere\":[\"CO2\",\"N2\",\"Ar\"]},{\"id\":5,\"name\":\"Jupiter\",\"type\":\"Gas giant\",\"period\":11.86,\"atmosphere\":[\"H2\",\"He\"]},{\"id\":6,\"name\":\"Saturn\",\"type\":\"Gas giant\",\"period\":29.46,\"atmosphere\":[\"H2\",\"He\"]},{\"id\":7,\"name\":\"Uranus\",\"type\":\"Ice giant\",\"period\":84.01,\"atmosphere\":[\"H2\",\"He\",\"CH4\"]},{\"id\":8,\"name\":\"Neptune\",\"type\":\"Ice giant\",\"period\":164.8,\"atmosphere\":[\"H2\",\"He\",\"CH4\"]}]",
+          "file": "",
+          "status": 200,
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      {
+        "id": "${unique-id}",
+        "request": {
+          "method": "GET",
+          "path": "planets/1",
+          "pathReg": "",
+          "headers": {}
+        },
+        "response": {
+          "body": "{\"id\":1,\"name\":\"Mercury\",\"type\":\"Terrestrial planet\",\"period\":0.24,\"atmosphere\":[]}",
+          "file": "",
+          "status": 200,
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      "...",
+      {
+        "id": "${unique-id}",
+        "request": {
+          "method": "GET",
+          "path": "planets/8",
+          "pathReg": "",
+          "headers": {}
+        },
+        "response": {
+          "body": "{\"id\":8,\"name\":\"Neptune\",\"type\":\"Ice giant\",\"period\":164.8,\"atmosphere\":[\"H2\",\"He\",\"CH4\"]}",
+          "file": "",
+          "status": 200,
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      {
+        "id": "${unique-id}",
+        "request": {
+            "method": "POST",
+            "path": "planets",
+            "pathReg": "",
+            "headers": {}
+        },
+        "response": {
+            "body": "{\"id\":1,\"name\":\"Mercury\",\"type\":\"Terrestrial planet\",\"period\":0.24,\"atmosphere\":[]}",
+            "file": "",
+            "status": 201,
+            "headers": {
+              "Content-Type": "application/json"
+            }
+        }
+      },
+      {
+        "id": "${unique-id}",
+        "request": {
+          "method": "PUT",
+          "path": "planets/1",
+          "pathReg": "",
+          "headers": {}
+        },
+        "response": {
+          "body": "{\"id\":1,\"name\":\"Mercury\",\"type\":\"Terrestrial planet\",\"period\":0.24,\"atmosphere\":[]}",
+          "file": "",
+          "status": 200,
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      "...",
+      {
+        "id": "${unique-id}",
+        "request": {
+          "method": "PUT",
+          "path": "planets/8",
+          "pathReg": "",
+          "headers": {}
+        },
+        "response": {
+          "body": "{\"id\":8,\"name\":\"Neptune\",\"type\":\"Ice giant\",\"period\":164.8,\"atmosphere\":[\"H2\",\"He\",\"CH4\"]}",
+          "file": "",
+          "status": 200,
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      {
+        "id": "${unique-id}",
+        "request": {
+          "method": "DELETE",
+          "path": "planets/1",
+          "pathReg": "",
+          "headers": {}
+        },
+        "response": {
+          "body": "",
+          "file": "",
+          "status": 200,
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      "...",
+      {
+        "id": "${unique-id}",
+        "request": {
+          "method": "DELETE",
+          "path": "planets/8",
+          "pathReg": "",
+          "headers": {}
+        },
+        "response": {
+          "body": "",
+          "file": "",
+          "status": 200,
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ]
+    ```
+
+
+### WebSocket
 
 ---
 ## File Configuration

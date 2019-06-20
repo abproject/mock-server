@@ -24,6 +24,7 @@
 ## Examples
 All examples are based on using Docker image, but it is possible to use compiled binary executable file.
 ### Hello World
+**Do steps for YAML, JSON or API defined below**
 
 **Test via GET request:**
 * `curl http://localhost:8123/hello`

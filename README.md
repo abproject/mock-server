@@ -1,11 +1,11 @@
 # mock-server
-> **mock-server** is a tiny (Docker image <10 MB ) Web Server that allows easily to emulate the REST and WebSocket services.
+> **mock-server** is a tiny Web Server (Docker image <10 MB) that allows easily to emulate the REST and WebSocket services.
 > It could be useful for:
-> * FrontEnd Developers: for fast mocking the BackEnd endpoints during implementing the prototype
-> * BackEnd Developers: for mocking applications as dependency during integration or system tests 
+> * FrontEnd Developers: for fast mocking the BackEnd endpoints during implementation of the UI prototypes
+> * BackEnd Developers: for mocking applications in environment during integration or system tests 
 ---
 
-### Table of Contents
+## Table of Contents
 * [Run](#run)
 * [Examples](#examples)
     * [Hello World](#hello-world)
@@ -16,16 +16,25 @@
 * [API](#api)
 
 ---
-### Run
+## Run
 
 `docker run -p 8000:8000 -v ${PWD}/example:/example abezpalov/mock-server:latest -file=/example/crud/config.yml`
 
 ---
-### Examples
+## Examples
 All examples are based on using Docker image, but it is possible to use compiled binary executable file.
-#### Hello World
+### Hello World
 
-##### YAML
+**Test via GET request:**
+* `curl http://localhost:8123/hello`
+* or open in browser `localhost:8123/hello`
+
+The response with status `200` must be:
+```
+Hello, World!
+```
+
+#### YAML
 **Create file `config.yml` with the content:**
 ```yaml
 rest:
@@ -43,16 +52,7 @@ docker run -p 8123:8000 -v ${PWD}/config.yml:/config.yml abezpalov/mock-server -
 
 ```
 
-**Test via GET request:**
-* `curl http://localhost:8123/hello`
-* or open in browser `localhost:8123/hello`
-
-The response with status `200` is:
-```
-Hello, World!
-```
-
-##### JSON
+#### JSON
 **Create file `config.json` with the content:**
 ```json
 {
@@ -78,36 +78,35 @@ docker run -p 8123:8000 -v ${PWD}/config.json:/config.json abezpalov/mock-server
 
 ```
 
-**Test via GET request:**
-* `curl http://localhost:8123/hello`
-* or open in browser `localhost:8123/hello`
-
-The response with status `200` is:
-```
-Hello, World!
-```
-##### API
+#### API
 **Run** 
 ```console
 docker run -p 8123:8000 abezpalov/mock-server
 ```
 **Send POST request:**
 ```console
-curl -d '{"request": {"method": "GET", "path": "hello"}, "response": {"status": 200,"body": "Hello, World!"}}' -H "Content-Type: application/json" -X POST http://localhost:8123/_api/rest
-```
-**Test via GET request:**
-* `curl http://localhost:8123/hello`
-* or open in browser `localhost:8123/hello`
+curl -v -X POST http://localhost:8123/_api/rest \
+-H "Content-Type: application/json" \
+-d @- << EOF
 
-The response with status `200` is:
+{
+    "request": {
+      "method": "GET",
+      "path": "hello"
+    },
+    "response": {
+      "status": 200,
+      "body": "Hello, World!"
+    }
+}
+EOF
 ```
-Hello, World!
-```
-#### Files
-#### CRUD
-#### Entity
-#### WebSocket
+
+### Files
+### CRUD
+### Entity
+### WebSocket
 
 ---
-### API
+## API
 

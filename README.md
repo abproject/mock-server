@@ -24,11 +24,11 @@
 ## Examples
 All examples are based on using Docker image, but it is possible to use compiled binary executable file.
 ### Hello World
-**Do steps for YAML, JSON or API defined below**
+* Do steps for `YAML`, `JSON` or `API` defined below
 
-**Test via GET request:**
-* `curl http://localhost:8123/hello`
-* or open in browser `localhost:8123/hello`
+* Test via `GET` request:
+  * `curl http://localhost:8123/hello`
+  * or open in browser `localhost:8123/hello`
 
 The response with status `200` must be:
 ```

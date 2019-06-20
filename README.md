@@ -201,40 +201,40 @@ docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file
 
 #### JSON
 Create file `examples/files/config.json` with the content:
-```json
-{
-	"rest": {
-		"endpoints": [
-			{
-				"request": {
-					"method": "GET",
-					"path": "file"
-				},
-				"response": {
-					"file": "examples/files/file.txt",
-					"status": 200,
-					"headers": {
-						"Content-Type": "application/octet-stream"
-					}
-				}
-			},
-			{
-				"request": {
-					"method": "GET",
-					"path": "hello"
-				},
-				"response": {
-					"file": "examples/files/hello.json",
-					"status": 200,
-					"headers": {
-						"Content-Type": "application/json"
-					}
-				}
-			}
-		]
-	}
-}
-```
+  ```json
+  {
+    "rest": {
+      "endpoints": [
+        {
+          "request": {
+            "method": "GET",
+            "path": "file"
+          },
+          "response": {
+            "file": "examples/files/file.txt",
+            "status": 200,
+            "headers": {
+              "Content-Type": "application/octet-stream"
+            }
+          }
+        },
+        {
+          "request": {
+            "method": "GET",
+            "path": "hello"
+          },
+          "response": {
+            "file": "examples/files/hello.json",
+            "status": 200,
+            "headers": {
+              "Content-Type": "application/json"
+            }
+          }
+        }
+      ]
+    }
+  }
+  ```
 Run:
 ```console
 docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file=examples/hello/config.json

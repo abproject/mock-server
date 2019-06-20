@@ -22,9 +22,9 @@
 
 ---
 ## Examples
-All examples are based on using Docker image, but it is possible to use compiled binary executable file.
+All examples are based on using Docker image, but it is possible to use compiled binary executable file instead.
 ### Hello World
-* Do steps for `YAML`, `JSON` or `API` defined below
+* Do steps for `YAML`, `JSON` or `API` defined below.
 
 * Test via `GET` request:
   * `curl http://localhost:8123/hello`
@@ -36,7 +36,7 @@ Hello, World!
 ```
 
 #### YAML
-**Create file `config.yml` with the content:**
+Create file `config.yml` with the content:
 ```yaml
 rest:
   endpoints:
@@ -47,14 +47,14 @@ rest:
         status: 200
         body: Hello, World!
 ```
-**Run**
+Run
 ```console
 docker run -p 8123:8000 -v ${PWD}/config.yml:/config.yml abezpalov/mock-server -file=config.yml
 
 ```
 
 #### JSON
-**Create file `config.json` with the content:**
+Create file `config.json` with the content:
 ```json
 {
   "rest": {
@@ -73,18 +73,18 @@ docker run -p 8123:8000 -v ${PWD}/config.yml:/config.yml abezpalov/mock-server -
   }
 }
 ```
-**Run** 
+Run
 ```console
 docker run -p 8123:8000 -v ${PWD}/config.json:/config.json abezpalov/mock-server -file=config.json
 
 ```
 
 #### API
-**Run** 
+Run
 ```console
 docker run -p 8123:8000 abezpalov/mock-server
 ```
-**Send POST request:**
+Send POST request:
 ```console
 curl -v -X POST http://localhost:8123/_api/rest \
 -H "Content-Type: application/json" \

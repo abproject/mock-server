@@ -1089,6 +1089,7 @@ curl -v -X POST http://localhost:4242/_api/entity \
 EOF
 ```
 
+#### Checking the configuration via API
 * `curl http://localhost:4242/_api/rest`
 * Response:
     ```json

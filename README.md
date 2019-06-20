@@ -26,7 +26,7 @@
 ## example
 All example are based on using Docker image, but it is possible to use compiled binary executable file instead.
 
-> It is recommended for probing  example below to create a folder `mkdir example` where all example will be stored. Or just clone this repository with provided example.
+> It is recommended for probing examples below to create a folder `mkdir example` where all examples will be stored. Or just clone this repository with provided examples.
 
 ### Hello World
 Introductory description of simple `Hello World` endpoint.

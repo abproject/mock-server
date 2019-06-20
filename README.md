@@ -26,21 +26,25 @@
 ## Examples
 All examples are based on using Docker image, but it is possible to use compiled binary executable file instead.
 
+> It is recommended for probing  examples below to create a folder `mkdir examples` where all examples will be stored. Or just clone this repository with provided examples.
+
 ### Hello World
-Introductory description of simple `Hello World` application.
+Introductory description of simple `Hello World` endpoint.
+* Create folder `mkdir examples/hello`
+
 * Do steps for `YAML`, `JSON` or `API` defined below in this block.
 
 * Test via `GET` request:
-  * `curl http://localhost:8123/hello`
-  * or open in browser [http://localhost:8123/hello](http://localhost:8123/hello)
+  * `curl http://localhost:4242/hello`
+  * or open in browser [http://localhost:4242/hello](http://localhost:4242/hello)
 
-The response with status `200` is:
-```
-Hello, World!
-```
+* The response with status `200` is:
+    ```
+    Hello, World!
+    ```
 
 #### YAML
-Create file `config.yml` with the content:
+Create file `examples/hello/config.yml` with the content:
 ```yaml
 rest:
   endpoints:
@@ -53,12 +57,12 @@ rest:
 ```
 Run:
 ```console
-docker run -p 8123:8000 -v ${PWD}/config.yml:/config.yml abezpalov/mock-server -file=config.yml
+docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file=examples/hello/config.yml
 
 ```
 
 #### JSON
-Create file `config.json` with the content:
+Create file `examples/hello/config.json` with the content:
 ```json
 {
   "rest": {
@@ -79,18 +83,18 @@ Create file `config.json` with the content:
 ```
 Run:
 ```console
-docker run -p 8123:8000 -v ${PWD}/config.json:/config.json abezpalov/mock-server -file=config.json
+docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file=examples/hello/config.json
 
 ```
 
 #### API
 Run:
 ```console
-docker run -p 8123:8000 abezpalov/mock-server
+docker run -p 4242:8000 abezpalov/mock-server
 ```
 Send `POST` request:
 ```console
-curl -v -X POST http://localhost:8123/_api/rest \
+curl -v -X POST http://localhost:4242/_api/rest \
 -H "Content-Type: application/json" \
 -d @- << EOF
 
@@ -108,29 +112,176 @@ EOF
 ```
 
 #### Checking the configuration via API
-* `curl http://localhost:8123/_api/rest`
+* `curl http://localhost:4242/_api/rest`
 * Response:
     ```json
     [
-        {
-            "id": "${unique-id}",
-            "request": {
-                "method": "GET",
-                "path": "hello",
-                "pathReg": "",
-                "headers": {}
-            },
-            "response": {
-                "body": "Hello, World!",
-                "file": "",
-                "status": 200,
-                "headers": {}
-            }
+      {
+        "id": "${unique-id}",
+        "request": {
+          "method": "GET",
+          "path": "hello",
+          "pathReg": "",
+          "headers": {}
+        },
+        "response": {
+          "body": "Hello, World!",
+          "file": "",
+          "status": 200,
+          "headers": {}
         }
+      }
     ]
     ```
 
 ### Files
+> If server must return a file or the response body JSON is stored in a separate file it is possible to use `file` configuration.
+
+In this example the server will return `file.txt` via [http://localhost:4242/file](http://localhost:4242/file) and return a JSON `{ "message": "Hello, World!" }` via [http://localhost:4242/hello](http://localhost:4242/hello) 
+
+* Create folder `mkdir examples/files`
+
+* Create file `examples/files/file.txt` with the content:
+    ```
+    Hello from file!
+    ```
+* Create file `examples/files/hello.json` with the content:
+    ```json
+    {
+      "message": "Hello, World!"
+    }
+    ```
+* Do steps for `YAML` or `JSON` defined below in this block.
+
+* Test via `GET` request:
+  * file.txt
+     * `curl http://localhost:4242/file`
+     * or open in browser [http://localhost:4242/file](http://localhost:4242/file)
+     * the response with status `200` is a file containing:
+        ```
+        Hello from file!
+        ``` 
+  * Response body stored in `hello.json` file
+     * `curl http://localhost:4242/hello`
+     * or open in browser [http://localhost:4242/hello](http://localhost:4242/hello)
+     * the response with status `200` is:
+         ```json
+         { "message": "Hello, World!" }
+         ```
+         
+#### YAML
+Create file `examples/files/config.yml` with the content:
+```yaml
+rest:
+  endpoints:
+    - request:
+        method: GET
+        path: file
+      response:
+        file: examples/files/file.txt
+        status: 200
+        headers:
+          Content-Type: application/octet-stream
+    - request:
+        method: GET
+        path: hello
+      response:
+        file: examples/files/hello.json
+        status: 200
+        headers:
+          Content-Type: application/json
+```
+
+Run:
+```console
+docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file=examples/files/config.yml
+
+```
+
+
+#### JSON
+Create file `examples/files/config.json` with the content:
+```json
+{
+	"rest": {
+		"endpoints": [
+			{
+				"request": {
+					"method": "GET",
+					"path": "file"
+				},
+				"response": {
+					"file": "examples/files/file.txt",
+					"status": 200,
+					"headers": {
+						"Content-Type": "application/octet-stream"
+					}
+				}
+			},
+			{
+				"request": {
+					"method": "GET",
+					"path": "hello"
+				},
+				"response": {
+					"file": "examples/files/hello.json",
+					"status": 200,
+					"headers": {
+						"Content-Type": "application/json"
+					}
+				}
+			}
+		]
+	}
+}
+```
+Run:
+```console
+docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file=examples/hello/config.json
+
+```
+
+#### Checking the configuration via API
+* `curl http://localhost:4242/_api/rest`
+* Response:
+  ```json
+  [
+    {
+      "id": "${unique-id}",
+      "request": {
+        "method": "GET",
+        "path": "file",
+        "pathReg": "",
+        "headers": {}
+      },
+      "response": {
+        "body": "",
+        "file": "examples/files/file.txt",
+        "status": 200,
+        "headers": {
+            "Content-Type": "application/octet-stream"
+        }
+      }
+    },
+    {
+      "id": "${unique-id}",
+      "request": {
+        "method": "GET",
+        "path": "hello",
+        "pathReg": "",
+        "headers": {}
+      },
+      "response": {
+        "body": "",
+        "file": "examples/files/hello.json",
+        "status": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        }
+      }
+    }
+  ]
+  ```
 ### CRUD
 ### Entity
 ### WebSocket

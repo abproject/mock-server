@@ -1,8 +1,8 @@
 package rest
 
 import (
-	. "github.com/abproject/mock-server/internal/config"
-	. "github.com/abproject/mock-server/internal/shared"
+	. "github.com/abproject/mock-server/internal_/config"
+	. "github.com/abproject/mock-server/internal_/shared"
 )
 
 type Controller struct {

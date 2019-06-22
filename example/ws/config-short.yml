@@ -1,0 +1,7 @@
+websocket:
+  endpoints:
+    - path: ws-planets
+      interval: 500
+      repeat: infinite
+      order: random
+      file: example/entity/data.json

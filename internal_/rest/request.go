@@ -2,7 +2,7 @@ package rest
 
 import (
 	"fmt"
-	. "github.com/abproject/mock-server/internal/config"
+	. "github.com/abproject/mock-server/internal_/config"
 	"log"
 	"net/http"
 	"regexp"
@@ -111,7 +111,7 @@ func (request *Request) CompareTo(otherRequest *Request) bool {
 
 func (request *Request) parse(config RestRequestConfig) {
 	if config.Path == "" && config.PathReg == "" {
-		log.Fatal(fmt.Sprintf("Rest Config: Request 'path' or 'pathReg' is required\n%#v", config))
+		log.Fatal(fmt.Sprintf("Rest config: request 'path' or 'pathReg' is required\n%#v", config))
 	}
 
 	var method = ToUpper(config.Method)

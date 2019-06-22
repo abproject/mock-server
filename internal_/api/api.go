@@ -3,8 +3,8 @@ package api
 import (
 	"encoding/json"
 	"errors"
-	. "github.com/abproject/mock-server/internal/config"
-	"github.com/abproject/mock-server/internal/rest"
+	. "github.com/abproject/mock-server/internal_/config"
+	"github.com/abproject/mock-server/internal_/rest"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -37,9 +37,9 @@ func init() {
 
 	//router.Put("/_api/rest/:id", func (hd HandlerData) {
 	//	id := hd.vars["id"]
-	//	body, err := ioutil.ReadAll(hd.r.Body)
+	//	body, err := ioutil.ReadAll(hd.r.body)
 	//	if err != nil {
-	//		log.Printf("%s: %#v\nInvalid request: %#v", hd.r.RequestURI, hd.r.Body, err)
+	//		log.Printf("%s: %#v\nInvalid request: %#v", hd.r.RequestURI, hd.r.body, err)
 	//		hd.w.WriteHeader(http.StatusBadRequest)
 	//		hd.w.Write([]byte("Invalid request"))
 	//		return
@@ -48,7 +48,7 @@ func init() {
 	//	var config config.RestControllerConfig
 	//	err = json.Unmarshal(body, &config)
 	//	if err != nil {
-	//		log.Printf("%s: %#v\nInvalid request: %#v", hd.r.RequestURI, hd.r.Body, err)
+	//		log.Printf("%s: %#v\nInvalid request: %#v", hd.r.RequestURI, hd.r.body, err)
 	//		hd.w.WriteHeader(http.StatusBadRequest)
 	//		hd.w.Write([]byte("Invalid request"))
 	//		return

@@ -3,10 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	. "github.com/abproject/mock-server/internal/config"
-	"github.com/abproject/mock-server/internal/rest"
-	. "github.com/abproject/mock-server/internal/router"
-	"github.com/abproject/mock-server/internal/websocket"
+	. "github.com/abproject/mock-server/internal_/config"
+	"github.com/abproject/mock-server/internal_/rest"
+	. "github.com/abproject/mock-server/internal_/router"
+	"github.com/abproject/mock-server/internal_/websocket"
 	"log"
 	"net/http"
 )
@@ -16,7 +16,7 @@ func main() {
 	file := flag.String("file", "", "path to configuration file")
 	flag.Parse()
 	log.Printf("Port: %d\n", *port)
-	log.Printf("File: %s\n", *file)
+	log.Printf("file: %s\n", *file)
 
 	config := ParseConfig(*file)
 	rest.FileRest(config.Rest)

@@ -1,7 +1,7 @@
 package crud
 
 import (
-	httpTesting "github.com/abproject/mock-server/internal/testing"
+	httpTesting "github.com/abproject/mock-server/internal_/testing"
 	"testing"
 )
 

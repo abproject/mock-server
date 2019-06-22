@@ -3,7 +3,7 @@ package testing
 import (
 	"bytes"
 	"encoding/json"
-	. "github.com/abproject/mock-server/internal/router"
+	. "github.com/abproject/mock-server/internal_/router"
 	"io"
 	"net/http/httptest"
 	"reflect"
@@ -76,14 +76,14 @@ func DisplayTestCase(name string, tests []HttpTestCase, t *testing.T) {
 			!reflect.DeepEqual(test.realHeaders, test.ExpectedHeaders) {
 			t.Errorf(`
 Failed HttpTestCase - %s:
-Request: '%s'
-Path:    '%s',
-Headers: %#v,
-Body:    '%s',
-Response:
-	Status %d expected to be %d
-	Body '%s' expected to be '%s''
-	Headers %#v expected to be %#v`,
+request: '%s'
+path:    '%s',
+headers: %#v,
+body:    '%s',
+response:
+	status %d expected to be %d
+	body '%s' expected to be '%s''
+	headers %#v expected to be %#v`,
 				name,
 				test.Type,
 				test.Path,

@@ -2,7 +2,7 @@ package rest
 
 import (
 	"fmt"
-	. "github.com/abproject/mock-server/internal/config"
+	. "github.com/abproject/mock-server/internal_/config"
 	"io/ioutil"
 	"log"
 )
@@ -30,7 +30,7 @@ func NewResponse(config RestResponseConfig) *Response {
 	if config.File != "" {
 		data, err := ioutil.ReadFile(config.File)
 		if err != nil {
-			log.Fatal(fmt.Sprintf("Rest Config: Required file in config '%s' not found", config.File))
+			log.Fatal(fmt.Sprintf("Rest config: Required file in config '%s' not found", config.File))
 		}
 		file = data
 	}

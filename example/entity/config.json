@@ -1,6 +1,9 @@
 {
-  "entity": {
-    "path": "planets",
-    "data": "[{\"id\":1,\"name\":\"Mercury\",\"type\":\"Terrestrial planet\",\"period\":0.24,\"atmosphere\":[]},{\"id\":2,\"name\":\"Venus\",\"type\":\"Terrestrial planet\",\"period\":0.62,\"atmosphere\":[\"CO2\",\"N2\"]},{\"id\":3,\"name\":\"Earth\",\"type\":\"Terrestrial planet\",\"period\":1,\"atmosphere\":[\"N2\",\"O2\",\"Ar\"]},{\"id\":4,\"name\":\"Mars\",\"type\":\"Terrestrial planet\",\"period\":1.88,\"atmosphere\":[\"CO2\",\"N2\",\"Ar\"]},{\"id\":5,\"name\":\"Jupiter\",\"type\":\"Gas giant\",\"period\":11.86,\"atmosphere\":[\"H2\",\"He\"]},{\"id\":6,\"name\":\"Saturn\",\"type\":\"Gas giant\",\"period\":29.46,\"atmosphere\":[\"H2\",\"He\"]},{\"id\":7,\"name\":\"Uranus\",\"type\":\"Ice giant\",\"period\":84.01,\"atmosphere\":[\"H2\",\"He\",\"CH4\"]},{\"id\":8,\"name\":\"Neptune\",\"type\":\"Ice giant\",\"period\":164.8,\"atmosphere\":[\"H2\",\"He\",\"CH4\"]}]"
-  }
+  "entity": [
+    {
+      "path": "planets",
+      "id": "id",
+      "data": "[{\"id\":1,\"name\":\"Mercury\",\"type\":\"Terrestrial planet\",\"period\":0.24,\"atmosphere\":[]},{\"id\":2,\"name\":\"Venus\",\"type\":\"Terrestrial planet\",\"period\":0.62,\"atmosphere\":[\"CO2\",\"N2\"]},{\"id\":3,\"name\":\"Earth\",\"type\":\"Terrestrial planet\",\"period\":1,\"atmosphere\":[\"N2\",\"O2\",\"Ar\"]},{\"id\":4,\"name\":\"Mars\",\"type\":\"Terrestrial planet\",\"period\":1.88,\"atmosphere\":[\"CO2\",\"N2\",\"Ar\"]},{\"id\":5,\"name\":\"Jupiter\",\"type\":\"Gas giant\",\"period\":11.86,\"atmosphere\":[\"H2\",\"He\"]},{\"id\":6,\"name\":\"Saturn\",\"type\":\"Gas giant\",\"period\":29.46,\"atmosphere\":[\"H2\",\"He\"]},{\"id\":7,\"name\":\"Uranus\",\"type\":\"Ice giant\",\"period\":84.01,\"atmosphere\":[\"H2\",\"He\",\"CH4\"]},{\"id\":8,\"name\":\"Neptune\",\"type\":\"Ice giant\",\"period\":164.8,\"atmosphere\":[\"H2\",\"He\",\"CH4\"]}]"
+    }
+  ]
 }

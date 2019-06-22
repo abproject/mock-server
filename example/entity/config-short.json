@@ -1,6 +1,9 @@
 {
-  "entity": {
-    "path": "planets",
-    "file": "example/entity/data.json"
-  }
+  "entity": [
+    {
+      "path": "planets",
+      "id": "id",
+      "file": "example/entity/data.json"
+    }
+  ]
 }

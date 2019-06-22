@@ -12,7 +12,7 @@
 <body>
 <div id="messages"></div>
 <script>
-    const webSocket = new WebSocket('ws://localhost:8000/ws-test');
+    const webSocket = new WebSocket('ws://localhost:8000/ws-planets');
     webSocket.onopen = open => {
         webSocket.send('test');
     };

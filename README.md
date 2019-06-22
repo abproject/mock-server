@@ -779,66 +779,67 @@ As CRUD example requires a lot of boilerplate there is the `entity` configuratio
 Create file `example/entity/config.yml` with the content:
 ```yaml
 entity:
-  path: planets
-  data: >
-    [
-      {
-        "id": 1,
-        "name": "Mercury",
-        "type": "Terrestrial planet",
-        "period": 0.24,
-        "atmosphere": []
-      },
-      {
-        "id": 2,
-        "name": "Venus",
-        "type": "Terrestrial planet",
-        "period": 0.62,
-        "atmosphere": ["CO2", "N2"]
-      },
-      {
-        "id": 3,
-        "name": "Earth",
-        "type": "Terrestrial planet",
-        "period": 1,
-        "atmosphere": ["N2", "O2", "Ar"]
-      },
-      {
-        "id": 4,
-        "name": "Mars",
-        "type": "Terrestrial planet",
-        "period": 1.88,
-        "atmosphere": ["CO2", "N2", "Ar"]
-      },
-      {
-        "id": 5,
-        "name": "Jupiter",
-        "type": "Gas giant",
-        "period": 11.86,
-        "atmosphere": ["H2", "He"]
-      },
-      {
-        "id": 6,
-        "name": "Saturn",
-        "type": "Gas giant",
-        "period": 29.46,
-        "atmosphere": ["H2", "He"]
-      },
-      {
-        "id": 7,
-        "name": "Uranus",
-        "type": "Ice giant",
-        "period": 84.01,
-        "atmosphere": ["H2", "He", "CH4"]
-      },
-      {
-        "id": 8,
-        "name": "Neptune",
-        "type": "Ice giant",
-        "period": 164.8,
-        "atmosphere": ["H2", "He", "CH4"]
-      }
-    ]
+  - path: planets
+    data: >
+      [
+        {
+          "id": 1,
+          "name": "Mercury",
+          "type": "Terrestrial planet",
+          "period": 0.24,
+          "atmosphere": []
+        },
+        {
+          "id": 2,
+          "name": "Venus",
+          "type": "Terrestrial planet",
+          "period": 0.62,
+          "atmosphere": ["CO2", "N2"]
+        },
+        {
+          "id": 3,
+          "name": "Earth",
+          "type": "Terrestrial planet",
+          "period": 1,
+          "atmosphere": ["N2", "O2", "Ar"]
+        },
+        {
+          "id": 4,
+          "name": "Mars",
+          "type": "Terrestrial planet",
+          "period": 1.88,
+          "atmosphere": ["CO2", "N2", "Ar"]
+        },
+        {
+          "id": 5,
+          "name": "Jupiter",
+          "type": "Gas giant",
+          "period": 11.86,
+          "atmosphere": ["H2", "He"]
+        },
+        {
+          "id": 6,
+          "name": "Saturn",
+          "type": "Gas giant",
+          "period": 29.46,
+          "atmosphere": ["H2", "He"]
+        },
+        {
+          "id": 7,
+          "name": "Uranus",
+          "type": "Ice giant",
+          "period": 84.01,
+          "atmosphere": ["H2", "He", "CH4"]
+        },
+        {
+          "id": 8,
+          "name": "Neptune",
+          "type": "Ice giant",
+          "period": 164.8,
+          "atmosphere": ["H2", "He", "CH4"]
+        }
+      ]
+
 ```
 Run:
 ```console
@@ -850,8 +851,9 @@ docker run -p 4242:8000 -v ${PWD}/example:/example abezpalov/mock-server -file=e
 Create file `example/entity/config-short.yml` with the content:
 ```yaml
 entity:
-  path: planets
-  file: example/entity/data.json
+  - path: planets
+    file: example/entity/data.json
+
 ```
 
 Create file `example/entity/data.json` with the content:
@@ -952,10 +954,12 @@ docker run -p 4242:8000 -v ${PWD}/example:/example abezpalov/mock-server -file=e
 Create file `example/entity/config.json` with the content:
 ```json
 {
-  "entity": {
-    "path": "planets",
-    "data": "[{\"id\":1,\"name\":\"Mercury\",\"type\":\"Terrestrial planet\",\"period\":0.24,\"atmosphere\":[]},{\"id\":2,\"name\":\"Venus\",\"type\":\"Terrestrial planet\",\"period\":0.62,\"atmosphere\":[\"CO2\",\"N2\"]},{\"id\":3,\"name\":\"Earth\",\"type\":\"Terrestrial planet\",\"period\":1,\"atmosphere\":[\"N2\",\"O2\",\"Ar\"]},{\"id\":4,\"name\":\"Mars\",\"type\":\"Terrestrial planet\",\"period\":1.88,\"atmosphere\":[\"CO2\",\"N2\",\"Ar\"]},{\"id\":5,\"name\":\"Jupiter\",\"type\":\"Gas giant\",\"period\":11.86,\"atmosphere\":[\"H2\",\"He\"]},{\"id\":6,\"name\":\"Saturn\",\"type\":\"Gas giant\",\"period\":29.46,\"atmosphere\":[\"H2\",\"He\"]},{\"id\":7,\"name\":\"Uranus\",\"type\":\"Ice giant\",\"period\":84.01,\"atmosphere\":[\"H2\",\"He\",\"CH4\"]},{\"id\":8,\"name\":\"Neptune\",\"type\":\"Ice giant\",\"period\":164.8,\"atmosphere\":[\"H2\",\"He\",\"CH4\"]}]"
-  }
+  "entity": [
+    {
+      "path": "planets",
+      "data": "[{\"id\":1,\"name\":\"Mercury\",\"type\":\"Terrestrial planet\",\"period\":0.24,\"atmosphere\":[]},{\"id\":2,\"name\":\"Venus\",\"type\":\"Terrestrial planet\",\"period\":0.62,\"atmosphere\":[\"CO2\",\"N2\"]},{\"id\":3,\"name\":\"Earth\",\"type\":\"Terrestrial planet\",\"period\":1,\"atmosphere\":[\"N2\",\"O2\",\"Ar\"]},{\"id\":4,\"name\":\"Mars\",\"type\":\"Terrestrial planet\",\"period\":1.88,\"atmosphere\":[\"CO2\",\"N2\",\"Ar\"]},{\"id\":5,\"name\":\"Jupiter\",\"type\":\"Gas giant\",\"period\":11.86,\"atmosphere\":[\"H2\",\"He\"]},{\"id\":6,\"name\":\"Saturn\",\"type\":\"Gas giant\",\"period\":29.46,\"atmosphere\":[\"H2\",\"He\"]},{\"id\":7,\"name\":\"Uranus\",\"type\":\"Ice giant\",\"period\":84.01,\"atmosphere\":[\"H2\",\"He\",\"CH4\"]},{\"id\":8,\"name\":\"Neptune\",\"type\":\"Ice giant\",\"period\":164.8,\"atmosphere\":[\"H2\",\"He\",\"CH4\"]}]"
+    }
+  ]
 }
 ```
 Run:
@@ -969,10 +973,12 @@ docker run -p 4242:8000 -v ${PWD}/example:/example abezpalov/mock-server -file=e
 Create file `example/entity/config-short.json` with the content:
 ```json
 {
-  "entity": {
-    "path": "planets",
-    "file": "example/entity/data.json"
-  }
+  "entity": [
+    {
+      "path": "planets",
+      "file": "example/entity/data.json"
+    }
+  ]
 }
 ```
 
@@ -1239,6 +1245,8 @@ EOF
 
 ### WebSocket
 
+Example for WebSocket that generates infinitely messages each 500ms in random order
+  
 ---
 ## File Configuration
 

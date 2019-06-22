@@ -15,7 +15,7 @@ func ParseConfig(filePath string) *Config {
 	config := new(Config)
 	yamlFile, err := ioutil.ReadFile(filePath)
 	if err != nil {
-		log.Printf("File parse err #%v ", err)
+		log.Printf("file parse err #%v ", err)
 	}
 	err = yaml.Unmarshal(yamlFile, config)
 	if err != nil {

@@ -2,8 +2,8 @@ package websocket
 
 import (
 	"fmt"
-	. "github.com/abproject/mock-server/internal/config"
-	. "github.com/abproject/mock-server/internal/shared"
+	. "github.com/abproject/mock-server/internal_/config"
+	. "github.com/abproject/mock-server/internal_/shared"
 	"log"
 	"strconv"
 	. "strings"
@@ -20,7 +20,7 @@ type Endpoint struct {
 
 func NewEndpoint(config WebsocketEndpointConfig) *Endpoint {
 	if config.Url == "" {
-		log.Fatal(fmt.Sprintf("Websocket Config: Url is required\n%#v", config))
+		log.Fatal(fmt.Sprintf("Websocket config: Url is required\n%#v", config))
 	}
 
 	var order = ToLower(config.Order)
@@ -28,7 +28,7 @@ func NewEndpoint(config WebsocketEndpointConfig) *Endpoint {
 		order = "start"
 	}
 	if order != "start" && order != "end" && order != "random" {
-		log.Fatal(fmt.Sprintf("Websocket Config: Order must be either 'start' or 'end' or 'random'\n%#v", config))
+		log.Fatal(fmt.Sprintf("Websocket config: Order must be either 'start' or 'end' or 'random'\n%#v", config))
 	}
 
 	var repeat = ToLower(config.Repeat)
@@ -42,7 +42,7 @@ func NewEndpoint(config WebsocketEndpointConfig) *Endpoint {
 	var repeatValue, err = strconv.ParseInt(repeat, 10, 64)
 
 	if err != nil {
-		log.Fatal(fmt.Sprintf("Websocket Config: Repeat must be 'infinite' or a number\n%#v", config))
+		log.Fatal(fmt.Sprintf("Websocket config: Repeat must be 'infinite' or a number\n%#v", config))
 	}
 
 	return &Endpoint{

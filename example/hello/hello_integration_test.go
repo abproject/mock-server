@@ -3,9 +3,9 @@ package hello
 import (
 	"bufio"
 	"bytes"
-	"github.com/abproject/mock-server/internal/rest"
-	"github.com/abproject/mock-server/internal/router"
-	httpTesting "github.com/abproject/mock-server/internal/testing"
+	"github.com/abproject/mock-server/internal_/rest"
+	"github.com/abproject/mock-server/internal_/router"
+	httpTesting "github.com/abproject/mock-server/internal_/testing"
 	"log"
 	"net/http/httptest"
 	"os"

@@ -2,7 +2,7 @@ package websocket
 
 import (
 	"errors"
-	. "github.com/abproject/mock-server/internal/config"
+	. "github.com/abproject/mock-server/internal_/config"
 	"github.com/gorilla/websocket"
 	"log"
 	"math/rand"

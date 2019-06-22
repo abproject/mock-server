@@ -2,7 +2,7 @@ package rest
 
 import (
 	"errors"
-	. "github.com/abproject/mock-server/internal/config"
+	. "github.com/abproject/mock-server/internal_/config"
 	"net/http"
 	"sort"
 )

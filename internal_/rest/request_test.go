@@ -1,7 +1,7 @@
 package rest
 
 import (
-	"github.com/abproject/mock-server/internal"
+	"github.com/abproject/mock-server/internal_"
 	"net/http"
 	"testing"
 )
@@ -17,7 +17,7 @@ func TestRequestInit(t *testing.T) {
 		{
 			RequestConfig{},
 			internal.Request{},
-			"Request 'path' or 'pathReg' is required\n",
+			"request 'path' or 'pathReg' is required\n",
 		},
 		{
 			RequestConfig{

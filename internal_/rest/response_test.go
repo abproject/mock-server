@@ -1,7 +1,7 @@
 package rest
 
 import (
-	"github.com/abproject/mock-server/internal"
+	"github.com/abproject/mock-server/internal_"
 	"testing"
 )
 
@@ -23,14 +23,14 @@ func TestResponseInit(t *testing.T) {
 		},
 		{
 			ResponseConfig{
-				Body: "Body",
+				Body: "body",
 			},
 			internal.Response{
-				Body:    "Body",
+				Body:    "body",
 				Status:  200,
 				Headers: map[string]string{},
 				source: ResponseConfig{
-					Body: "Body",
+					Body: "body",
 				},
 			},
 		},

@@ -157,7 +157,31 @@ func TestRestServiceDeleteAll(t *testing.T) {
 	panic("TODO")
 }
 
-func TestRestServiceFindEndpoint(t *testing.T) {
+func TestRestServiceFindEndpointGivenMethod(t *testing.T) {
+	panic("TODO")
+}
+
+func TestRestServiceFindEndpointGivenMethodAll(t *testing.T) {
+	panic("TODO")
+}
+
+func TestRestServiceFindEndpointGivenPath(t *testing.T) {
+	panic("TODO")
+}
+
+func TestRestServiceFindEndpointGivenPathReg(t *testing.T) {
+	panic("TODO")
+}
+
+func TestRestServiceFindEndpointGivenPathAndPathReg(t *testing.T) {
+	panic("TODO")
+}
+
+func TestRestServiceFindEndpointGivenHeaders(t *testing.T) {
+	panic("TODO")
+}
+
+func TestRestServiceFindEndpointGivenMultipleHeaders(t *testing.T) {
 	panic("TODO")
 }
 

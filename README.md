@@ -8,23 +8,21 @@
 
 ## Table of Contents
 * [Run](#run)
-* [Examples](example/README.md)
-    * [Hello World](#hello-world)
-    * [Files](#files)
-    * [CRUD](#crud)
-    * [Entity](#entity)
-    * [WebSocket](#websocket)
 * [File Configuration](#file-configuration)
 * [API](#api)
-
----
 ## Run
 
 `docker run -p 8000:8000 -v ${PWD}/example:/example abezpalov/mock-server:latest -file=/example/crud/config.yml`
 
 ---
 
-  
+## Hello World
+
+There are more [Examples](example/README.md): 
+* [Files](example/README.md#files)  
+* [CRUD](example/README.md#crud)  
+* [Entity](example/README.md#entity)  
+* [WebSocket](example/README.md#websocket)  
 ---
 ## File Configuration
 

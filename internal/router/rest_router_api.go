@@ -10,7 +10,7 @@ import (
 // RouteAPI Rest API
 func RouteAPI(c Context, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	if r.RequestURI == "/_api/rest" {
+	if r.RequestURI == "/_api/rest/endpoint" {
 		switch r.Method {
 		case "GET":
 			getAllHandler(c, w, r)

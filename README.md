@@ -105,7 +105,7 @@ It is possible to configure the server after starting by using API calls.
   docker run -p 4242:8000 abezpalov/mock-server
   ```
 
-- Make `POST` request to URL `http://localhost:4242/_api/rest` with body
+- Make `POST` request to URL `http://localhost:4242/_api/rest/endpoint` with body
 
   ```json
   {
@@ -126,7 +126,7 @@ It is possible to configure the server after starting by using API calls.
 - e.g with `curl`
 
   ```bash
-  curl -X POST http://localhost:4242/_api/rest \
+  curl -X POST http://localhost:4242/_api/rest/endpoint \
   -H "Content-Type: application/json" \
   -d @- << EOF
   {

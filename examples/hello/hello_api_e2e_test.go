@@ -27,8 +27,8 @@ func configureAPI(t *testing.T) router.IRouter {
 	reader := bytes.NewReader(file)
 	request := httptest.NewRequest("POST", "/_api/rest/endpoint", reader)
 	response := httptest.NewRecorder()
-
 	router.Route(response, request)
+
 	return router
 }
 

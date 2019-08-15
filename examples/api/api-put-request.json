@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "path": "hello-new"
+  },
+  "response": {
+    "status": 200,
+    "body": "Hello, New World!",
+    "headers": {
+      "Content-Type": "text/html"
+    }
+  }
+}

@@ -3,6 +3,7 @@ package hello
 import (
 	"testing"
 
+	"github.com/abproject/mock-server/internal/rest"
 	"github.com/abproject/mock-server/test"
 )
 
@@ -82,8 +83,15 @@ func GetHelloAPICases(t *testing.T) []test.RestAPITestCase {
 
 	return []test.RestAPITestCase{
 		testCase(
-			"GET should return all configuration",
-			"api-get-all.json",
-			"/_api/rest/endpoint"),
+			&test.RestAPITestCaseConfig{
+				Name:             "GET should return all configuration",
+				Method:           "GET",
+				Status:           200,
+				URI:              "/_api/rest/endpoint",
+				RequestFile:      "",
+				ResponseFile:     "api-get-all.json",
+				ExpectedResponse: []rest.EndpointRestDto{},
+				ActualResponse:   []rest.EndpointRestDto{},
+			}),
 	}
 }

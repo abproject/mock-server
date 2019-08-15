@@ -98,6 +98,63 @@ func TestRestStorageGetReturnErrorWhenGivenBadId(t *testing.T) {
 	}
 }
 
+func TestRestStoragePut(t *testing.T) {
+	storage := MakeStorage()
+	config := getEndpointRestDto()
+	actual := storage.Add(config)
+	config.Request.Path = "new-path"
+	config.Response.Body = "new body"
+
+	modified, _ := storage.Put(actual.ID, config)
+
+	if actual.ID != modified.ID {
+		t.Errorf("Id must be equal:\nAdd: %s\nPut: %s", actual.ID, modified.ID)
+	}
+	config.ID = modified.ID
+	if !reflect.DeepEqual(config, modified) {
+		t.Errorf("Must Be Equal:\nExpected: %+v\nActual: %+v", config, modified)
+	}
+}
+
+func TestRestStoragePutReturnErrorWhenGivenBadId(t *testing.T) {
+	storage := MakeStorage()
+	config := getEndpointRestDto()
+
+	_, err := storage.Put("wrong-id", config)
+
+	expectedError := "Rest configuration with id=wrong-id not found"
+	if err.Error() != expectedError {
+		t.Errorf("Expected error: %v\nActual error: %v", expectedError, err)
+	}
+}
+
+func TestRestStorageDelete(t *testing.T) {
+	storage := MakeStorage()
+	config := getEndpointRestDto()
+	actual := storage.Add(config)
+
+	err := storage.Delete(actual.ID)
+
+	if err != nil {
+		t.Errorf("Must not be error, as %+v", err)
+	}
+	size := storage.Size()
+	if size != 0 {
+		t.Errorf("Storage size must be %d but was %d", 0, size)
+	}
+}
+
+func TestRestStorageDeleteReturnErrorWhenGivenBadId(t *testing.T) {
+	storage := MakeStorage()
+
+	err := storage.Delete("wrong-id")
+
+	expectedError := "Rest configuration with id=wrong-id not found"
+	if err.Error() != expectedError {
+		t.Errorf("Expected error: %v\nActual error: %v", expectedError, err)
+	}
+}
+
 func TestRestStorageWhenParameterChangedNoEffectOnStorage(t *testing.T) {
 	storage := MakeStorage()
 	config := getEndpointRestDto()
@@ -158,6 +215,20 @@ func TestRestStorageGetAllWhenReturnChangedNoEffectOnStorage(t *testing.T) {
 	actualAgain := storage.GetAll()
 	if reflect.DeepEqual(actual, actualAgain) {
 		t.Errorf("Storage msut be immutable:\nBefore: %+v\nAfter: %+v", actual, actualAgain)
+	}
+}
+
+func TestRestStorageDeleteAll(t *testing.T) {
+	storage := MakeStorage()
+	config := getEndpointRestDto()
+	storage.Add(config)
+	storage.Add(config)
+
+	storage.DeleteAll()
+
+	size := storage.Size()
+	if size != 0 {
+		t.Errorf("Storage must be enmpty, but had %d entries", size)
 	}
 }
 

@@ -84,6 +84,6 @@ func GetHelloAPICases(t *testing.T) []test.RestAPITestCase {
 		testCase(
 			"GET should return all configuration",
 			"api-get-all.json",
-			"/_api/rest"),
+			"/_api/rest/endpoint"),
 	}
 }

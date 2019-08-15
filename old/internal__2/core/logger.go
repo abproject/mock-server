@@ -1,6 +1,7 @@
 package core
 
 import (
+	"log"
 	"sort"
 	"sync"
 	"time"
@@ -62,27 +63,33 @@ func newLogger() ILogger {
 }
 
 func (logger *Logger) Info(module string, message string) {
-	logger.logs = append(logger.logs, LoggerInfo{
+	entry := LoggerInfo{
 		module:    module,
 		message:   message,
 		timestamp: time.Now(),
-	})
+	}
+	logger.logs = append(logger.logs, entry)
+	log.Printf("[INFO] %s: %s", entry.module, entry.message)
 }
 
 func (logger *Logger) Warn(module string, error error) {
-	logger.warns = append(logger.warns, LoggerFails{
+	entry := LoggerFails{
 		module:    module,
 		error:     error,
 		timestamp: time.Now(),
-	})
+	}
+	logger.warns = append(logger.warns, entry)
+	log.Printf("[WARN] %s: %s", entry.module, entry.error.Error())
 }
 
 func (logger *Logger) Error(module string, error error) {
-	logger.errors = append(logger.errors, LoggerFails{
+	entry := LoggerFails{
 		module:    module,
 		error:     error,
 		timestamp: time.Now(),
-	})
+	}
+	logger.errors = append(logger.errors, entry)
+	log.Printf("[ERROR] %s: %s", entry.module, entry.error.Error())
 }
 
 func (logger *Logger) Size() map[string]int {

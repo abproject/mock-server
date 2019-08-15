@@ -250,7 +250,6 @@ func TestRequestIsEqual(t *testing.T) {
 				Method:     "GET",
 				RequestURI: "/path",
 			},
-
 			true,
 		},
 		{

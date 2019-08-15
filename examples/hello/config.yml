@@ -1,0 +1,10 @@
+rest:
+  endpoints:
+    - request:
+        method: GET
+        path: hello
+      response:
+        status: 200
+        body: Hello, World!
+        headers:
+          'Content-Type': 'text/html'

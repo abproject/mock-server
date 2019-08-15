@@ -1,26 +1,19 @@
 package rest
 
 import (
-	"sync"
+	"log"
 )
 
-var instanceParser iRestParser
-var onceParser sync.Once
-
-type iRestParser interface {
+// Context Rest Parser Context
+type Context struct {
+	Logger      *log.Logger
+	RestStorage *StorageRest
 }
 
-type restParser struct {
-	//storage iRestStorage
-}
-
-func GetParser() iRestParser {
-	onceService.Do(func() {
-		instanceParser = newParser()
-	})
-	return instanceService
-}
-
-func newParser() iRestParser {
-	return &restParser{}
+// ParseConfig Parsinf Rest Config
+func ParseConfig(c Context, config Config) {
+	storage := c.RestStorage
+	for _, endpoint := range config.Endpoints {
+		(*storage).Add(endpoint)
+	}
 }

@@ -1,85 +1,75 @@
 package rest
 
 import (
+	"errors"
 	"fmt"
+	"net/http"
+	"sort"
+
 	"github.com/abproject/mock-server/internal/shared"
-	"github.com/jinzhu/copier"
-	"sync"
 )
 
-var instanceStorage iRestStorage
-var onceStorage sync.Once
-
-type iRestStorage interface {
-	Get(id string) (restEntry, error)
-	GetAll() map[string]*restEntry
-	Add(entity restEntry) (string, restEntry)
-	Update(id string, entity restEntry) (restEntry, error)
-	Delete(id string) error
-	DeleteAll()
+// StorageRest Rest Repository Entity
+type StorageRest interface {
+	Add(config EndpointRestDto) EndpointRestDto
+	Get(id string) (EndpointRestDto, error)
+	GetAll() []EndpointRestDto
+	FindByRequest(r *http.Request) (EndpointRestDto, error)
 	Size() int
 }
 
-type restStorage struct {
-	data map[string]*restEntry
-}
-
-func GetStorage() iRestStorage {
-	onceStorage.Do(func() {
-		instanceStorage = newStorage()
-	})
-	return instanceStorage
-}
-
-func newStorage() iRestStorage {
+// MakeStorage Create new Storage
+func MakeStorage() StorageRest {
 	return &restStorage{
-		data: make(map[string]*restEntry),
+		data: make(map[string]*entityRest),
 	}
 }
 
-func (storage *restStorage) Get(id string) (restEntry, error) {
-	if entity, ok := storage.data[id]; ok {
-		copyEntity := restEntry{}
-		copier.Copy(&copyEntity, &entity)
-		return copyEntity, nil
-	}
-	return restEntry{}, fmt.Errorf("restEntry '%s' not found", id)
-}
-
-func (storage *restStorage) GetAll() map[string]*restEntry {
-	copyMap := make(map[string]*restEntry)
-	for k, v := range storage.data {
-		copyEntity := restEntry{}
-		copier.Copy(&copyEntity, &v)
-		copyMap[k] = &copyEntity
-	}
-	return copyMap
-}
-
-func (storage *restStorage) Add(entity restEntry) (string, restEntry) {
+func (storage *restStorage) Add(config EndpointRestDto) EndpointRestDto {
 	id := shared.GetRandomId()
-	storage.data[id] = &entity
-	return id, entity
-}
-
-func (storage *restStorage) Update(id string, newEntity restEntry) (restEntry, error) {
-	if _, ok := storage.data[id]; ok {
-		storage.data[id] = &newEntity
-		return *storage.data[id], nil
+	config.ID = id
+	storage.data[id] = &entityRest{
+		Config: config,
 	}
-	return restEntry{}, fmt.Errorf("restEntry '%s' not found", id)
+	return storage.data[id].Config
 }
 
-func (storage *restStorage) Delete(id string) error {
-	if _, ok := storage.data[id]; ok {
-		delete(storage.data, id)
-		return nil
+func (storage *restStorage) Get(id string) (EndpointRestDto, error) {
+	if entry, ok := storage.data[id]; ok {
+		return entry.Config, nil
 	}
-	return fmt.Errorf("restEntry '%s' not found", id)
+	return EndpointRestDto{}, fmt.Errorf("Rest configuration with id=%s not found", id)
 }
 
-func (storage *restStorage) DeleteAll() {
-	storage.data = make(map[string]*restEntry)
+func (storage *restStorage) GetAll() []EndpointRestDto {
+	configs := make([]EndpointRestDto, len(storage.data))
+	i := 0
+	for k := range storage.data {
+		configs[i] = storage.data[k].Config
+		i++
+	}
+	sort.Slice(configs, func(i, j int) bool {
+		return configs[i].ID < configs[j].ID
+	})
+	return configs
+}
+
+func (storage *restStorage) FindByRequest(r *http.Request) (EndpointRestDto, error) {
+	var filtered []entityRest
+	for _, entity := range storage.data {
+		if IsEqual(*entity, r) {
+			filtered = append(filtered, *entity)
+		}
+	}
+	count := len(filtered)
+	if count == 0 {
+		return EndpointRestDto{}, errors.New("No Entity Found")
+	} else if count > 1 {
+		sort.Slice(filtered, func(i, j int) bool {
+			return Compare(filtered[i].Config.Request, filtered[j].Config.Request)
+		})
+	}
+	return filtered[0].Config, nil
 }
 
 func (storage *restStorage) Size() int {

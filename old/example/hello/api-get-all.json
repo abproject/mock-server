@@ -1,0 +1,17 @@
+[
+  {
+    "id": "${unique-id}",
+    "request": {
+      "method": "GET",
+      "path": "hello",
+      "pathReg": "",
+      "headers": {}
+    },
+    "response": {
+      "body": "Hello, World!",
+      "file": "",
+      "status": 200,
+      "headers": {}
+    }
+  }
+]

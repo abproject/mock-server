@@ -3,12 +3,13 @@ package testing
 import (
 	"bytes"
 	"encoding/json"
-	. "github.com/abproject/mock-server/internal_/router"
 	"io"
 	"net/http/httptest"
 	"reflect"
 	"strings"
 	"testing"
+
+	. "github.com/abproject/mock-server/internal_/router"
 )
 
 type HttpTestCase struct {
@@ -19,9 +20,9 @@ type HttpTestCase struct {
 	ExpectedStatus  int
 	ExpectedBody    string
 	ExpectedHeaders map[string]string
-	realStatus  int
-	realBody    string
-	realHeaders map[string]string
+	realStatus      int
+	realBody        string
+	realHeaders     map[string]string
 }
 
 func RunCases(name string, tests *[]HttpTestCase, t *testing.T) {
@@ -56,7 +57,7 @@ func doRequest(testCase *HttpTestCase) {
 	testCase.realBody = string(body)
 	headers := make(map[string]string)
 	for headerKey, headerValues := range res.Header {
-		headers[headerKey] = strings.Join(headerValues[:],",")
+		headers[headerKey] = strings.Join(headerValues[:], ",")
 	}
 	testCase.realHeaders = headers
 	if testCase.ExpectedHeaders == nil {

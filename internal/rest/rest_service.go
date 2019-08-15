@@ -2,86 +2,90 @@ package rest
 
 import (
 	"net/http"
-	"sync"
+	"regexp"
+	"strings"
 )
 
-var instanceService iRestService
-var onceService sync.Once
+// IsEqual compares Storage Entity with http.Request
+func IsEqual(entity entityRest, r *http.Request) bool {
+	request := entity.Config.Request
 
-type iRestService interface {
-	Add(dto EndpointRestDto) (EndpointOutRestDto, error)
-	Get(id string) (EndpointOutRestDto, error)
-	GetAll() []EndpointOutRestDto
-	Update(id string, dto EndpointRestDto) (EndpointOutRestDto, error)
-	Delete(id string) error
-	DeleteAll()
-	FindEndpoint(r *http.Request) (responseRestParsed, error)
-	setStorage(storage iRestStorage)
-}
-
-type restService struct {
-	storage iRestStorage
-}
-
-func GetService() iRestService {
-	onceService.Do(func() {
-		instanceService = newService()
-	})
-	return instanceService
-}
-
-func newService() iRestService {
-	return &restService{
-		storage: GetStorage(),
+	method := strings.ToUpper(request.Method)
+	if method != "" && method != strings.ToUpper(r.Method) {
+		return false
 	}
-}
 
-func (service *restService) Add(dto EndpointRestDto) (EndpointOutRestDto, error) {
-	endpoint, err := service.parse(dto)
-	if err != nil {
-		return EndpointOutRestDto{}, err
+	if request.PathReg != "" {
+		var isMatch, _ = regexp.MatchString(request.PathReg, r.RequestURI)
+		if !isMatch {
+			return false
+		}
+	} else {
+		var path = request.Path
+		if len(path) == 0 || path[0] != '/' {
+			path = "/" + path
+		}
+		if strings.ToUpper(path) != strings.ToUpper(r.RequestURI) {
+			return false
+		}
 	}
-	entry := restEntry{
-		config:   dto,
-		endpoint: endpoint,
+
+	if len(request.Headers) > 0 {
+		var httpHeaders = make(map[string][]string)
+		for headerKey, headers := range r.Header {
+			httpHeaders[strings.ToUpper(headerKey)] = headers
+		}
+
+		for headerKey, headers := range request.Headers {
+			splitHeaders := strings.Split(headers, ";")
+			for _, headerValue := range splitHeaders {
+				var key = strings.ToUpper(headerKey)
+				if !contains(httpHeaders[key], headerValue) {
+					return false
+				}
+			}
+		}
 	}
-	id, entry := service.storage.Add(entry)
-	result := service.mapEntryToEndpointOut(id, entry)
-	return result, nil
+
+	return true
 }
 
-func (service *restService) Get(id string) (EndpointOutRestDto, error) {
-	panic("implement me")
+// Compare requests for sorting
+func Compare(request1 RequestRestDto, request2 RequestRestDto) bool {
+	if request1.Method != "" && request2.Method == "" {
+		return true
+	} else if request1.Method == "" && request2.Method != "" {
+		return false
+	}
+
+	var requestHeadersAmount = 0
+	for _, headers := range request1.Headers {
+		requestHeadersAmount += len(strings.Split(headers, ";"))
+	}
+	var otherRequestHeadersAmount = 0
+	for _, headers := range request2.Headers {
+		otherRequestHeadersAmount += len(strings.Split(headers, ";"))
+	}
+
+	if requestHeadersAmount > otherRequestHeadersAmount {
+		return true
+	} else if requestHeadersAmount < otherRequestHeadersAmount {
+		return false
+	}
+
+	if request1.PathReg == "" {
+		return true
+	} else if request2.PathReg == "" {
+		return false
+	}
+	return true
 }
 
-func (service *restService) GetAll() []EndpointOutRestDto {
-	panic("implement me")
-}
-
-func (service *restService) Update(id string, endpoint EndpointRestDto) (EndpointOutRestDto, error) {
-	panic("implement me")
-}
-
-func (service *restService) Delete(id string) error {
-	panic("implement me")
-}
-
-func (service *restService) DeleteAll() {
-	panic("implement me")
-}
-
-func (service *restService) FindEndpoint(r *http.Request) (responseRestParsed, error) {
-	panic("implement me")
-}
-
-func (service *restService) setStorage(storage iRestStorage) {
-	service.storage = storage
-}
-
-func (service *restService) parse(endpoint EndpointRestDto) (endpointRestParsed, error) {
-	return endpointRestParsed{}, nil
-}
-
-func (service *restService) mapEntryToEndpointOut(id string, entry restEntry) EndpointOutRestDto {
-	return EndpointOutRestDto{}
+func contains(array []string, value string) bool {
+	for _, n := range array {
+		if value == n {
+			return true
+		}
+	}
+	return false
 }

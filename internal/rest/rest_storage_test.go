@@ -2,143 +2,79 @@ package rest
 
 import (
 	"reflect"
+	"sort"
 	"testing"
 )
 
-func TestRestStorageSingleton(t *testing.T) {
-	storage1 := GetStorage()
-	storage2 := GetStorage()
-	if storage1 != storage2 {
-		t.Errorf("Storage must be singletone")
-	}
-}
-
 func TestRestStorageNotSingleton(t *testing.T) {
-	storage1 := newStorage()
-	storage2 := newStorage()
+	storage1 := MakeStorage()
+	storage2 := MakeStorage()
 	if storage1 == storage2 {
 		t.Errorf("Storage must not be singletone")
 	}
 }
 
 func TestRestStorageAdd(t *testing.T) {
-	storage := newStorage()
-	entity := getEntry()
+	storage := MakeStorage()
+	config := getEndpointRestDto()
 
-	id, _ := storage.Add(entity)
+	actual := storage.Add(config)
 
-	if id == "" {
+	if actual.ID == "" {
 		t.Errorf("Id must be defined")
 	}
+	config.ID = actual.ID
+	if !reflect.DeepEqual(config, actual) {
+		t.Errorf("Must Be Equal:\nExpected: %+v\nActual: %+v", config, actual)
+	}
+}
+
+func TestRestStorageAddOnlyOneEntry(t *testing.T) {
+	storage := MakeStorage()
+	config := getEndpointRestDto()
+
+	storage.Add(config)
+
 	size := storage.Size()
 	if size != 1 {
 		t.Errorf("Storage size must be %d but was %d", 1, size)
 	}
 }
 
-func TestRestStorageAddSameEntityTwice(t *testing.T) {
-	storage := newStorage()
-	entity := getEntry()
+func TestRestStorageAddWhenIdProvided(t *testing.T) {
+	storage := MakeStorage()
+	config := getEndpointRestDto()
+	config.ID = "my-id"
 
-	id1, _ := storage.Add(entity)
-	id2, _ := storage.Add(entity)
+	actual := storage.Add(config)
 
-	storageEntity1, err := storage.Get(id1)
-	if err != nil {
-		t.Errorf(err.Error())
-	}
-	storageEntity2, err := storage.Get(id2)
-	if err != nil {
-		t.Errorf(err.Error())
-	}
-	if !reflect.DeepEqual(entity, storageEntity1) {
-		t.Errorf(`
-Values must be equal
-Expected: %+v
-Stored:	  %+v`,
-			entity, storageEntity1)
-	}
-	if !reflect.DeepEqual(entity, storageEntity2) {
-		t.Errorf(`
-Values must be equal
-Expected: %+v
-Stored:	  %+v`,
-			entity, storageEntity2)
-	}
-	if id1 == id2 {
-		t.Errorf("Id must be unique, %s != %s", id1, id2)
-	}
-	size := storage.Size()
-	if size != 2 {
-		t.Errorf("Storage size must be %d but was %d", 2, size)
-	}
-}
-
-func TestRestStorageAddParameterChangeNotEffectStorage(t *testing.T) {
-	storage := newStorage()
-	entity := getEntry()
-	id, storageEntity := storage.Add(entity)
-
-	entity.config.Response.Body = "new-body"
-
-	storageEntityAgain, err := storage.Get(id)
-	if err != nil {
-		t.Errorf(err.Error())
-	}
-	if entity.config.Response.Body == storageEntity.config.Response.Body {
-		t.Errorf("Parameter must not change the storage: %s", storageEntity.config.Response.Body)
-	}
-	if entity.config.Response.Body == storageEntityAgain.config.Response.Body {
-		t.Errorf("Parameter must not change the storage: %s", storageEntityAgain.config.Response.Body)
-	}
-}
-
-func TestRestStorageAddReturnChangeNotEffectStorage(t *testing.T) {
-	storage := newStorage()
-	entity := getEntry()
-	id, storageEntity := storage.Add(entity)
-
-	storageEntity.config.Response.Body = "new-body"
-
-	storageEntityAgain, err := storage.Get(id)
-	if err != nil {
-		t.Errorf(err.Error())
-	}
-	if storageEntity.config.Response.Body == storageEntityAgain.config.Response.Body {
-		t.Errorf("Parameter must not change the storage: %s", storageEntityAgain.config.Response.Body)
+	if actual.ID == config.ID {
+		t.Errorf("Id must be overriden")
 	}
 }
 
 func TestRestStorageGet(t *testing.T) {
-	storage := newStorage()
-	entity := getEntry()
-	id, _ := storage.Add(entity)
+	storage := MakeStorage()
+	config := getEndpointRestDto()
+	actual := storage.Add(config)
 
-	storageEntity, err := storage.Get(id)
+	actualAgain, err := storage.Get(actual.ID)
 
 	if err != nil {
 		t.Errorf(err.Error())
 	}
-	if !reflect.DeepEqual(entity, storageEntity) {
-		t.Errorf(`
-Values must be equal
-Expected: %+v
-Stored:	  %+v`,
-			entity, storageEntity)
-	}
-	size := storage.Size()
-	if size != 1 {
-		t.Errorf("Storage size must be %d but was %d", 1, size)
+	if !reflect.DeepEqual(actual, actualAgain) {
+		t.Errorf("Storage entry must be the same:\nBefore: %+v\nAfter: %+v", actual, actualAgain)
 	}
 }
 
-func TestRestStorageGetSameId(t *testing.T) {
-	storage := newStorage()
-	entity := getEntry()
-	id, _ := storage.Add(entity)
+func TestRestStorageGetWhenSameId(t *testing.T) {
+	storage := MakeStorage()
+	config := getEndpointRestDto()
+	actual := storage.Add(config)
 
-	storageEntity1, err1 := storage.Get(id)
-	storageEntity2, err2 := storage.Get(id)
+	actualAgain1, err1 := storage.Get(actual.ID)
+	actualAgain2, err2 := storage.Get(actual.ID)
 
 	if err1 != nil {
 		t.Errorf(err1.Error())
@@ -146,265 +82,104 @@ func TestRestStorageGetSameId(t *testing.T) {
 	if err2 != nil {
 		t.Errorf(err2.Error())
 	}
-	if !reflect.DeepEqual(storageEntity1, storageEntity2) {
-		t.Errorf(`
-Values must be equal
-Expected: %+v
-Stored:	  %+v`,
-			entity, storageEntity1)
-	}
-	size := storage.Size()
-	if size != 1 {
-		t.Errorf("Storage size must be %d but was %d", 1, size)
+	if !reflect.DeepEqual(actualAgain1, actualAgain2) {
+		t.Errorf("Storage entry must be the same:\nBefore: %+v\nAfter: %+v", actualAgain1, actualAgain2)
 	}
 }
 
-func TestRestStorageGetThrowsWhenGivenBadId(t *testing.T) {
-	storage := newStorage()
+func TestRestStorageGetReturnErrorWhenGivenBadId(t *testing.T) {
+	storage := MakeStorage()
 
 	_, err := storage.Get("wrong-id")
 
-	expectedError := "restEntry 'wrong-id' not found"
+	expectedError := "Rest configuration with id=wrong-id not found"
 	if err.Error() != expectedError {
-		t.Errorf(`
-Expected error: %v
-Actual error:   %v`,
-			expectedError, err)
+		t.Errorf("Expected error: %v\nActual error: %v", expectedError, err)
 	}
 }
 
-func TestRestStorageGetReturnChangeNotEffectStorage(t *testing.T) {
-	storage := newStorage()
-	entity := getEntry()
-	id, _ := storage.Add(entity)
-	storageEntity, err := storage.Get(id)
-	if err != nil {
-		t.Errorf(err.Error())
-	}
+func TestRestStorageWhenParameterChangedNoEffectOnStorage(t *testing.T) {
+	storage := MakeStorage()
+	config := getEndpointRestDto()
+	actual := storage.Add(config)
 
-	storageEntity.config.Response.Body = "new-body"
+	config.Response.Body = "new-body"
 
-	storageEntityAgain, err := storage.Get(id)
-	if err != nil {
-		t.Errorf(err.Error())
+	config.ID = actual.ID
+	actualAgain, _ := storage.Get(actual.ID)
+	if !reflect.DeepEqual(actual, actualAgain) {
+		t.Errorf("Storage entry must be the same:\nBefore: %+v\nAfter: %+v", actual, actualAgain)
 	}
-	if storageEntity.config.Response.Body == storageEntityAgain.config.Response.Body {
-		t.Errorf("Parameter must not change the storage: %s", storageEntity.config.Response.Body)
+	if reflect.DeepEqual(config, actualAgain) {
+		t.Errorf("Change in config must not effect storage:\nConfig: %+v\nStorage: %+v", config, actualAgain)
+	}
+}
+
+func TestRestStorageWhenReturnChangedNoEffectOnStorage(t *testing.T) {
+	storage := MakeStorage()
+	config := getEndpointRestDto()
+	actual := storage.Add(config)
+
+	actual.Response.Body = "new-body"
+
+	actualAgain, _ := storage.Get(actual.ID)
+	if reflect.DeepEqual(actual, actualAgain) {
+		t.Errorf("Storage entry must be the same:\nBefore: %+v\nAfter: %+v", actual, actualAgain)
 	}
 }
 
 func TestRestStorageGetAll(t *testing.T) {
-	storage := newStorage()
-	entity := getEntry()
-	id1, _ := storage.Add(entity)
-	id2, _ := storage.Add(entity)
+	storage := MakeStorage()
+	config := getEndpointRestDto()
+	actual1 := storage.Add(config)
+	actual2 := storage.Add(config)
+	expected := []EndpointRestDto{actual1, actual2}
+	sort.Slice(expected, func(i, j int) bool {
+		return expected[i].ID < expected[j].ID
+	})
 
-	entities := storage.GetAll()
+	configs := storage.GetAll()
 
-	if !reflect.DeepEqual(&entity, entities[id1]) {
-		t.Errorf(`
-Values must be equal
-Expected: %+v
-Stored:	  %+v`,
-			entity, entities[id1])
-	}
-	if !reflect.DeepEqual(&entity, entities[id2]) {
-		t.Errorf(`
-Values must be equal
-Expected: %+v
-Stored:	  %+v`,
-			entity, entities[id2])
-	}
-	size := len(entities)
-	if size != 2 {
-		t.Errorf("Storage size must be %d but was %d", 2, size)
+	if !reflect.DeepEqual(expected, configs) {
+		t.Errorf("Must be the same:\nExpected: %+v\nActual: %+v", expected, configs)
 	}
 }
 
-func TestRestStorageGetAllReturnChangeNotEffectStorage(t *testing.T) {
-	storage := newStorage()
-	entity := getEntry()
-	id1, _ := storage.Add(entity)
-	id2, _ := storage.Add(entity)
-	entities := storage.GetAll()
+func TestRestStorageGetAllWhenReturnChangedNoEffectOnStorage(t *testing.T) {
+	storage := MakeStorage()
+	config := getEndpointRestDto()
+	storage.Add(config)
+	storage.Add(config)
+	actual := storage.GetAll()
 
-	entities[id1].config.Response.Body = "new-body"
-	entities[id2].config.Response.Body = "new-body-2"
+	actual[0].Response.Body = "new-body"
+	actual[1].Response.Body = "new-body-2"
 
-	entitiesAgain := storage.GetAll()
-	if entities[id1].config.Response.Body == entitiesAgain[id1].config.Response.Body {
-		t.Errorf("Parameter must not change the storage: %s", entitiesAgain[id1].config.Response.Body)
-	}
-	if entities[id2].config.Response.Body == entitiesAgain[id2].config.Response.Body {
-		t.Errorf("Parameter must not change the storage: %s", entitiesAgain[id2].config.Response.Body)
+	actualAgain := storage.GetAll()
+	if reflect.DeepEqual(actual, actualAgain) {
+		t.Errorf("Storage msut be immutable:\nBefore: %+v\nAfter: %+v", actual, actualAgain)
 	}
 }
 
-func TestRestStorageUpdate(t *testing.T) {
-	storage := newStorage()
-	entity := getEntry()
-	id, _ := storage.Add(entity)
-	entity.config.Response.Body = "new-body"
-
-	storageEntity, err := storage.Update(id, entity)
-
-	if err != nil {
-		t.Errorf(err.Error())
-	}
-	if !reflect.DeepEqual(entity, storageEntity) {
-		t.Errorf(`
-Values must be equal
-Expected: %+v
-Stored:	  %+v`,
-			entity, storageEntity)
-	}
-	size := storage.Size()
-	if size != 1 {
-		t.Errorf("Storage size must be %d but was %d", 1, size)
-	}
-}
-
-func TestRestStorageUpdateThrowsWhenGivenWrongId(t *testing.T) {
-	storage := newStorage()
-	entity := getEntry()
-
-	_, err := storage.Update("wrong-id", entity)
-
-	expectedError := "restEntry 'wrong-id' not found"
-	if err.Error() != expectedError {
-		t.Errorf(`
-Expected error: %v
-Actual error:   %v`,
-			expectedError, err)
-	}
-}
-
-func TestRestStorageUpdateParameterChangeNotEffectStorage(t *testing.T) {
-	storage := newStorage()
-	baseEntity := getEntry()
-	id, _ := storage.Add(baseEntity)
-	entity := getEntry()
-	entity.config.Response.Body = "new-body"
-	_, err := storage.Update(id, entity)
-	if err != nil {
-		t.Errorf(err.Error())
-	}
-
-	entity.config.Response.Body = "some-new-body"
-
-	storageEntity, err := storage.Get(id)
-	if err != nil {
-		t.Errorf(err.Error())
-	}
-	if entity.config.Response.Body == storageEntity.config.Response.Body {
-		t.Errorf("Parameter must not change the storage: %s", storageEntity.config.Response.Body)
-	}
-}
-
-func TestRestStorageUpdateReturnChangeNotEffectStorage(t *testing.T) {
-	storage := newStorage()
-	baseEntity := getEntry()
-	id, _ := storage.Add(baseEntity)
-	entity := getEntry()
-	entity.config.Response.Body = "new-body"
-	storageEntity, err := storage.Update(id, entity)
-	if err != nil {
-		t.Errorf(err.Error())
-	}
-
-	storageEntity.config.Response.Body = "some-new-body"
-
-	storageEntityAgain, err := storage.Get(id)
-	if err != nil {
-		t.Errorf(err.Error())
-	}
-	if storageEntity.config.Response.Body == storageEntityAgain.config.Response.Body {
-		t.Errorf("Parameter must not change the storage: %s", storageEntity.config.Response.Body)
-	}
-}
-
-func TestRestStorageDelete(t *testing.T) {
-	storage := newStorage()
-	entity := getEntry()
-	id, _ := storage.Add(entity)
-
-	err := storage.Delete(id)
-
-	if err != nil {
-		t.Errorf(err.Error())
-	}
-	size := storage.Size()
-	if size != 0 {
-		t.Errorf("Storage size must be %d but was %d", 0, size)
-	}
-}
-
-func TestRestStorageDeleteThrowsWhenGivenWrongId(t *testing.T) {
-	storage := newStorage()
-
-	err := storage.Delete("wrong-id")
-
-	expectedError := "restEntry 'wrong-id' not found"
-	if err.Error() != expectedError {
-		t.Errorf(`
-Expected error: %v
-Actual error:   %v`,
-			expectedError, err)
-	}
-}
-
-func TestRestStorageDeleteAll(t *testing.T) {
-	storage := newStorage()
-	entity := getEntry()
-	storage.Add(entity)
-
-	storage.DeleteAll()
-
-	size := storage.Size()
-	if size != 0 {
-		t.Errorf("Storage size must be %d but was %d", 0, size)
-	}
-}
-
-func getEntry() restEntry {
-	return restEntry{
-		config: EndpointRestDto{
-			Request: RequestRestDto{
-				Method:  "method",
-				Path:    "path",
-				PathReg: "path-reg",
-				Headers: map[string]string{
-					"header-request-1": "header-request-value-1",
-					"header-request-2": "header-request-value-2",
-				},
+func getEndpointRestDto() EndpointRestDto {
+	return EndpointRestDto{
+		ID: "",
+		Request: RequestRestDto{
+			Method:  "method",
+			Path:    "path",
+			PathReg: "path-reg",
+			Headers: map[string]string{
+				"header-request-1": "header-request-value-1",
+				"header-request-2": "header-request-value-2",
 			},
-			Response: ResponseRestDto{
-				Body:   "body",
-				File:   "file",
-				Status: 200,
-				Headers: map[string]string{
-					"header-response-1": "header-response-value-1",
-					"header-response-2": "header-response-value-2",
-				},
-			},
-		}, endpoint: endpointRestParsed{
-			request: requestRestParsed{
-				method:    "method",
-				path:      "path",
-				isPathReg: true,
-				headers: map[string][]string{
-					"header-request-1": {"header-request-value-1"},
-					"header-request-2": {"header-request-value-2"},
-				},
-			},
-			response: responseRestParsed{
-				body:   "body",
-				file:   []byte("file"),
-				status: 200,
-				headers: map[string]string{
-					"header-response-1": "header-response-value-1",
-					"header-response-2": "header-response-value-2",
-				},
+		},
+		Response: ResponseRestDto{
+			Body:   "body",
+			File:   "file",
+			Status: 200,
+			Headers: map[string]string{
+				"header-response-1": "header-response-value-1",
+				"header-response-2": "header-response-value-2",
 			},
 		},
 	}

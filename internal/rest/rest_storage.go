@@ -13,6 +13,9 @@ import (
 type StorageRest interface {
 	Add(config EndpointRestDto) EndpointRestDto
 	Get(id string) (EndpointRestDto, error)
+	Put(id string, config EndpointRestDto) (EndpointRestDto, error)
+	Delete(id string) error
+	DeleteAll()
 	GetAll() []EndpointRestDto
 	FindByRequest(r *http.Request) (EndpointRestDto, error)
 	Size() int
@@ -39,6 +42,25 @@ func (storage *restStorage) Get(id string) (EndpointRestDto, error) {
 		return entry.Config, nil
 	}
 	return EndpointRestDto{}, fmt.Errorf("Rest configuration with id=%s not found", id)
+}
+
+func (storage *restStorage) Put(id string, config EndpointRestDto) (EndpointRestDto, error) {
+	if _, ok := storage.data[id]; ok {
+		config.ID = id
+		storage.data[id] = &entityRest{
+			Config: config,
+		}
+		return storage.data[id].Config, nil
+	}
+	return EndpointRestDto{}, fmt.Errorf("Rest configuration with id=%s not found", id)
+}
+
+func (storage *restStorage) Delete(id string) error {
+	if _, ok := storage.data[id]; ok {
+		delete(storage.data, id)
+		return nil
+	}
+	return fmt.Errorf("Rest configuration with id=%s not found", id)
 }
 
 func (storage *restStorage) GetAll() []EndpointRestDto {
@@ -70,6 +92,10 @@ func (storage *restStorage) FindByRequest(r *http.Request) (EndpointRestDto, err
 		})
 	}
 	return filtered[0].Config, nil
+}
+
+func (storage *restStorage) DeleteAll() {
+	storage.data = make(map[string]*entityRest)
 }
 
 func (storage *restStorage) Size() int {

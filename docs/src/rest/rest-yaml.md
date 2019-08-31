@@ -1,4 +1,4 @@
-# [mock-server](../README.md): REST JSON
+# [mock-server](../README.md): REST YAML
 
 !TOC
 

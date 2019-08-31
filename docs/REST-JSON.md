@@ -1,10 +1,10 @@
-# [mock-server](../README.md): REST YAML
+# [mock-server](../README.md): REST JSON
 
 1\.  [Endpoint](#endpoint)  
 1.1\.  [Endpoint Config Example](#endpointconfigexample)  
 1.2\.  [Endpoint Object](#endpointobject)  
-1.3\.  [Endpoint Response Object](#endpointresponseobject)  
-1.4\.  [Endpoint Request Object](#endpointrequestobject)  
+1.3\.  [Endpoint Request Object](#endpointrequestobject)  
+1.4\.  [Endpoint Response Object](#endpointresponseobject)  
 
 <a name="endpoint"></a>
 
@@ -43,15 +43,15 @@
 
 ### 1.2\. Endpoint Object
 
-| Field Name | Type                                                | Description                           |
-| ---------- | --------------------------------------------------- | ------------------------------------- |
-| `id`       | `string`                                            | Unique Endpoint ID. **Response only** |
-| `request`  | [Endpoint Request Object](#endpointrequestobject)   | Request configuration object          |
-| `response` | [Endpoint Response Object](#endpointresponseobject) | Response configuration object         |
+| Field Name | Type                                                | Description                                      |
+| ---------- | --------------------------------------------------- | ------------------------------------------------ |
+| `id`       | `string`                                            | Unique Endpoint ID. **Generates by mock-server** |
+| `request`  | [Endpoint Request Object](#endpointrequestobject)   | Request configuration object                     |
+| `response` | [Endpoint Response Object](#endpointresponseobject) | Response configuration object                    |
 
-<a name="endpointresponseobject"></a>
+<a name="endpointrequestobject"></a>
 
-### 1.3\. Endpoint Response Object
+### 1.3\. Endpoint Request Object
 
 | Field Name | Type                  | Description                                                                                                                              |
 | ---------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
@@ -60,9 +60,9 @@
 | `pathReg`  | `string`              | Request Endpoint path as regular expression. If `pathReg` value is not empty then `path` value is ignored. <br>**Default:** empty string |
 | `headers`  | `map<string, string>` | Request Key-Value pairs of headers, e.g., <br> `"Content-Type": "application/json"` <br>**Default:** `null`                              |
 
-<a name="endpointrequestobject"></a>
+<a name="endpointresponseobject"></a>
 
-### 1.4\. Endpoint Request Object
+### 1.4\. Endpoint Response Object
 
 | Field Name | Type                  | Description                                                                                                                            |
 | ---------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |

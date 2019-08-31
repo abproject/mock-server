@@ -13,9 +13,9 @@
 2.2\.  [JSON](#json)  
 2.3\.  [API](#api)  
 3\.  [Rest](#rest)  
-3.1\.  [API](#api-1)  
-3.2\.  [YAML](#yaml-1)  
-3.3\.  [JSON](#json-1)  
+3.1\.  [YAML](#yaml-1)  
+3.2\.  [JSON](#json-1)  
+3.3\.  [API](#api-1)  
 
 <a name="prerequisites"></a>
 
@@ -197,14 +197,14 @@ Hello, World!
 
 ## 3\. Rest
 
-<a name="api-1"></a>
-
-### 3.1\. [API](docs/REST-API.md)
-
 <a name="yaml-1"></a>
 
-### 3.2\. [YAML](docs/REST-YAML.md)
+### 3.1\. [YAML](docs/REST-YAML.md)
 
 <a name="json-1"></a>
 
-### 3.3\. [JSON](docs/REST-JSON.md)
+### 3.2\. [JSON](docs/REST-JSON.md)
+
+<a name="api-1"></a>
+
+### 3.3\. [API](docs/REST-API.md)

@@ -13,7 +13,7 @@
 - [Config](#config)
   - [YAML](#config-yaml)
   - [JSON](#config-json)
-- [API](#api)
+- [API](#api-global)
   - [REST](#api-rest)
     - [Endpoint](#api-rest-endpoint)
       - [Description](#api-rest-endpoint-description)
@@ -160,7 +160,7 @@ Another way to get the same `Hello World` configuration without config file but 
 
 ##### <a name="config-json"></a>JSON
 
-## API
+## <a name="api-global"></a>API
 
 #### <a name="api-rest"></a>REST
 
@@ -248,3 +248,5 @@ Another way to get the same `Hello World` configuration without config file but 
 | `bodyFile` | `string`              | Response will be content of the file. If `bodyFile` value is not empty then `body` value is ignored. <br>**Default:** empty string |
 | `status`   | `integer`             | Response HTTP status code. <br>**Default:** `0`                                                                                    |
 | `headers`  | `map<string, string>` | Response Key-Value pairs of headers, e.g., <br> `"Content-Type": "application/json"` <br>**Default:** `null`                       |
+
+## Examples

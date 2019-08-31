@@ -19,8 +19,8 @@
 
 ## Rest
 
-### [API](docs/REST-API.md)
-
 ### [YAML](docs/REST-YAML.md)
 
 ### [JSON](docs/REST-JSON.md)
+
+### [API](docs/REST-API.md)

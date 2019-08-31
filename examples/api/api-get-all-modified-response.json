@@ -1,6 +1,6 @@
 [
   {
-    "id": "${unique-id}",
+    "id": ":id",
     "request": {
       "method": "GET",
       "path": "hello-new",
@@ -10,7 +10,7 @@
     "response": {
       "status": 200,
       "body": "Hello, New World!",
-      "file": "",
+      "bodyFile": "",
       "headers": {
         "Content-Type": "text/html"
       }

@@ -1,5 +1,5 @@
 {
-  "id": "${unique-id}",
+  "id": ":id",
   "request": {
     "method": "GET",
     "path": "hello",
@@ -9,7 +9,7 @@
   "response": {
     "status": 200,
     "body": "Hello, World!",
-    "file": "",
+    "bodyFile": "",
     "headers": {
       "Content-Type": "text/html"
     }

@@ -96,11 +96,12 @@ func deleteHandler(c Context, w http.ResponseWriter, r *http.Request, id string)
 		notFoundHandler(c, w, r)
 		return
 	}
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusNoContent)
 }
 
 func deleteAllHandler(c Context, w http.ResponseWriter, r *http.Request) {
 	(*c.RestStorage).DeleteAll()
+	w.WriteHeader(http.StatusNoContent)
 }
 
 func notFoundHandler(c Context, w http.ResponseWriter, r *http.Request) {

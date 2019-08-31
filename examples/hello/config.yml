@@ -7,4 +7,4 @@ rest:
         status: 200
         body: Hello, World!
         headers:
-          'Content-Type': 'text/html'
+          Content-Type: text/html

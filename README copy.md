@@ -14,13 +14,6 @@
   - [YAML](#config-yaml)
   - [JSON](#config-json)
 - [API](#api)
-  - [REST](#api-rest)
-    - [Endpoint](#api-rest-endpoint)
-      - [Description](#api-rest-endpoint-description)
-      - [Endpoint Object](#api-rest-endpoint-object)
-      - [Endpoint Object Examples](#api-rest-endpoint-object-examples)
-      - [Endpoint Request Object](#api-rest-endpoint-request-object)
-      - [Endpoint Response Object](#api-rest-endpoint-response-object)
 - [Examples](#examples)
 
 ## Prerequisites
@@ -52,7 +45,7 @@
   docker run -p 4242:8000 -v ${PWD}/config.yml:/config.yml abezpalov/mock-server -file=config.yml
   ```
 
-- Check by opening in browser http://localhost:4242/hello or making `GET` request, e.g., with `curl`:
+- Check by opening in browser http://localhost:4242/hello or making `GET` request, e.g. with `curl`:
   ```bash
   curl -v http://localhost:4242/hello
   ```
@@ -103,3 +96,53 @@
   ```
 
 </details>
+
+#### <a name="hello-world-api"></a>API
+
+Another way to get the same `Hello World` configuration without config file but by using API requests only.
+
+- Run in terminal
+
+  ```bash
+  docker run -p 4242:8000 abezpalov/mock-server
+  ```
+
+- Make `POST` request to URL `http://localhost:4242/_api/rest/endpoint` with body:
+
+  ```json
+  {
+    "request": {
+      "method": "GET",
+      "path": "hello"
+    },
+    "response": {
+      "status": 200,
+      "body": "Hello, World!",
+      "headers": {
+        "Content-Type": "text/html"
+      }
+    }
+  }
+  ```
+
+- e.g. with `curl`:
+
+  ```bash
+  curl -X POST http://localhost:4242/_api/rest/endpoint \
+  -H "Content-Type: application/json" \
+  -d @- << EOF
+  {
+    "request": {
+      "method": "GET",
+      "path": "hello"
+    },
+    "response": {
+      "status": 200,
+      "body": "Hello, World!",
+      "headers": {
+        "Content-Type": "text/html"
+      }
+    }
+  }
+  EOF
+  ```

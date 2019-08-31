@@ -104,12 +104,6 @@
 
 </details>
 
-#### Config
-
-##### <a name="config-yaml"></a>YAML
-
-##### <a name="config-json"></a>JSON
-
 #### <a name="hello-world-api"></a>API
 
 Another way to get the same `Hello World` configuration without config file but by using API requests only.
@@ -159,6 +153,12 @@ Another way to get the same `Hello World` configuration without config file but 
   }
   EOF
   ```
+
+#### Config
+
+##### <a name="config-yaml"></a>YAML
+
+##### <a name="config-json"></a>JSON
 
 ## API
 

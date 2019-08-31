@@ -235,18 +235,18 @@ Another way to get the same `Hello World` configuration without config file but 
 
 | Field Name | Type                  | Description                                                                                                                              |
 | ---------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `method`   | `string`              | Method name, e.g., `GET`, `POST`, `DELETE`, `PUT`. <br>Empty string means all type of request. <br>**Default:** empty string             |
+| `method`   | `string`              | Method name, e.g., `GET`, `POST`, `DELETE`, `PUT`. <br>Empty string means all type of requests. <br>**Default:** empty string            |
 | `path`     | `string`              | Request Endpoint path, e.g., `/my-path`. <br>**Default:** empty string                                                                   |
 | `pathReg`  | `string`              | Request Endpoint path as regular expression. If `pathReg` value is not empty then `path` value is ignored. <br>**Default:** empty string |
 | `headers`  | `map<string, string>` | Request Key-Value pairs of headers, e.g., <br> `"Content-Type": "application/json"` <br>**Default:** `null`                              |
 
 ###### <a name="api-rest-endpoint-response-object"></a>Endpoint Response Object
 
-| Field Name | Type                  | Description                                                                                                                        |
-| ---------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `body`     | `any`                 | Response body, could be anything including JSON objects. <br>**Default:** empty string                                             |
-| `bodyFile` | `string`              | Response will be content of the file. If `bodyFile` value is not empty then `body` value is ignored. <br>**Default:** empty string |
-| `status`   | `integer`             | Response HTTP status code. <br>**Default:** `0`                                                                                    |
-| `headers`  | `map<string, string>` | Response Key-Value pairs of headers, e.g., <br> `"Content-Type": "application/json"` <br>**Default:** `null`                       |
+| Field Name | Type                  | Description                                                                                                                            |
+| ---------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `body`     | `any`                 | Response body could be type including JSON objects. <br>**Default:** empty string                                                      |
+| `bodyFile` | `string`              | Response body is the content of the file. If `bodyFile` value is not empty then `body` value is ignored. <br>**Default:** empty string |
+| `status`   | `integer`             | Response HTTP status code. <br>**Default:** `0`                                                                                        |
+| `headers`  | `map<string, string>` | Response Key-Value pairs of headers, e.g., <br> `"Content-Type": "application/json"` <br>**Default:** `null`                           |
 
 ## Examples

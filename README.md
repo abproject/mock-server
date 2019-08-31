@@ -36,18 +36,20 @@
           status: 200
           body: Hello, World!
           headers:
-            'Content-Type': 'text/html'
+            Content-Type: text/html
   ```
 
-- Run in terminal
+- Run in terminal:
 
   ```bash
   docker run -p 4242:8000 -v ${PWD}/config.yml:/config.yml abezpalov/mock-server -file=config.yml
   ```
 
-- Check by opening in browser http://localhost:4242/hello or making `GET` request, e.g. with `curl`
+- Check by opening in browser http://localhost:4242/hello or making `GET` request, e.g. with `curl`:
   ```bash
   curl -v http://localhost:4242/hello
+  ```
+  ```bash
   # Response
   ...
   < HTTP/1.1 200 OK
@@ -60,7 +62,7 @@
 
 <details>
 <summary>
-  <b>CLICK HERE</b> If you prefer JSON over YML
+  <b>CLICK HERE</b> If you prefer JSON over YAML
 </summary>
 
 - Create file `config.yml` with content:
@@ -87,7 +89,7 @@
   }
   ```
 
-- Run in terminal
+- Run in terminal:
 
   ```bash
   docker run -p 4242:8000 -v ${PWD}/config.json:/config.json abezpalov/mock-server -file=config.json
@@ -97,7 +99,7 @@
 
 #### <a name="hello-world-api"></a>API
 
-It is possible to configure the server after starting by using API calls.
+Another way to get the same `Hello World` configuration without config file but by using API requests only.
 
 - Run in terminal
 
@@ -105,7 +107,7 @@ It is possible to configure the server after starting by using API calls.
   docker run -p 4242:8000 abezpalov/mock-server
   ```
 
-- Make `POST` request to URL `http://localhost:4242/_api/rest/endpoint` with body
+- Make `POST` request to URL `http://localhost:4242/_api/rest/endpoint` with body:
 
   ```json
   {
@@ -123,7 +125,7 @@ It is possible to configure the server after starting by using API calls.
   }
   ```
 
-- e.g with `curl`
+- e.g. with `curl`:
 
   ```bash
   curl -X POST http://localhost:4242/_api/rest/endpoint \

@@ -245,9 +245,9 @@ func getEndpointRestDto() EndpointRestDto {
 			},
 		},
 		Response: ResponseRestDto{
-			Body:   "body",
-			File:   "file",
-			Status: 200,
+			Body:     "body",
+			BodyFile: "file",
+			Status:   200,
 			Headers: map[string]string{
 				"header-response-1": "header-response-value-1",
 				"header-response-2": "header-response-value-2",

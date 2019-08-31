@@ -22,8 +22,8 @@ type RequestRestDto struct {
 
 // ResponseRestDto Rest Response Data Transfer Object
 type ResponseRestDto struct {
-	Body    string            `json:"body" yaml:"body"`
-	File    string            `json:"file" yaml:"file"`
-	Status  int               `json:"status" yaml:"status"`
-	Headers map[string]string `json:"headers" yaml:"headers"`
+	Body     string            `json:"body" yaml:"body"`
+	BodyFile string            `json:"bodyFile" yaml:"bodyFile"`
+	Status   int               `json:"status" yaml:"status"`
+	Headers  map[string]string `json:"headers" yaml:"headers"`
 }

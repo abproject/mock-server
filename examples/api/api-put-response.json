@@ -8,7 +8,7 @@
   "response": {
     "status": 200,
     "body": "Hello, New World!",
-    "file": "",
+    "bodyFile": "",
     "headers": {
       "Content-Type": "text/html"
     }

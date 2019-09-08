@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/abproject/mock-server/internal/file"
+
 	"github.com/abproject/mock-server/internal/rest"
 )
 
@@ -12,6 +14,7 @@ import (
 type Context struct {
 	Logger      *log.Logger
 	RestStorage *rest.StorageRest
+	FileStorage *file.StorageFile
 }
 
 // Router Router
@@ -39,11 +42,26 @@ func (router *Router) Route(w http.ResponseWriter, r *http.Request) {
 		// API
 		// REST
 		if strings.HasPrefix(r.RequestURI, "/_api/rest") {
-			RouteAPI(*router.context, w, r)
+			RouteRestAPI(*router.context, w, r)
+		}
+		if strings.HasPrefix(r.RequestURI, "/_api/file") {
+			RouteFileAPI(*router.context, w, r)
 		}
 		// ...
 	} else {
 		// Mock
 		RouteMock(*router.context, w, r)
 	}
+}
+
+func notFoundHandler(c Context, w http.ResponseWriter, r *http.Request) {
+	c.Logger.Printf("API Endpoint Not Found\nURI: %s\nMethod: %s", r.RequestURI, r.Method)
+	w.Header().Set("Content-Type", "text/html")
+	w.WriteHeader(http.StatusNotFound)
+}
+
+func errorHandler(w http.ResponseWriter, err error) {
+	w.Header().Set("Content-Type", "text/html")
+	w.WriteHeader(http.StatusBadRequest)
+	w.Write([]byte(err.Error()))
 }

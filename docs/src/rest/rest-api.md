@@ -23,11 +23,11 @@
 
 **Request:**
 
-!INCLUDECODE "examples/api/api-post-request.json" (json)
+!INCLUDECODE "examples/api-rest/api-post-request.json" (json)
 
 **Response:**
 
-!INCLUDECODE "examples/api/api-post-response.json" (json)
+!INCLUDECODE "examples/api-rest/api-post-response.json" (json)
 
 !INCLUDE "docs/src/rest/rest-endpoint.md", 2
 

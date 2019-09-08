@@ -52,7 +52,7 @@ func configureAPIWithEntry(t *testing.T) (router.IRouter, string) {
 	return router, configureBody.ID
 }
 
-func TestApiPostE2E(t *testing.T) {
+func TestApiRestPostE2E(t *testing.T) {
 	router := configureAPI(t)
 	testCase := test.RestAPTestCaseFactory(t)
 	testCases := []test.RestAPITestCase{
@@ -76,7 +76,7 @@ func TestApiPostE2E(t *testing.T) {
 	}
 }
 
-func TestApiGetAllE2E(t *testing.T) {
+func TestApiRestGetAllE2E(t *testing.T) {
 	router := configureAPI(t)
 	testCase := test.RestAPTestCaseFactory(t)
 	testCases := []test.RestAPITestCase{
@@ -100,7 +100,7 @@ func TestApiGetAllE2E(t *testing.T) {
 	}
 }
 
-func TestApiGetAllWithEntryE2E(t *testing.T) {
+func TestApiRestGetAllWithEntryE2E(t *testing.T) {
 	router, _ := configureAPIWithEntry(t)
 	testCase := test.RestAPTestCaseFactory(t)
 	testCases := []test.RestAPITestCase{
@@ -124,7 +124,7 @@ func TestApiGetAllWithEntryE2E(t *testing.T) {
 	}
 }
 
-func TestApiDeleteAllWithEntryE2E(t *testing.T) {
+func TestApiRestDeleteAllWithEntryE2E(t *testing.T) {
 	router, _ := configureAPIWithEntry(t)
 	testCase := test.RestAPTestCaseFactory(t)
 	testCases := []test.RestAPITestCase{
@@ -159,7 +159,7 @@ func TestApiDeleteAllWithEntryE2E(t *testing.T) {
 	}
 }
 
-func TestApiGetByIdWithEntryE2E(t *testing.T) {
+func TestApiRestGetByIdWithEntryE2E(t *testing.T) {
 	router, id := configureAPIWithEntry(t)
 	testCase := test.RestAPTestCaseFactory(t)
 	testCases := []test.RestAPITestCase{
@@ -183,7 +183,7 @@ func TestApiGetByIdWithEntryE2E(t *testing.T) {
 	}
 }
 
-func TestApiGetByWrongIdE2E(t *testing.T) {
+func TestApiRestGetByWrongIdE2E(t *testing.T) {
 	router := configureAPI(t)
 	testCase := test.RestAPTestCaseFactory(t)
 	testCases := []test.RestAPITestCase{
@@ -207,7 +207,7 @@ func TestApiGetByWrongIdE2E(t *testing.T) {
 	}
 }
 
-func TestApiPutByWithEntryE2E(t *testing.T) {
+func TestApiRestPutByWithEntryE2E(t *testing.T) {
 	router, id := configureAPIWithEntry(t)
 	testCase := test.RestAPTestCaseFactory(t)
 	testCases := []test.RestAPITestCase{
@@ -242,13 +242,13 @@ func TestApiPutByWithEntryE2E(t *testing.T) {
 	}
 }
 
-func TestApiPutByWrongIdE2E(t *testing.T) {
+func TestApiRestPutByWrongIdE2E(t *testing.T) {
 	router := configureAPI(t)
 	testCase := test.RestAPTestCaseFactory(t)
 	testCases := []test.RestAPITestCase{
 		testCase(
 			&test.RestAPITestCaseConfig{
-				Name:             "PUT by wronf ID should return error",
+				Name:             "PUT by wrong ID should return error",
 				Method:           "PUT",
 				Status:           404,
 				URI:              "/_api/rest/endpoint/wrong-id",
@@ -266,7 +266,7 @@ func TestApiPutByWrongIdE2E(t *testing.T) {
 	}
 }
 
-func TestApiDeleteByWithEntryE2E(t *testing.T) {
+func TestApiRestDeleteByWithEntryE2E(t *testing.T) {
 	router, id := configureAPIWithEntry(t)
 	testCase := test.RestAPTestCaseFactory(t)
 	testCases := []test.RestAPITestCase{
@@ -283,7 +283,7 @@ func TestApiDeleteByWithEntryE2E(t *testing.T) {
 			}),
 		testCase(
 			&test.RestAPITestCaseConfig{
-				Name:             "GET ALL Should return modified entries",
+				Name:             "GET ALL Should return empty entries",
 				Method:           "GET",
 				Status:           200,
 				URI:              "/_api/rest/endpoint",
@@ -301,7 +301,7 @@ func TestApiDeleteByWithEntryE2E(t *testing.T) {
 	}
 }
 
-func TestApiDeleteByWrongIdE2E(t *testing.T) {
+func TestApiRestDeleteByWrongIdE2E(t *testing.T) {
 	router := configureAPI(t)
 	testCase := test.RestAPTestCaseFactory(t)
 	testCases := []test.RestAPITestCase{

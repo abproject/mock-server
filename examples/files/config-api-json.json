@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "path": "hello-json"
+  },
+  "response": {
+    "status": 200,
+    "bodyFile": "<changed-to-id>",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

@@ -4,25 +4,32 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
+	"mime/multipart"
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"path/filepath"
 	"reflect"
 	"strings"
 	"testing"
+
+	"github.com/abproject/mock-server/internal/file"
+	"github.com/abproject/mock-server/internal/router"
 )
 
 // RestAPITestCaseConfig HTTP Test Case Config
 type RestAPITestCaseConfig struct {
-	Name             string
-	Method           string
-	Status           int
-	URI              string
-	RequestFile      string
-	ResponseFile     string
-	ExpectedResponse interface{}
-	ActualResponse   interface{}
+	Name                string
+	Method              string
+	Status              int
+	URI                 string
+	RequestFile         string
+	RequestFileIsSource bool
+	ResponseFile        string
+	ExpectedResponse    interface{}
+	ActualResponse      interface{}
 }
 
 // RestAPITestCase HTTP Test Case
@@ -50,13 +57,35 @@ func (testCase RestAPITestCase) TransformToHTTPResponseRequest() (*httptest.Resp
 		request := httptest.NewRequest(testCase.Method, testCase.URI, nil)
 		return response, request
 	}
+	requestFileGroupName := fmt.Sprintf("RequestFile: %s", testCase.RequestFile)
+	requestFileGroup := testCase.errorHolder.Group(requestFileGroupName)
 	file, err := os.Open(testCase.RequestFile)
 	if err != nil {
-		requestFileGroupName := fmt.Sprintf("RequestFile: %s", testCase.RequestFile)
-		requestFileGroup := testCase.errorHolder.Group(requestFileGroupName)
 		errorMessage := fmt.Sprintf("File open error:\n%+v", err)
 		requestFileGroup(errorMessage, 1)
 	}
+
+	if testCase.RequestFileIsSource {
+		var body bytes.Buffer
+		writer := multipart.NewWriter(&body)
+		part, err := writer.CreateFormFile("file", file.Name())
+		if err != nil {
+			errorMessage := fmt.Sprintf("File form error:\n%+v", err)
+			requestFileGroup(errorMessage, 1)
+		}
+		_, err = io.Copy(part, file)
+
+		err = writer.Close()
+		if err != nil {
+			errorMessage := fmt.Sprintf("File write error:\n%+v", err)
+			requestFileGroup(errorMessage, 1)
+		}
+
+		request := httptest.NewRequest(testCase.Method, testCase.URI, &body)
+		request.Header.Set("Content-Type", writer.FormDataContentType())
+		return response, request
+	}
+
 	request := httptest.NewRequest(testCase.Method, testCase.URI, file)
 	return response, request
 }
@@ -75,6 +104,42 @@ func (testCase *RestAPITestCase) AssertEquals(response *httptest.ResponseRecorde
 		t.Logf("\n%s\n%s\n%s\n", outline, name, outline)
 		testCase.errorHolder.Print(t)
 	}
+}
+
+// SendFile Sends file as form to /_api/file API
+func SendFile(t *testing.T, router router.IRouter, path string, fileName string) file.File {
+	requestFile, err := os.Open(filepath.Join(path, fileName))
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer requestFile.Close()
+
+	var body bytes.Buffer
+	writer := multipart.NewWriter(&body)
+	part, err := writer.CreateFormFile("file", fileName)
+	if err != nil {
+		t.Fatal(err)
+	}
+	_, err = io.Copy(part, requestFile)
+
+	err = writer.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	request := httptest.NewRequest("PUT", "/_api/file/"+fileName, &body)
+	request.Header.Set("Content-Type", writer.FormDataContentType())
+	response := httptest.NewRecorder()
+	router.Route(response, request)
+
+	responseFile := file.File{}
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(response.Result().Body)
+	err = json.Unmarshal(buf.Bytes(), &responseFile)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return responseFile
 }
 
 func (testCase *RestAPITestCase) validate(response *httptest.ResponseRecorder) (interface{}, interface{}) {
@@ -100,7 +165,7 @@ func (testCase *RestAPITestCase) validate(response *httptest.ResponseRecorder) (
 		if expectedBody != nil {
 			err = json.Unmarshal([]byte(file), &expectedBody)
 			if err != nil {
-				errorMessage := fmt.Sprintf("Couldn't Unmarshal to EndpointRestDto\n%+v", err)
+				errorMessage := fmt.Sprintf("Couldn't Unmarshal\n%+v", err)
 				expectedBodyGroup(errorMessage, 1)
 			}
 		}
@@ -115,7 +180,7 @@ func (testCase *RestAPITestCase) validate(response *httptest.ResponseRecorder) (
 	if actualBody != nil {
 		err := json.Unmarshal(buf.Bytes(), &actualBody)
 		if err != nil {
-			errorMessage := fmt.Sprintf("Couldn't Unmarshal to EndpointRestDto\n%+v", err)
+			errorMessage := fmt.Sprintf("Couldn't Unmarshal\n%+v", err)
 			actualBodyGroup(errorMessage, 1)
 		}
 	}
@@ -144,12 +209,11 @@ func (testCase *RestAPITestCase) compareBody(expected interface{}, actual interf
 			expectedSlice[i] = m
 		}
 
-		compareBodyGroupName := fmt.Sprintf(`
-		Expected Body: %+v
-		Actual Body:   %+v`, expectedSlice, actualSlice)
-		compareBodyGroup := testCase.errorHolder.Group(compareBodyGroupName)
-
 		if !reflect.DeepEqual(expectedSlice, actualSlice) {
+			compareBodyGroupName := fmt.Sprintf(`
+			Expected Body: %#v
+			Actual Body:   %#v`, expectedSlice, actualSlice)
+			compareBodyGroup := testCase.errorHolder.Group(compareBodyGroupName)
 			compareBodyGroup("Not Equal Configurations", 1)
 		}
 	} else {
@@ -158,12 +222,11 @@ func (testCase *RestAPITestCase) compareBody(expected interface{}, actual interf
 		expectedParsedValue, _ := value.(map[string]interface{})
 		expectedParsedValue["id"] = id
 
-		compareBodyGroupName := fmt.Sprintf(`
-		Expected Body: %+v
-		Actual Body:   %+v`, expectedParsedValue, actual)
-		compareBodyGroup := testCase.errorHolder.Group(compareBodyGroupName)
-
 		if !reflect.DeepEqual(expectedParsedValue, actual) {
+			compareBodyGroupName := fmt.Sprintf(`
+			Expected Body: %+v
+			Actual Body:   %+v`, expectedParsedValue, actual)
+			compareBodyGroup := testCase.errorHolder.Group(compareBodyGroupName)
 			compareBodyGroup("Must be equal", 1)
 		}
 	}

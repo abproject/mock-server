@@ -2,7 +2,6 @@ package rest
 
 import (
 	"reflect"
-	"sort"
 	"testing"
 )
 
@@ -191,9 +190,6 @@ func TestRestStorageGetAll(t *testing.T) {
 	actual1 := storage.Add(config)
 	actual2 := storage.Add(config)
 	expected := []EndpointRestDto{actual1, actual2}
-	sort.Slice(expected, func(i, j int) bool {
-		return expected[i].ID < expected[j].ID
-	})
 
 	configs := storage.GetAll()
 

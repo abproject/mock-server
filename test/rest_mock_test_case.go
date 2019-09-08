@@ -2,7 +2,9 @@ package test
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"reflect"
@@ -43,6 +45,7 @@ type RestMockTestCaseResponse struct {
 	Status  int
 	Headers map[string]string
 	Body    string
+	Type    interface{}
 }
 
 // RestMockTestCase HTTP Test Case
@@ -106,12 +109,29 @@ Actual Response:   %+v`, expected, *actual)
 		actualResponseGroup(errorMessage, 1)
 	}
 
-	buf := new(bytes.Buffer)
-	buf.ReadFrom(actual.Body)
-	body := buf.String()
-	if expected.Body != body {
-		errorMessage := fmt.Sprintf("Body:\n\t\tExpected: %s\n\t\tActual:   %s", expected.Body, body)
-		actualResponseGroup(errorMessage, 1)
+	if testCase.response.Type == nil {
+		buf := new(bytes.Buffer)
+		buf.ReadFrom(actual.Body)
+		body := buf.String()
+		if expected.Body != body {
+			errorMessage := fmt.Sprintf("Body:\n\t\tExpected: %s\n\t\tActual:   %s", expected.Body, body)
+			actualResponseGroup(errorMessage, 1)
+		}
+	} else {
+		expectedBody := testCase.response.Type
+		actualBody := testCase.response.Type
+
+		body, err := ioutil.ReadAll(actual.Body)
+		if err != nil {
+			errorMessage := fmt.Sprintf("Can't parse body: %+v", err)
+			actualResponseGroup(errorMessage, 1)
+		}
+		_ = json.Unmarshal(body, &actualBody)
+		_ = json.Unmarshal([]byte(expected.Body), &expectedBody)
+		if !reflect.DeepEqual(actualBody, expectedBody) {
+			errorMessage := fmt.Sprintf("Body:\n\t\tExpected: %s\n\t\tActual:   %s", actualBody, expectedBody)
+			actualResponseGroup(errorMessage, 1)
+		}
 	}
 
 	if testCase.errorHolder.HasErrors() {

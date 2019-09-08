@@ -9,37 +9,37 @@ import (
 	"github.com/abproject/mock-server/internal/rest"
 )
 
-var url = "/_api/rest/endpoint"
+var restURL = "/_api/rest/endpoint"
 
-// RouteAPI Rest API
-func RouteAPI(c Context, w http.ResponseWriter, r *http.Request) {
+// RouteRestAPI Rest API
+func RouteRestAPI(c Context, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	if r.RequestURI == url {
+	if r.RequestURI == restURL {
 		switch r.Method {
 		case "GET":
-			getAllHandler(c, w, r)
+			getAllRestHandlers(c, w, r)
 			return
 		case "POST":
-			postHandler(c, w, r)
+			postRestHandler(c, w, r)
 			return
 		case "DELETE":
-			deleteAllHandler(c, w, r)
+			deleteAllRestHandlers(c, w, r)
 			return
 		}
-	} else if strings.HasPrefix(r.RequestURI, url) {
-		reg, _ := regexp.Compile(url + "/([a-zA-Z0-9]+)")
+	} else if strings.HasPrefix(r.RequestURI, restURL) {
+		reg, _ := regexp.Compile(restURL + "/([a-zA-Z0-9]+)")
 		groups := reg.FindStringSubmatch(r.RequestURI)
 		if len(groups) == 2 {
 			id := groups[1]
 			switch r.Method {
 			case "GET":
-				getHandler(c, w, r, id)
+				getRestHandler(c, w, r, id)
 				return
 			case "PUT":
-				putHandler(c, w, r, id)
+				putRestHandler(c, w, r, id)
 				return
 			case "DELETE":
-				deleteHandler(c, w, r, id)
+				deleteRestHandler(c, w, r, id)
 				return
 			}
 		}
@@ -47,11 +47,11 @@ func RouteAPI(c Context, w http.ResponseWriter, r *http.Request) {
 	notFoundHandler(c, w, r)
 }
 
-func getAllHandler(c Context, w http.ResponseWriter, r *http.Request) {
+func getAllRestHandlers(c Context, w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode((*c.RestStorage).GetAll())
 }
 
-func getHandler(c Context, w http.ResponseWriter, r *http.Request, id string) {
+func getRestHandler(c Context, w http.ResponseWriter, r *http.Request, id string) {
 	endpoint, err := (*c.RestStorage).Get(id)
 	if err != nil {
 		notFoundHandler(c, w, r)
@@ -60,7 +60,7 @@ func getHandler(c Context, w http.ResponseWriter, r *http.Request, id string) {
 	json.NewEncoder(w).Encode(endpoint)
 }
 
-func postHandler(c Context, w http.ResponseWriter, r *http.Request) {
+func postRestHandler(c Context, w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	var dto rest.EndpointRestDto
 	err := decoder.Decode(&dto)
@@ -73,7 +73,7 @@ func postHandler(c Context, w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(endpoint)
 }
 
-func putHandler(c Context, w http.ResponseWriter, r *http.Request, id string) {
+func putRestHandler(c Context, w http.ResponseWriter, r *http.Request, id string) {
 	decoder := json.NewDecoder(r.Body)
 	var dto rest.EndpointRestDto
 	err := decoder.Decode(&dto)
@@ -90,7 +90,7 @@ func putHandler(c Context, w http.ResponseWriter, r *http.Request, id string) {
 	json.NewEncoder(w).Encode(endpoint)
 }
 
-func deleteHandler(c Context, w http.ResponseWriter, r *http.Request, id string) {
+func deleteRestHandler(c Context, w http.ResponseWriter, r *http.Request, id string) {
 	err := (*c.RestStorage).Delete(id)
 	if err != nil {
 		notFoundHandler(c, w, r)
@@ -99,19 +99,7 @@ func deleteHandler(c Context, w http.ResponseWriter, r *http.Request, id string)
 	w.WriteHeader(http.StatusNoContent)
 }
 
-func deleteAllHandler(c Context, w http.ResponseWriter, r *http.Request) {
+func deleteAllRestHandlers(c Context, w http.ResponseWriter, r *http.Request) {
 	(*c.RestStorage).DeleteAll()
 	w.WriteHeader(http.StatusNoContent)
-}
-
-func notFoundHandler(c Context, w http.ResponseWriter, r *http.Request) {
-	c.Logger.Printf("API Endpoint Not Found\nURI: %s\nMethod: %s", r.RequestURI, r.Method)
-	w.Header().Set("Content-Type", "text/html")
-	w.WriteHeader(http.StatusNotFound)
-}
-
-func errorHandler(w http.ResponseWriter, err error) {
-	w.Header().Set("Content-Type", "text/html")
-	w.WriteHeader(http.StatusBadRequest)
-	w.Write([]byte(err.Error()))
 }

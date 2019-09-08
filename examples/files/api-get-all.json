@@ -1,0 +1,36 @@
+[
+  {
+    "id": ":id",
+    "request": {
+      "method": "GET",
+      "path": "hello-txt",
+      "pathReg": "",
+      "headers": null
+    },
+    "response": {
+      "body": "",
+      "bodyFile": "examples/files/hello.txt",
+      "status": 200,
+      "headers": {
+        "Content-Type": "application/octet-stream"
+      }
+    }
+  },
+  {
+    "id": ":id",
+    "request": {
+      "method": "GET",
+      "path": "hello-json",
+      "pathReg": "",
+      "headers": null
+    },
+    "response": {
+      "body": "",
+      "bodyFile": "examples/files/hello.json",
+      "status": 200,
+      "headers": {
+        "Content-Type": "application/json"
+      }
+    }
+  }
+]

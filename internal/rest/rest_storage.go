@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"net/http"
 	"sort"
+	"time"
 
 	"github.com/abproject/mock-server/internal/shared"
 )
 
-// StorageRest Rest Repository Entity
+// StorageRest Rest Repository
 type StorageRest interface {
 	Add(config EndpointRestDto) EndpointRestDto
 	Get(id string) (EndpointRestDto, error)
@@ -32,7 +33,8 @@ func (storage *restStorage) Add(config EndpointRestDto) EndpointRestDto {
 	id := shared.GetRandomId()
 	config.ID = id
 	storage.data[id] = &entityRest{
-		Config: config,
+		Config:  config,
+		created: time.Now().UnixNano(),
 	}
 	return storage.data[id].Config
 }
@@ -64,15 +66,21 @@ func (storage *restStorage) Delete(id string) error {
 }
 
 func (storage *restStorage) GetAll() []EndpointRestDto {
-	configs := make([]EndpointRestDto, len(storage.data))
+	data := []*entityRest{}
+	for _, value := range storage.data {
+		data = append(data, value)
+	}
+	sort.Slice(data, func(i, j int) bool {
+		return data[i].created < data[j].created
+	})
+
+	configs := make([]EndpointRestDto, len(data))
 	i := 0
-	for k := range storage.data {
-		configs[i] = storage.data[k].Config
+	for k := range data {
+		configs[i] = data[k].Config
 		i++
 	}
-	sort.Slice(configs, func(i, j int) bool {
-		return configs[i].ID < configs[j].ID
-	})
+
 	return configs
 }
 

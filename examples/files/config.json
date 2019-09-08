@@ -1,0 +1,32 @@
+{
+  "rest": {
+    "endpoints": [
+      {
+        "request": {
+          "method": "GET",
+          "path": "hello-txt"
+        },
+        "response": {
+          "bodyFile": "examples/files/hello.txt",
+          "status": 200,
+          "headers": {
+            "Content-Type": "application/octet-stream"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "path": "hello-json"
+        },
+        "response": {
+          "bodyFile": "examples/files/hello.json",
+          "status": 200,
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ]
+  }
+}

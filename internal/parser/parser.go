@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"log"
 
+	"github.com/abproject/mock-server/internal/file"
 	"github.com/abproject/mock-server/internal/rest"
 	"gopkg.in/yaml.v2"
 )
@@ -12,6 +13,8 @@ import (
 type Context struct {
 	Logger      *log.Logger
 	RestStorage *rest.StorageRest
+	FileStorage *file.StorageFile
+	Path        string
 }
 
 // Parser Parser
@@ -38,6 +41,8 @@ func (parser *Parser) Parse(filePath string) {
 	restContext := rest.Context{
 		Logger:      parser.context.Logger,
 		RestStorage: parser.context.RestStorage,
+		FileStorage: parser.context.FileStorage,
+		Path:        parser.context.Path,
 	}
 	rest.ParseConfig(restContext, config.Rest)
 }

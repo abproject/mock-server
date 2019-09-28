@@ -1,0 +1,20 @@
+{
+  "rest": {
+    "endpoints": [
+      {
+        "request": {
+          "method": "method name",
+          "path": "url path"
+        },
+        "response": {
+          "body": "response body",
+          "bodyFile": "response body as file",
+          "status": "http status",
+          "headers": {
+            "header-key": "header-value"
+          }
+        }
+      }
+    ]
+  }
+}

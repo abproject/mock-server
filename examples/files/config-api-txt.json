@@ -7,7 +7,7 @@
     "status": 200,
     "bodyFile": "<changed-to-id>",
     "headers": {
-      "Content-Type": "application/octet-stream"
+      "Content-Type": "text/plain"
     }
   }
 }

@@ -33,7 +33,7 @@ func TestHelloYmlE2E(t *testing.T) {
 }
 
 func configureYml(t *testing.T) router.IRouter {
-	logger := log.New(os.Stdout, "yml e2e ", log.LstdFlags|log.Lshortfile)
+	logger := log.New(os.Stdout, "yaml e2e ", log.LstdFlags|log.Lshortfile)
 	restStorage := rest.MakeStorage()
 
 	parserContext := parser.Context{
@@ -41,7 +41,7 @@ func configureYml(t *testing.T) router.IRouter {
 		RestStorage: &restStorage,
 	}
 	parser := parser.New(parserContext)
-	parser.Parse("config.yml")
+	parser.Parse("config.yaml")
 
 	routerContext := router.Context{
 		Logger:      logger,

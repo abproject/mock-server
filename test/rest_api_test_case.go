@@ -106,7 +106,7 @@ func (testCase *RestAPITestCase) AssertEquals(response *httptest.ResponseRecorde
 	}
 }
 
-// SendFile Sends file as form to /_api/file API
+// SendFile Sends file as form to /_api/files API
 func SendFile(t *testing.T, router router.IRouter, path string, fileName string) file.File {
 	requestFile, err := os.Open(filepath.Join(path, fileName))
 	if err != nil {
@@ -127,7 +127,7 @@ func SendFile(t *testing.T, router router.IRouter, path string, fileName string)
 		t.Fatal(err)
 	}
 
-	request := httptest.NewRequest("PUT", "/_api/file/"+fileName, &body)
+	request := httptest.NewRequest("PUT", "/_api/files/"+fileName, &body)
 	request.Header.Set("Content-Type", writer.FormDataContentType())
 	response := httptest.NewRecorder()
 	router.Route(response, request)

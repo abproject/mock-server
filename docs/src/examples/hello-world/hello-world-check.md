@@ -2,9 +2,7 @@ Check by opening in browser http://localhost:4242/hello or making `GET` request,
 
 ```bash
 curl -v http://localhost:4242/hello
-```
 
-```bash
 # Response
 ...
 < HTTP/1.1 200 OK

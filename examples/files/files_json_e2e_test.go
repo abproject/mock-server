@@ -39,7 +39,7 @@ func configureJSON(t *testing.T) router.IRouter {
 	restStorage := rest.MakeStorage()
 	fileStorage := file.MakeStorage()
 
-	path, _ := filepath.Abs("../..")
+	path, _ := filepath.Abs("./../..")
 	parserContext := parser.Context{
 		Logger:      logger,
 		RestStorage: &restStorage,

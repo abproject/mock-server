@@ -26,7 +26,7 @@ func GetFilesMockCases(t *testing.T) []test.RestMockTestCase {
 			test.RestMockTestCaseResponse{
 				Status: 200,
 				Headers: map[string]string{
-					"Content-Type": "application/octet-stream",
+					"Content-Type": "text/plain",
 				},
 				Body: "Hello from file!",
 			}),

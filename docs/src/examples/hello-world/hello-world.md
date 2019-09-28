@@ -1,27 +1,33 @@
 # YAML
 
-Create file `config.yml` with content:
+Create file `examples/hello/config.yaml` with content:
 
-!INCLUDECODE "examples/hello/config.yml" (yaml)
+!INCLUDECODE "examples/hello/config.yaml" (yaml)
 
 Run in terminal:
 
 ```bash
-docker run -p 4242:8000 -v ${PWD}/config.yml:/config.yml abezpalov/mock-server -file=config.yml
+docker run -p 4242:8000 \
+-v ${PWD}/examples:/examples \
+abezpalov/mock-server \
+-file=/examples/hello/config.yaml
 ```
 
 !INCLUDE "hello-world-check.md"
 
 # JSON
 
-Create file `config.yml` with content:
+Create file `examples/hello/config.json` with content:
 
 !INCLUDECODE "examples/hello/config.json" (json)
 
 Run in terminal:
 
 ```bash
-docker run -p 4242:8000 -v ${PWD}/config.json:/config.json abezpalov/mock-server -file=config.json
+docker run -p 4242:8000 \
+-v ${PWD}/examples:/examples \
+abezpalov/mock-server \
+-file=/examples/hello/config.json
 ```
 
 !INCLUDE "hello-world-check.md"
@@ -40,7 +46,7 @@ Make `POST` request to URL `http://localhost:4242/_api/rest/endpoint` with body:
 
 !INCLUDECODE "examples/hello/config-api.json" (json)
 
-e.g., with `curl` **(please copy all 3 code blocks below and paste in terminal)**:
+e.g., with `curl` _(copy all 3 code blocks below and paste in terminal)_:
 
 ```bash
 curl -X POST http://localhost:4242/_api/rest/endpoint \

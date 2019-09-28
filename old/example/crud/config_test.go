@@ -62,6 +62,6 @@ func TestRequestInit(t *testing.T) {
 		},
 	}
 
-	httpTesting.RunCases("CRUD", "config.yml", &tests, t)
+	httpTesting.RunCases("CRUD", "config.yaml", &tests, t)
 }
 

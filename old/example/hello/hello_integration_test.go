@@ -45,8 +45,8 @@ func TestRequestInit(t *testing.T) {
 		},
 	}
 	//rest.Clear()
-	//rest.FileRest(ParseConfig("config.yml").Rest)
-	//httpTesting.RunCases("Hello (yml)", &tests, t)
+	//rest.FileRest(ParseConfig("config.yaml").Rest)
+	//httpTesting.RunCases("Hello (yaml)", &tests, t)
 	//
 	//rest.Clear()
 	//rest.FileRest(ParseConfig("config.json").Rest)

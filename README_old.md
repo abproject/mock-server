@@ -31,7 +31,7 @@
 
 #### <a name="hello-world-yaml"></a>YAML
 
-- Create file `config.yml` with content:
+- Create file `config.yaml` with content:
 
   ```yaml
   rest:
@@ -49,7 +49,7 @@
 - Run in terminal:
 
   ```bash
-  docker run -p 4242:8000 -v ${PWD}/config.yml:/config.yml abezpalov/mock-server -file=config.yml
+  docker run -p 4242:8000 -v ${PWD}/config.yaml:/config.yaml abezpalov/mock-server -file=config.yaml
   ```
 
 - Check by opening in browser http://localhost:4242/hello or making `GET` request, e.g., with `curl`:
@@ -72,7 +72,7 @@
   <b>CLICK HERE</b> If you prefer JSON over YAML
 </summary>
 
-- Create file `config.yml` with content:
+- Create file `config.yaml` with content:
 
   ```json
   {

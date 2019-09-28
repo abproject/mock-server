@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-var fileURL = "/_api/file"
+var fileURL = "/_api/files"
 var maxFileSize int64 = 20 << 20
 
 // RouteFileAPI Rest API

@@ -13,7 +13,7 @@ import (
 )
 
 func TestFilesMockJsonE2E(t *testing.T) {
-	router := configureYml(t)
+	router := configureJSON(t)
 	testCases := GetFilesMockCases(t)
 
 	for _, testCase := range testCases {
@@ -35,7 +35,7 @@ func TestFilesJsonE2E(t *testing.T) {
 }
 
 func configureJSON(t *testing.T) router.IRouter {
-	logger := log.New(os.Stdout, "yml e2e ", log.LstdFlags|log.Lshortfile)
+	logger := log.New(os.Stdout, "json e2e ", log.LstdFlags|log.Lshortfile)
 	restStorage := rest.MakeStorage()
 	fileStorage := file.MakeStorage()
 

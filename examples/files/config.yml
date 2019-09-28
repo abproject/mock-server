@@ -4,7 +4,7 @@ rest:
         method: GET
         path: hello-txt
       response:
-        bodyFile: examples/files/hello.json
+        bodyFile: examples/files/hello.txt
         status: 200
         headers:
           Content-Type: application/octet-stream

@@ -1,0 +1,10 @@
+{
+  "request": {
+    "method": "POST",
+    "path": "planets"
+  },
+  "response": {
+    "status": 201,
+    "bodyFile": "<changed-to-id>"
+  }
+}

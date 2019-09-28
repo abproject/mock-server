@@ -30,6 +30,12 @@
 
 !INCLUDE "docs/src/examples/hello-world/hello-world.md", 2
 
+## Examples
+
+### [Files](docs/FILES_EXAMPLE.md)
+
+### [CRUD](docs/CRUD_EXAMPLE.md)
+
 ## Config
 
 !INCLUDE "docs/src/config/config-yaml.md", 2
@@ -47,9 +53,3 @@
 !INCLUDE "docs/src/models/rest/endpoint/rest-endpoint.md", 2
 
 !INCLUDE "docs/src/models/file/file.md", 2
-
-## Examples
-
-### Files
-
-!INCLUDE "docs/src/examples/files/files.md", 2

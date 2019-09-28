@@ -1,0 +1,9 @@
+{
+  "request": {
+    "method": "DELETE",
+    "path": "planets/:id"
+  },
+  "response": {
+    "status": 204
+  }
+}

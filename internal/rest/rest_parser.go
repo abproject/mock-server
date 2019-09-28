@@ -22,7 +22,7 @@ func ParseConfig(c Context, config Config) {
 	fileStorage := c.FileStorage
 	for _, endpoint := range config.Endpoints {
 		file := endpoint.Response.BodyFile
-		if file != "" && (*fileStorage).IsExist(file) {
+		if file != "" && !(*fileStorage).IsExist(file) {
 			path := filepath.Join(c.Path, file)
 			data, err := ioutil.ReadFile(path)
 			if err != nil {

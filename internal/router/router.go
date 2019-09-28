@@ -40,14 +40,22 @@ func (router *Router) Route(w http.ResponseWriter, r *http.Request) {
 	// log.Printf("Method: %+v\n", r.Method)
 	if strings.HasPrefix(r.RequestURI, "/_api") {
 		// API
-		// REST
-		if strings.HasPrefix(r.RequestURI, "/_api/rest") {
-			RouteRestAPI(*router.context, w, r)
+		// REST Endpoints
+		if strings.HasPrefix(r.RequestURI, "/_api/rest/endpoints") {
+			RouteRestEndpointAPI(*router.context, w, r)
+			return
+		}
+		// REST Global
+		if strings.HasPrefix(r.RequestURI, "/_api/rest/global") {
+			RouteRestGlobalAPI(*router.context, w, r)
+			return
 		}
 		if strings.HasPrefix(r.RequestURI, "/_api/file") {
 			RouteFileAPI(*router.context, w, r)
+			return
 		}
 		// ...
+		notFoundHandler(*router.context, w, r)
 	} else {
 		// Mock
 		RouteMock(*router.context, w, r)

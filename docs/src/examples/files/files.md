@@ -89,14 +89,14 @@ curl -F 'file=@examples/files/hello.txt' http://localhost:4242/_api/files
 
 Copy `id` from response, e.g., `6694d2c422ac4208a0072939487f6999`.
 
-Make `POST` request to URL `http://localhost:4242/_api/rest/endpoint` with body:
+Make `POST` request to URL `http://localhost:4242/_api/rest/endpoints` with body:
 
 !INCLUDECODE "examples/files/config-api-txt.json" (json)
 
 e.g., with `curl` _(replace `changed-to-id` to `id` above, copy all 3 code blocks below and paste in terminal)_:
 
 ```bash
-curl -X POST http://localhost:4242/_api/rest/endpoint \
+curl -X POST http://localhost:4242/_api/rest/endpoints \
 -H "Content-Type: application/json" \
 -d @- << EOF
 ```
@@ -127,14 +127,14 @@ curl -F 'file=@examples/files/hello.json' http://localhost:4242/_api/files
 
 Copy `id` from response, e.g., `9566c74d10034c4dbbbb0407d1e2c649`.
 
-Make `POST` request to URL `http://localhost:4242/_api/rest/endpoint` with body:
+Make `POST` request to URL `http://localhost:4242/_api/rest/endpoints` with body:
 
 !INCLUDECODE "examples/files/config-api-json.json" (json)
 
 e.g., with `curl` _(replace `changed-to-id` to `id` above, copy all 3 code blocks below and paste in terminal)_:
 
 ```bash
-curl -X POST http://localhost:4242/_api/rest/endpoint \
+curl -X POST http://localhost:4242/_api/rest/endpoints \
 -H "Content-Type: application/json" \
 -d @- << EOF
 ```

@@ -1,4 +1,4 @@
-package hello
+package exampleshello
 
 import (
 	"log"

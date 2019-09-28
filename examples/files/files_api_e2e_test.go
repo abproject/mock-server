@@ -1,4 +1,4 @@
-package files
+package examplesfiles
 
 import (
 	"bytes"
@@ -69,7 +69,7 @@ func configureFile(t *testing.T, router router.IRouter, dataFile string, configF
 	requestByte, _ := json.Marshal(data)
 	requestReader := bytes.NewReader(requestByte)
 
-	request := httptest.NewRequest("POST", "/_api/rest/endpoint", requestReader)
+	request := httptest.NewRequest("POST", "/_api/rest/endpoints", requestReader)
 	response := httptest.NewRecorder()
 	router.Route(response, request)
 }

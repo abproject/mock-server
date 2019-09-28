@@ -1,0 +1,9 @@
+{
+  "request": {
+    "method": "PUT",
+    "path": "planets/:id"
+  },
+  "response": {
+    "bodyFile": "<changed-to-id>"
+  }
+}

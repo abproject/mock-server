@@ -1,0 +1,40 @@
+rest:
+  global:
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+  endpoints:
+    - request:
+        method: GET
+        path: planets
+      response:
+        bodyFile: examples/crud/data.json
+    - request:
+        method: GET
+        path: planets/:id
+      response:
+        body: >
+          { 
+            "id": 3,
+            "name": "Earth",
+            "type": "Terrestrial planet",
+            "period": 1,
+            "atmosphere": ["N2", "O2", "Ar"]
+          }
+    - request:
+        method: POST
+        path: planets
+      response:
+        status: 201
+        body: '{"id":3, "name":"Earth", "type":"Terrestrial planet", "period":1, "atmosphere": ["N2", "O2", "Ar"]}'
+    - request:
+        method: PUT
+        path: planets/:id
+      response:
+        bodyFile: examples/crud/data-id-3.json
+    - request:
+        method: DELETE
+        path: planets/:id
+      response:
+        status: 204

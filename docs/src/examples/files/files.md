@@ -1,20 +1,24 @@
-# YAML
+# Files
 
-!INCLUDE "files-create.md"
+!TOC
 
-Create file `examples/files/config.yaml` with content:
+## YAML
+
+!INCLUDE "docs/src/examples/files/files-create.md"
+
+**Create file `examples/files/config.yaml` with content:**
 
 !INCLUDECODE "examples/files/config.yaml" (yaml)
 
-Final structure:
+**Final structure:**
 
 ```bash
- <your-path>/examples/files/config.yaml
- <your-path>/examples/files/hello.json
- <your-path>/examples/files/hello.txt
+<your-path>/examples/files/hello.json
+<your-path>/examples/files/hello.txt
+<your-path>/examples/files/config.yaml
 ```
 
-Run in terminal:
+**Run in terminal:**
 
 ```bash
 docker run -p 4242:8000 \
@@ -23,25 +27,25 @@ abezpalov/mock-server \
 -file=/examples/files/config.yaml
 ```
 
-!INCLUDE "files-check.md"
+!INCLUDE "docs/src/examples/files/files-check.md"
 
-# JSON
+## JSON
 
-!INCLUDE "files-create.md"
+!INCLUDE "docs/src/examples/files/files-create.md"
 
-Create file `examples/files/config.json` with content:
+**Create file `examples/files/config.json` with content:**
 
 !INCLUDECODE "examples/files/config.json" (yaml)
 
-Final structure:
+**Final structure:**
 
 ```bash
- <your-path>/examples/files/config.json
- <your-path>/examples/files/hello.json
- <your-path>/examples/files/hello.txt
+<your-path>/examples/files/hello.json
+<your-path>/examples/files/hello.txt
+<your-path>/examples/files/config.json
 ```
 
-Run in terminal:
+**Run in terminal:**
 
 ```bash
 docker run -p 4242:8000 \
@@ -50,28 +54,28 @@ abezpalov/mock-server \
 -file=/examples/files/config.json
 ```
 
-!INCLUDE "files-check.md"
+!INCLUDE "docs/src/examples/files/files-check.md"
 
-# API
+## API
 
-Run in terminal:
+**Run in terminal:**
 
 ```bash
 docker run -p 4242:8000 abezpalov/mock-server
 ```
 
-!INCLUDE "files-create.md"
+!INCLUDE "docs/src/examples/files/files-create.md"
 
-Final structure:
+**Final structure:**
 
 ```bash
- <your-path>/examples/files/hello.json
- <your-path>/examples/files/hello.txt
+<your-path>/examples/files/hello.json
+<your-path>/examples/files/hello.txt
 ```
 
 **hello.txt**
 
-Send `POST` request to URL `http://localhost:4242/_api/files` with:
+**Send `POST` request to URL `http://localhost:4242/_api/files` with:**
 
 - body as `form-data`
   - `file: hello.txt`
@@ -87,9 +91,9 @@ curl -F 'file=@examples/files/hello.txt' http://localhost:4242/_api/files
 {"id":"6694d2c422ac4208a0072939487f6999","name":"hello.txt","length":16}
 ```
 
-Copy `id` from response, e.g., `6694d2c422ac4208a0072939487f6999`.
+**Copy `id` from response, e.g., `6694d2c422ac4208a0072939487f6999`.**
 
-Make `POST` request to URL `http://localhost:4242/_api/rest/endpoints` with body:
+**Make `POST` request to URL `http://localhost:4242/_api/rest/endpoints` with body:**
 
 !INCLUDECODE "examples/files/config-api-txt.json" (json)
 
@@ -109,7 +113,7 @@ EOF
 
 **hello.json**
 
-Send `POST` request to URL `http://localhost:4242/_api/files` with:
+**Send `POST` request to URL `http://localhost:4242/_api/files` with:**
 
 - body as `form-data`
   - `file: hello.json`
@@ -125,9 +129,9 @@ curl -F 'file=@examples/files/hello.json' http://localhost:4242/_api/files
 {"id":"9566c74d10034c4dbbbb0407d1e2c649","name":"hello.json","length":16}
 ```
 
-Copy `id` from response, e.g., `9566c74d10034c4dbbbb0407d1e2c649`.
+**Copy `id` from response, e.g., `9566c74d10034c4dbbbb0407d1e2c649`.**
 
-Make `POST` request to URL `http://localhost:4242/_api/rest/endpoints` with body:
+**Make `POST` request to URL `http://localhost:4242/_api/rest/endpoints` with body:**
 
 !INCLUDECODE "examples/files/config-api-json.json" (json)
 
@@ -145,4 +149,4 @@ curl -X POST http://localhost:4242/_api/rest/endpoints \
 EOF
 ```
 
-!INCLUDE "files-check.md"
+!INCLUDE "docs/src/examples/files/files-check.md"

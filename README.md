@@ -13,37 +13,35 @@
 2.1\.  [YAML](#yaml)  
 2.2\.  [JSON](#json)  
 2.3\.  [API](#api)  
-3\.  [Config](#config)  
-3.1\.  [Config YAML](#configyaml)  
-3.2\.  [Config JSON](#configjson)  
-4\.  [API](#api-1)  
-4.1\.  [Rest Endpoint API](#restendpointapi)  
-4.1.1\.  [Rest Endpoint API Description](#restendpointapidescription)  
-4.1.2\.  [Rest Endpoint API Examples](#restendpointapiexamples)  
-4.1.2.1\.  [GET `/_api/rest/endpoints`](#get`/_api/rest/endpoints`)  
-4.1.2.2\.  [POST `/_api/rest/endpoints`](#post`/_api/rest/endpoints`)  
-4.1.2.3\.  [GET `/_api/rest/endpoints/:id`](#get`/_api/rest/endpoints/:id`)  
-4.1.2.4\.  [PUT `/_api/rest/endpoints/:id`](#put`/_api/rest/endpoints/:id`)  
-4.2\.  [Rest Global API](#restglobalapi)  
-4.2.1\.  [Rest Global API Description](#restglobalapidescription)  
-4.2.2\.  [Rest Global API Examples](#restglobalapiexamples)  
-4.2.2.1\.  [GET `/_api/rest/global`](#get`/_api/rest/global`)  
-4.2.2.2\.  [POST `/_api/rest/global`](#post`/_api/rest/global`)  
-4.3\.  [Files API](#filesapi)  
-4.3.1\.  [Files API Description](#filesapidescription)  
-4.3.2\.  [Files API Examples](#filesapiexamples)  
-4.3.2.1\.  [GET `/_api/files`](#get`/_api/files`)  
-4.3.2.2\.  [GET `/_api/files/:id`](#get`/_api/files/:id`)  
-5\.  [Models](#models)  
-5.1\.  [Rest Endpoint Model](#restendpointmodel)  
-5.1.1\.  [Rest Endpoint Request Model](#restendpointrequestmodel)  
-5.1.2\.  [Rest Endpoint Response Model](#restendpointresponsemodel)  
-5.2\.  [File Model](#filemodel)  
-6\.  [Examples](#examples)  
-6.1\.  [Files](#files)  
-6.2\.  [YAML](#yaml-1)  
-6.3\.  [JSON](#json-1)  
-6.4\.  [API](#api-2)  
+3\.  [Examples](#examples)  
+3.1\.  [Files](#files)  
+3.2\.  [CRUD](#crud)  
+4\.  [Config](#config)  
+4.1\.  [Config YAML](#configyaml)  
+4.2\.  [Config JSON](#configjson)  
+5\.  [API](#api-1)  
+5.1\.  [Rest Endpoint API](#restendpointapi)  
+5.1.1\.  [Rest Endpoint API Description](#restendpointapidescription)  
+5.1.2\.  [Rest Endpoint API Examples](#restendpointapiexamples)  
+5.1.2.1\.  [GET `/_api/rest/endpoints`](#get`/_api/rest/endpoints`)  
+5.1.2.2\.  [POST `/_api/rest/endpoints`](#post`/_api/rest/endpoints`)  
+5.1.2.3\.  [GET `/_api/rest/endpoints/:id`](#get`/_api/rest/endpoints/:id`)  
+5.1.2.4\.  [PUT `/_api/rest/endpoints/:id`](#put`/_api/rest/endpoints/:id`)  
+5.2\.  [Rest Global API](#restglobalapi)  
+5.2.1\.  [Rest Global API Description](#restglobalapidescription)  
+5.2.2\.  [Rest Global API Examples](#restglobalapiexamples)  
+5.2.2.1\.  [GET `/_api/rest/global`](#get`/_api/rest/global`)  
+5.2.2.2\.  [POST `/_api/rest/global`](#post`/_api/rest/global`)  
+5.3\.  [Files API](#filesapi)  
+5.3.1\.  [Files API Description](#filesapidescription)  
+5.3.2\.  [Files API Examples](#filesapiexamples)  
+5.3.2.1\.  [GET `/_api/files`](#get`/_api/files`)  
+5.3.2.2\.  [GET `/_api/files/:id`](#get`/_api/files/:id`)  
+6\.  [Models](#models)  
+6.1\.  [Rest Endpoint Model](#restendpointmodel)  
+6.1.1\.  [Rest Endpoint Request Model](#restendpointrequestmodel)  
+6.1.2\.  [Rest Endpoint Response Model](#restendpointresponsemodel)  
+6.2\.  [File Model](#filemodel)  
 
 <a name="prerequisites"></a>
 
@@ -77,7 +75,7 @@
 
 ### 2.1\. YAML
 
-Create file `examples/hello/config.yaml` with content:
+**Create file `examples/hello/config.yaml` with content:**
 
 ```yaml
 rest:
@@ -93,7 +91,7 @@ rest:
 
 ```
 
-Run in terminal:
+**Run in terminal:**
 
 ```bash
 docker run -p 4242:8000 \
@@ -102,7 +100,7 @@ abezpalov/mock-server \
 -file=/examples/hello/config.yaml
 ```
 
-Check by opening in browser http://localhost:4242/hello or making `GET` request, e.g., with `curl`:
+**Check by opening in browser http://localhost:4242/hello or making `GET` request, e.g., with `curl`:**
 
 ```bash
 curl -v http://localhost:4242/hello
@@ -119,7 +117,7 @@ Hello, World!
 
 ### 2.2\. JSON
 
-Create file `examples/hello/config.json` with content:
+**Create file `examples/hello/config.json` with content:**
 
 ```json
 {
@@ -144,7 +142,7 @@ Create file `examples/hello/config.json` with content:
 
 ```
 
-Run in terminal:
+**Run in terminal:**
 
 ```bash
 docker run -p 4242:8000 \
@@ -153,7 +151,7 @@ abezpalov/mock-server \
 -file=/examples/hello/config.json
 ```
 
-Check by opening in browser http://localhost:4242/hello or making `GET` request, e.g., with `curl`:
+**Check by opening in browser http://localhost:4242/hello or making `GET` request, e.g., with `curl`:**
 
 ```bash
 curl -v http://localhost:4242/hello
@@ -172,13 +170,13 @@ Hello, World!
 
 Another way to get the same `Hello World` configuration without config file but by using API requests only.
 
-Run in terminal:
+**Run in terminal:**
 
 ```bash
 docker run -p 4242:8000 abezpalov/mock-server
 ```
 
-Make `POST` request to URL `http://localhost:4242/_api/rest/endpoints` with body:
+**Make `POST` request to URL `http://localhost:4242/_api/rest/endpoints` with body:**
 
 ```json
 {
@@ -226,7 +224,7 @@ curl -X POST http://localhost:4242/_api/rest/endpoints \
 EOF
 ```
 
-Check by opening in browser http://localhost:4242/hello or making `GET` request, e.g., with `curl`:
+**Check by opening in browser http://localhost:4242/hello or making `GET` request, e.g., with `curl`:**
 
 ```bash
 curl -v http://localhost:4242/hello
@@ -239,13 +237,25 @@ curl -v http://localhost:4242/hello
 Hello, World!
 ```
 
+<a name="examples"></a>
+
+## 3\. Examples
+
+<a name="files"></a>
+
+### 3.1\. [Files](docs/FILES_EXAMPLE.md)
+
+<a name="crud"></a>
+
+### 3.2\. [CRUD](docs/CRUD_EXAMPLE.md)
+
 <a name="config"></a>
 
-## 3\. Config
+## 4\. Config
 
 <a name="configyaml"></a>
 
-### 3.1\. Config YAML
+### 4.1\. Config YAML
 
 ```yaml
 rest:
@@ -270,7 +280,7 @@ rest:
 
 <a name="configjson"></a>
 
-### 3.2\. Config JSON
+### 4.2\. Config JSON
 
 ```json
 {
@@ -304,17 +314,17 @@ rest:
 
 <a name="api-1"></a>
 
-## 4\. API
+## 5\. API
 
 <a name="restendpointapi"></a>
 
-### 4.1\. Rest Endpoint API
+### 5.1\. Rest Endpoint API
 
 URL: `/_api/rest/endpoints`
 
 <a name="restendpointapidescription"></a>
 
-#### 4.1.1\. Rest Endpoint API Description
+#### 5.1.1\. Rest Endpoint API Description
 
 | Path                       | Method   | Description                                                         |                Request Body                 |                    Response Body                    | Success Status | Failed Status |
 | -------------------------- | -------- | ------------------------------------------------------------------- | :-----------------------------------------: | :-------------------------------------------------: | :------------: | :-----------: |
@@ -327,11 +337,11 @@ URL: `/_api/rest/endpoints`
 
 <a name="restendpointapiexamples"></a>
 
-#### 4.1.2\. Rest Endpoint API Examples
+#### 5.1.2\. Rest Endpoint API Examples
 
 <a name="get`/_api/rest/endpoints`"></a>
 
-##### 4.1.2.1\. GET `/_api/rest/endpoints`
+##### 5.1.2.1\. GET `/_api/rest/endpoints`
 
 **Response**
 ```json
@@ -359,7 +369,7 @@ URL: `/_api/rest/endpoints`
 
 <a name="post`/_api/rest/endpoints`"></a>
 
-##### 4.1.2.2\. POST `/_api/rest/endpoints`
+##### 5.1.2.2\. POST `/_api/rest/endpoints`
 
 **Request:**
 
@@ -405,7 +415,7 @@ URL: `/_api/rest/endpoints`
 
 <a name="get`/_api/rest/endpoints/:id`"></a>
 
-##### 4.1.2.3\. GET `/_api/rest/endpoints/:id`
+##### 5.1.2.3\. GET `/_api/rest/endpoints/:id`
 
 **Response**
 ```json
@@ -431,7 +441,7 @@ URL: `/_api/rest/endpoints`
 
 <a name="put`/_api/rest/endpoints/:id`"></a>
 
-##### 4.1.2.4\. PUT `/_api/rest/endpoints/:id`
+##### 5.1.2.4\. PUT `/_api/rest/endpoints/:id`
 
 **Request:**
 
@@ -476,13 +486,13 @@ URL: `/_api/rest/endpoints`
 
 <a name="restglobalapi"></a>
 
-### 4.2\. Rest Global API
+### 5.2\. Rest Global API
 
 URL: `/_api/rest/global`
 
 <a name="restglobalapidescription"></a>
 
-#### 4.2.1\. Rest Global API Description
+#### 5.2.1\. Rest Global API Description
 
 | Path                | Method   | Description                            |                Request Body                 |                Response Body                | Success Status | Failed Status |
 | ------------------- | -------- | -------------------------------------- | :-----------------------------------------: | :-----------------------------------------: | :------------: | :-----------: |
@@ -492,11 +502,11 @@ URL: `/_api/rest/global`
 
 <a name="restglobalapiexamples"></a>
 
-#### 4.2.2\. Rest Global API Examples
+#### 5.2.2\. Rest Global API Examples
 
 <a name="get`/_api/rest/global`"></a>
 
-##### 4.2.2.1\. GET `/_api/rest/global`
+##### 5.2.2.1\. GET `/_api/rest/global`
 
 **Response**
 ```json
@@ -511,7 +521,7 @@ URL: `/_api/rest/global`
     }
   },
   "response": {
-    "status": 200,
+    "status": 0,
     "body": "",
     "bodyFile": "",
     "headers": {
@@ -524,7 +534,7 @@ URL: `/_api/rest/global`
 
 <a name="post`/_api/rest/global`"></a>
 
-##### 4.2.2.2\. POST `/_api/rest/global`
+##### 5.2.2.2\. POST `/_api/rest/global`
 
 **Request:**
 
@@ -536,7 +546,6 @@ URL: `/_api/rest/global`
     }
   },
   "response": {
-    "status": 200,
     "headers": {
       "Content-Type": "application/json"
     }
@@ -559,7 +568,7 @@ URL: `/_api/rest/global`
     }
   },
   "response": {
-    "status": 200,
+    "status": 0,
     "body": "",
     "bodyFile": "",
     "headers": {
@@ -572,13 +581,13 @@ URL: `/_api/rest/global`
 
 <a name="filesapi"></a>
 
-### 4.3\. Files API
+### 5.3\. Files API
 
 URL: `/_api/files`
 
 <a name="filesapidescription"></a>
 
-#### 4.3.1\. Files API Description
+#### 5.3.1\. Files API Description
 
 | Path              | Method   | Description                                                     |                                                                        Request Body                                                                         |          Response Body           | Success Status | Failed Status |
 | ----------------- | -------- | --------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------: | :------------: | :-----------: |
@@ -591,11 +600,11 @@ URL: `/_api/files`
 
 <a name="filesapiexamples"></a>
 
-#### 4.3.2\. Files API Examples
+#### 5.3.2\. Files API Examples
 
 <a name="get`/_api/files`"></a>
 
-##### 4.3.2.1\. GET `/_api/files`
+##### 5.3.2.1\. GET `/_api/files`
 
 **Response**
 ```json
@@ -611,7 +620,7 @@ URL: `/_api/files`
 
 <a name="get`/_api/files/:id`"></a>
 
-##### 4.3.2.2\. GET `/_api/files/:id`
+##### 5.3.2.2\. GET `/_api/files/:id`
 
 **Response**
 ```json
@@ -625,11 +634,11 @@ URL: `/_api/files`
 
 <a name="models"></a>
 
-## 5\. Models
+## 6\. Models
 
 <a name="restendpointmodel"></a>
 
-### 5.1\. Rest Endpoint Model
+### 6.1\. Rest Endpoint Model
 
 | Field Name | Type                                                       | Description                                      |
 | ---------- | ---------------------------------------------------------- | ------------------------------------------------ |
@@ -639,7 +648,7 @@ URL: `/_api/files`
 
 <a name="restendpointrequestmodel"></a>
 
-#### 5.1.1\. Rest Endpoint Request Model
+#### 6.1.1\. Rest Endpoint Request Model
 
 | Field Name | Type                  | Description                                                                                                                              |
 | ---------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
@@ -650,7 +659,7 @@ URL: `/_api/files`
 
 <a name="restendpointresponsemodel"></a>
 
-#### 5.1.2\. Rest Endpoint Response Model
+#### 6.1.2\. Rest Endpoint Response Model
 
 | Field Name | Type                  | Description                                                                                                                            |
 | ---------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
@@ -661,407 +670,10 @@ URL: `/_api/files`
 
 <a name="filemodel"></a>
 
-### 5.2\. File Model
+### 6.2\. File Model
 
 | Field Name | Type     | Description                                                                                |
 | ---------- | -------- | ------------------------------------------------------------------------------------------ |
 | `id`       | `string` | Unique Endpoint ID or file name in case of config parsing <br>**Generates by mock-server** |
 | `name`     | `string` | Provided file name                                                                         |
 | `length`   | `number` | Size of file in bytes                                                                      |
-
-<a name="examples"></a>
-
-## 6\. Examples
-
-<a name="files"></a>
-
-### 6.1\. Files
-
-<a name="yaml-1"></a>
-
-### 6.2\. YAML
-
-Create file `examples/files/hello.txt` with content:
-
-```txt
-Hello from file!
-```
-
-Create file `examples/files/hello.json` with content:
-
-```json
-{
-  "message": "Hello, World!"
-}
-
-```
-
-Create file `examples/files/config.yaml` with content:
-
-```yaml
-rest:
-  endpoints:
-    - request:
-        method: GET
-        path: hello-txt
-      response:
-        bodyFile: examples/files/hello.txt
-        status: 200
-        headers:
-          Content-Type: text/plain
-    - request:
-        method: GET
-        path: hello-json
-      response:
-        bodyFile: examples/files/hello.json
-        status: 200
-        headers:
-          Content-Type: application/json
-
-```
-
-Final structure:
-
-```bash
- <your-path>/examples/files/config.yaml
- <your-path>/examples/files/hello.json
- <your-path>/examples/files/hello.txt
-```
-
-Run in terminal:
-
-```bash
-docker run -p 4242:8000 \
--v ${PWD}/examples:/examples \
-abezpalov/mock-server \
--file=/examples/files/config.yaml
-```
-
-Check `hello.txt`:
-
-```bash
-curl -v http://localhost:4242/hello-txt
-
-### Response
-...
-< HTTP/1.1 200 OK
-< Content-Type: text/plain
-...
-Hello from file!
-```
-
-Check `hello.json`:
-
-```bash
-curl -v http://localhost:4242/hello-json
-
-### Response
-...
-< HTTP/1.1 200 OK
-< Content-Type: application/json
-...
-<
-{
-  "message": "Hello, World!"
-}
-```
-
-<a name="json-1"></a>
-
-### 6.3\. JSON
-
-Create file `examples/files/hello.txt` with content:
-
-```txt
-Hello from file!
-```
-
-Create file `examples/files/hello.json` with content:
-
-```json
-{
-  "message": "Hello, World!"
-}
-
-```
-
-Create file `examples/files/config.json` with content:
-
-```yaml
-{
-  "rest": {
-    "endpoints": [
-      {
-        "request": {
-          "method": "GET",
-          "path": "hello-txt"
-        },
-        "response": {
-          "bodyFile": "examples/files/hello.txt",
-          "status": 200,
-          "headers": {
-            "Content-Type": "text/plain"
-          }
-        }
-      },
-      {
-        "request": {
-          "method": "GET",
-          "path": "hello-json"
-        },
-        "response": {
-          "bodyFile": "examples/files/hello.json",
-          "status": 200,
-          "headers": {
-            "Content-Type": "application/json"
-          }
-        }
-      }
-    ]
-  }
-}
-
-```
-
-Final structure:
-
-```bash
- <your-path>/examples/files/config.json
- <your-path>/examples/files/hello.json
- <your-path>/examples/files/hello.txt
-```
-
-Run in terminal:
-
-```bash
-docker run -p 4242:8000 \
--v ${PWD}/examples:/examples \
-abezpalov/mock-server \
--file=/examples/files/config.json
-```
-
-Check `hello.txt`:
-
-```bash
-curl -v http://localhost:4242/hello-txt
-
-### Response
-...
-< HTTP/1.1 200 OK
-< Content-Type: text/plain
-...
-Hello from file!
-```
-
-Check `hello.json`:
-
-```bash
-curl -v http://localhost:4242/hello-json
-
-### Response
-...
-< HTTP/1.1 200 OK
-< Content-Type: application/json
-...
-<
-{
-  "message": "Hello, World!"
-}
-```
-
-<a name="api-2"></a>
-
-### 6.4\. API
-
-Run in terminal:
-
-```bash
-docker run -p 4242:8000 abezpalov/mock-server
-```
-
-Create file `examples/files/hello.txt` with content:
-
-```txt
-Hello from file!
-```
-
-Create file `examples/files/hello.json` with content:
-
-```json
-{
-  "message": "Hello, World!"
-}
-
-```
-
-Final structure:
-
-```bash
- <your-path>/examples/files/hello.json
- <your-path>/examples/files/hello.txt
-```
-
-**hello.txt**
-
-Send `POST` request to URL `http://localhost:4242/_api/files` with:
-
-- body as `form-data`
-  - `file: hello.txt`
-- headers:
-  - `ContentType: application/x-www-form-urlencoded`
-
-e.g., with `curl`:
-
-```bash
-curl -F 'file=@examples/files/hello.txt' http://localhost:4242/_api/files
-
-### Response, e.g.:
-{"id":"6694d2c422ac4208a0072939487f6999","name":"hello.txt","length":16}
-```
-
-Copy `id` from response, e.g., `6694d2c422ac4208a0072939487f6999`.
-
-Make `POST` request to URL `http://localhost:4242/_api/rest/endpoints` with body:
-
-```json
-{
-  "request": {
-    "method": "GET",
-    "path": "hello-txt"
-  },
-  "response": {
-    "status": 200,
-    "bodyFile": "<changed-to-id>",
-    "headers": {
-      "Content-Type": "text/plain"
-    }
-  }
-}
-
-```
-
-e.g., with `curl` _(replace `changed-to-id` to `id` above, copy all 3 code blocks below and paste in terminal)_:
-
-```bash
-curl -X POST http://localhost:4242/_api/rest/endpoints \
--H "Content-Type: application/json" \
--d @- << EOF
-```
-
-```json
-{
-  "request": {
-    "method": "GET",
-    "path": "hello-txt"
-  },
-  "response": {
-    "status": 200,
-    "bodyFile": "<changed-to-id>",
-    "headers": {
-      "Content-Type": "text/plain"
-    }
-  }
-}
-
-```
-
-```
-EOF
-```
-
-**hello.json**
-
-Send `POST` request to URL `http://localhost:4242/_api/files` with:
-
-- body as `form-data`
-  - `file: hello.json`
-- headers:
-  - `ContentType: application/x-www-form-urlencoded`
-
-e.g., with `curl`:
-
-```bash
-curl -F 'file=@examples/files/hello.json' http://localhost:4242/_api/files
-
-### Response, e.g.:
-{"id":"9566c74d10034c4dbbbb0407d1e2c649","name":"hello.json","length":16}
-```
-
-Copy `id` from response, e.g., `9566c74d10034c4dbbbb0407d1e2c649`.
-
-Make `POST` request to URL `http://localhost:4242/_api/rest/endpoints` with body:
-
-```json
-{
-  "request": {
-    "method": "GET",
-    "path": "hello-json"
-  },
-  "response": {
-    "status": 200,
-    "bodyFile": "<changed-to-id>",
-    "headers": {
-      "Content-Type": "application/json"
-    }
-  }
-}
-
-```
-
-e.g., with `curl` _(replace `changed-to-id` to `id` above, copy all 3 code blocks below and paste in terminal)_:
-
-```bash
-curl -X POST http://localhost:4242/_api/rest/endpoints \
--H "Content-Type: application/json" \
--d @- << EOF
-```
-
-```json
-{
-  "request": {
-    "method": "GET",
-    "path": "hello-json"
-  },
-  "response": {
-    "status": 200,
-    "bodyFile": "<changed-to-id>",
-    "headers": {
-      "Content-Type": "application/json"
-    }
-  }
-}
-
-```
-
-```
-EOF
-```
-
-Check `hello.txt`:
-
-```bash
-curl -v http://localhost:4242/hello-txt
-
-### Response
-...
-< HTTP/1.1 200 OK
-< Content-Type: text/plain
-...
-Hello from file!
-```
-
-Check `hello.json`:
-
-```bash
-curl -v http://localhost:4242/hello-json
-
-### Response
-...
-< HTTP/1.1 200 OK
-< Content-Type: application/json
-...
-<
-{
-  "message": "Hello, World!"
-}
-```

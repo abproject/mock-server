@@ -1,4 +1,4 @@
-Check `hello.txt`:
+**Check `hello.txt`:**
 
 ```bash
 curl -v http://localhost:4242/hello-txt
@@ -11,7 +11,7 @@ curl -v http://localhost:4242/hello-txt
 Hello from file!
 ```
 
-Check `hello.json`:
+**Check `hello.json`:**
 
 ```bash
 curl -v http://localhost:4242/hello-json

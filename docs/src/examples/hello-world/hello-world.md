@@ -42,14 +42,14 @@ Run in terminal:
 docker run -p 4242:8000 abezpalov/mock-server
 ```
 
-Make `POST` request to URL `http://localhost:4242/_api/rest/endpoint` with body:
+Make `POST` request to URL `http://localhost:4242/_api/rest/endpoints` with body:
 
 !INCLUDECODE "examples/hello/config-api.json" (json)
 
 e.g., with `curl` _(copy all 3 code blocks below and paste in terminal)_:
 
 ```bash
-curl -X POST http://localhost:4242/_api/rest/endpoint \
+curl -X POST http://localhost:4242/_api/rest/endpoints \
 -H "Content-Type: application/json" \
 -d @- << EOF
 ```

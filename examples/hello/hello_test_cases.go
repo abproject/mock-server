@@ -1,4 +1,4 @@
-package hello
+package exampleshello
 
 import (
 	"testing"
@@ -87,7 +87,7 @@ func GetHelloAPICases(t *testing.T) []test.RestAPITestCase {
 				Name:             "GET should return all configuration",
 				Method:           "GET",
 				Status:           200,
-				URI:              "/_api/rest/endpoint",
+				URI:              "/_api/rest/endpoints",
 				RequestFile:      "",
 				ResponseFile:     "api-get-all.json",
 				ExpectedResponse: []rest.EndpointRestDto{},

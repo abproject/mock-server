@@ -20,15 +20,20 @@
 4.1\.  [Rest Endpoint API](#restendpointapi)  
 4.1.1\.  [Rest Endpoint API Description](#restendpointapidescription)  
 4.1.2\.  [Rest Endpoint API Examples](#restendpointapiexamples)  
-4.1.2.1\.  [GET `/_api/rest/endpoint`](#get`/_api/rest/endpoint`)  
-4.1.2.2\.  [POST `/_api/rest/endpoint`](#post`/_api/rest/endpoint`)  
-4.1.2.3\.  [GET `/_api/rest/endpoint/:id`](#get`/_api/rest/endpoint/:id`)  
-4.1.2.4\.  [PUT `/_api/rest/endpoint/:id`](#put`/_api/rest/endpoint/:id`)  
-4.2\.  [Files API](#filesapi)  
-4.2.1\.  [Files API Description](#filesapidescription)  
-4.2.2\.  [Files API Examples](#filesapiexamples)  
-4.2.2.1\.  [GET `/_api/files`](#get`/_api/files`)  
-4.2.2.2\.  [GET `/_api/files/:id`](#get`/_api/files/:id`)  
+4.1.2.1\.  [GET `/_api/rest/endpoints`](#get`/_api/rest/endpoints`)  
+4.1.2.2\.  [POST `/_api/rest/endpoints`](#post`/_api/rest/endpoints`)  
+4.1.2.3\.  [GET `/_api/rest/endpoints/:id`](#get`/_api/rest/endpoints/:id`)  
+4.1.2.4\.  [PUT `/_api/rest/endpoints/:id`](#put`/_api/rest/endpoints/:id`)  
+4.2\.  [Rest Global API](#restglobalapi)  
+4.2.1\.  [Rest Global API Description](#restglobalapidescription)  
+4.2.2\.  [Rest Global API Examples](#restglobalapiexamples)  
+4.2.2.1\.  [GET `/_api/rest/global`](#get`/_api/rest/global`)  
+4.2.2.2\.  [POST `/_api/rest/global`](#post`/_api/rest/global`)  
+4.3\.  [Files API](#filesapi)  
+4.3.1\.  [Files API Description](#filesapidescription)  
+4.3.2\.  [Files API Examples](#filesapiexamples)  
+4.3.2.1\.  [GET `/_api/files`](#get`/_api/files`)  
+4.3.2.2\.  [GET `/_api/files/:id`](#get`/_api/files/:id`)  
 5\.  [Models](#models)  
 5.1\.  [Rest Endpoint Model](#restendpointmodel)  
 5.1.1\.  [Rest Endpoint Request Model](#restendpointrequestmodel)  
@@ -173,7 +178,7 @@ Run in terminal:
 docker run -p 4242:8000 abezpalov/mock-server
 ```
 
-Make `POST` request to URL `http://localhost:4242/_api/rest/endpoint` with body:
+Make `POST` request to URL `http://localhost:4242/_api/rest/endpoints` with body:
 
 ```json
 {
@@ -195,7 +200,7 @@ Make `POST` request to URL `http://localhost:4242/_api/rest/endpoint` with body:
 e.g., with `curl` _(copy all 3 code blocks below and paste in terminal)_:
 
 ```bash
-curl -X POST http://localhost:4242/_api/rest/endpoint \
+curl -X POST http://localhost:4242/_api/rest/endpoints \
 -H "Content-Type: application/json" \
 -d @- << EOF
 ```
@@ -305,28 +310,28 @@ rest:
 
 ### 4.1\. Rest Endpoint API
 
-URL: `/_api/rest/endpoint`
+URL: `/_api/rest/endpoints`
 
 <a name="restendpointapidescription"></a>
 
 #### 4.1.1\. Rest Endpoint API Description
 
-| Path                      | Method   | Description                                                         |                Request Body                 |                    Response Body                    | Success Status | Failed Status |
-| ------------------------- | -------- | ------------------------------------------------------------------- | :-----------------------------------------: | :-------------------------------------------------: | :------------: | :-----------: |
-| `/_api/rest/endpoint`     | `GET`    | Returns the list of all endpoints configurations                    |                      -                      | List of [Endpoint Model](#restendpointrequestmodel) |    **200**     |       -       |
-| `/_api/rest/endpoint`     | `POST`   | Creates new endpoint entity                                         | [Endpoint Model](#restendpointrequestmodel) |     [Endpoint Model](#restendpointrequestmodel)     |    **201**     |       -       |
-| `/_api/rest/endpoint`     | `DELETE` | Deletes all endpoints configuration                                 |                      -                      |                          -                          |    **204**     |       -       |
-| `/_api/rest/endpoint/:id` | `GET`    | Returns endpoint by `id` or error if not found                      |                      -                      |     [Endpoint Model](#restendpointrequestmodel)     |    **200**     |    **404**    |
-| `/_api/rest/endpoint/:id` | `PUT`    | Sets new endpoint configuration by `id`, returns error if not found | [Endpoint Model](#restendpointrequestmodel) |     [Endpoint Model](#restendpointrequestmodel)     |    **200**     |    **404**    |
-| `/_api/rest/endpoint/:id` | `DELETE` | Deletes endpoint configuration by `id`, returns error if not found  |                      -                      |                          -                          |    **204**     |    **404**    |
+| Path                       | Method   | Description                                                         |                Request Body                 |                    Response Body                    | Success Status | Failed Status |
+| -------------------------- | -------- | ------------------------------------------------------------------- | :-----------------------------------------: | :-------------------------------------------------: | :------------: | :-----------: |
+| `/_api/rest/endpoints`     | `GET`    | Returns the list of all endpoints configurations                    |                      -                      | List of [Endpoint Model](#restendpointrequestmodel) |    **200**     |       -       |
+| `/_api/rest/endpoints`     | `POST`   | Creates new endpoint entity                                         | [Endpoint Model](#restendpointrequestmodel) |     [Endpoint Model](#restendpointrequestmodel)     |    **201**     |       -       |
+| `/_api/rest/endpoints`     | `DELETE` | Deletes all endpoints configuration                                 |                      -                      |                          -                          |    **204**     |       -       |
+| `/_api/rest/endpoints/:id` | `GET`    | Returns endpoint by `id` or error if not found                      |                      -                      |     [Endpoint Model](#restendpointrequestmodel)     |    **200**     |    **404**    |
+| `/_api/rest/endpoints/:id` | `PUT`    | Sets new endpoint configuration by `id`, returns error if not found | [Endpoint Model](#restendpointrequestmodel) |     [Endpoint Model](#restendpointrequestmodel)     |    **200**     |    **404**    |
+| `/_api/rest/endpoints/:id` | `DELETE` | Deletes endpoint configuration by `id`, returns error if not found  |                      -                      |                          -                          |    **204**     |    **404**    |
 
 <a name="restendpointapiexamples"></a>
 
 #### 4.1.2\. Rest Endpoint API Examples
 
-<a name="get`/_api/rest/endpoint`"></a>
+<a name="get`/_api/rest/endpoints`"></a>
 
-##### 4.1.2.1\. GET `/_api/rest/endpoint`
+##### 4.1.2.1\. GET `/_api/rest/endpoints`
 
 **Response**
 ```json
@@ -352,9 +357,9 @@ URL: `/_api/rest/endpoint`
 
 ```
 
-<a name="post`/_api/rest/endpoint`"></a>
+<a name="post`/_api/rest/endpoints`"></a>
 
-##### 4.1.2.2\. POST `/_api/rest/endpoint`
+##### 4.1.2.2\. POST `/_api/rest/endpoints`
 
 **Request:**
 
@@ -398,9 +403,9 @@ URL: `/_api/rest/endpoint`
 
 ```
 
-<a name="get`/_api/rest/endpoint/:id`"></a>
+<a name="get`/_api/rest/endpoints/:id`"></a>
 
-##### 4.1.2.3\. GET `/_api/rest/endpoint/:id`
+##### 4.1.2.3\. GET `/_api/rest/endpoints/:id`
 
 **Response**
 ```json
@@ -424,9 +429,9 @@ URL: `/_api/rest/endpoint`
 
 ```
 
-<a name="put`/_api/rest/endpoint/:id`"></a>
+<a name="put`/_api/rest/endpoints/:id`"></a>
 
-##### 4.1.2.4\. PUT `/_api/rest/endpoint/:id`
+##### 4.1.2.4\. PUT `/_api/rest/endpoints/:id`
 
 **Request:**
 
@@ -469,15 +474,111 @@ URL: `/_api/rest/endpoint`
 
 ```
 
+<a name="restglobalapi"></a>
+
+### 4.2\. Rest Global API
+
+URL: `/_api/rest/global`
+
+<a name="restglobalapidescription"></a>
+
+#### 4.2.1\. Rest Global API Description
+
+| Path                | Method   | Description                            |                Request Body                 |                Response Body                | Success Status | Failed Status |
+| ------------------- | -------- | -------------------------------------- | :-----------------------------------------: | :-----------------------------------------: | :------------: | :-----------: |
+| `/_api/rest/global` | `GET`    | Returns global endpoint configurations |                      -                      | [Endpoint Model](#restendpointrequestmodel) |    **200**     |       -       |
+| `/_api/rest/global` | `POST`   | Creates new global endpoint entity     | [Endpoint Model](#restendpointrequestmodel) | [Endpoint Model](#restendpointrequestmodel) |    **201**     |       -       |
+| `/_api/rest/global` | `DELETE` | Deletes global endpoint configuration  |                      -                      |                      -                      |    **204**     |       -       |
+
+<a name="restglobalapiexamples"></a>
+
+#### 4.2.2\. Rest Global API Examples
+
+<a name="get`/_api/rest/global`"></a>
+
+##### 4.2.2.1\. GET `/_api/rest/global`
+
+**Response**
+```json
+{
+  "id": "",
+  "request": {
+    "method": "",
+    "path": "",
+    "pathReg": "",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": "",
+    "bodyFile": "",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
+
+```
+
+<a name="post`/_api/rest/global`"></a>
+
+##### 4.2.2.2\. POST `/_api/rest/global`
+
+**Request:**
+
+```json
+{
+  "request": {
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
+
+```
+
+**Response:**
+
+```json
+{
+  "id": "",
+  "request": {
+    "method": "",
+    "path": "",
+    "pathReg": "",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": "",
+    "bodyFile": "",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
+
+```
+
 <a name="filesapi"></a>
 
-### 4.2\. Files API
+### 4.3\. Files API
 
 URL: `/_api/files`
 
 <a name="filesapidescription"></a>
 
-#### 4.2.1\. Files API Description
+#### 4.3.1\. Files API Description
 
 | Path              | Method   | Description                                                     |                                                                        Request Body                                                                         |          Response Body           | Success Status | Failed Status |
 | ----------------- | -------- | --------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------: | :------------: | :-----------: |
@@ -490,11 +591,11 @@ URL: `/_api/files`
 
 <a name="filesapiexamples"></a>
 
-#### 4.2.2\. Files API Examples
+#### 4.3.2\. Files API Examples
 
 <a name="get`/_api/files`"></a>
 
-##### 4.2.2.1\. GET `/_api/files`
+##### 4.3.2.1\. GET `/_api/files`
 
 **Response**
 ```json
@@ -510,7 +611,7 @@ URL: `/_api/files`
 
 <a name="get`/_api/files/:id`"></a>
 
-##### 4.2.2.2\. GET `/_api/files/:id`
+##### 4.3.2.2\. GET `/_api/files/:id`
 
 **Response**
 ```json
@@ -820,7 +921,7 @@ curl -F 'file=@examples/files/hello.txt' http://localhost:4242/_api/files
 
 Copy `id` from response, e.g., `6694d2c422ac4208a0072939487f6999`.
 
-Make `POST` request to URL `http://localhost:4242/_api/rest/endpoint` with body:
+Make `POST` request to URL `http://localhost:4242/_api/rest/endpoints` with body:
 
 ```json
 {
@@ -842,7 +943,7 @@ Make `POST` request to URL `http://localhost:4242/_api/rest/endpoint` with body:
 e.g., with `curl` _(replace `changed-to-id` to `id` above, copy all 3 code blocks below and paste in terminal)_:
 
 ```bash
-curl -X POST http://localhost:4242/_api/rest/endpoint \
+curl -X POST http://localhost:4242/_api/rest/endpoints \
 -H "Content-Type: application/json" \
 -d @- << EOF
 ```
@@ -888,7 +989,7 @@ curl -F 'file=@examples/files/hello.json' http://localhost:4242/_api/files
 
 Copy `id` from response, e.g., `9566c74d10034c4dbbbb0407d1e2c649`.
 
-Make `POST` request to URL `http://localhost:4242/_api/rest/endpoint` with body:
+Make `POST` request to URL `http://localhost:4242/_api/rest/endpoints` with body:
 
 ```json
 {
@@ -910,7 +1011,7 @@ Make `POST` request to URL `http://localhost:4242/_api/rest/endpoint` with body:
 e.g., with `curl` _(replace `changed-to-id` to `id` above, copy all 3 code blocks below and paste in terminal)_:
 
 ```bash
-curl -X POST http://localhost:4242/_api/rest/endpoint \
+curl -X POST http://localhost:4242/_api/rest/endpoints \
 -H "Content-Type: application/json" \
 -d @- << EOF
 ```

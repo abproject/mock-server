@@ -1,0 +1,19 @@
+{
+  "id": "",
+  "request": {
+    "method": "",
+    "path": "",
+    "pathReg": "",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  },
+  "response": {
+    "status": 0,
+    "body": "",
+    "bodyFile": "",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

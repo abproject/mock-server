@@ -1,4 +1,4 @@
-package hello
+package exampleshello
 
 import (
 	"bytes"
@@ -47,7 +47,7 @@ func configureAPI(t *testing.T) router.IRouter {
 		t.Fatal(err)
 	}
 	reader := bytes.NewReader(file)
-	request := httptest.NewRequest("POST", "/_api/rest/endpoint", reader)
+	request := httptest.NewRequest("POST", "/_api/rest/endpoints", reader)
 	response := httptest.NewRecorder()
 	router.Route(response, request)
 

@@ -1,0 +1,13 @@
+{
+  "request": {
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  },
+  "response": {
+    "status": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

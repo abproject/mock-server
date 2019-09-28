@@ -1,4 +1,4 @@
-package api
+package examplesapirestendpoint
 
 import (
 	"bytes"
@@ -13,6 +13,8 @@ import (
 	"github.com/abproject/mock-server/internal/router"
 	"github.com/abproject/mock-server/test"
 )
+
+var baseURL = "/_api/rest/endpoints"
 
 func configureAPI(t *testing.T) router.IRouter {
 	restStorage := rest.MakeStorage()
@@ -37,7 +39,7 @@ func configureAPIWithEntry(t *testing.T) (router.IRouter, string) {
 		t.Fatal(err)
 	}
 	reader := bytes.NewReader(file)
-	request := httptest.NewRequest("POST", "/_api/rest/endpoint", reader)
+	request := httptest.NewRequest("POST", baseURL, reader)
 	response := httptest.NewRecorder()
 	router.Route(response, request)
 
@@ -52,7 +54,7 @@ func configureAPIWithEntry(t *testing.T) (router.IRouter, string) {
 	return router, configureBody.ID
 }
 
-func TestApiRestPostE2E(t *testing.T) {
+func TestApiRestEndpointPostE2E(t *testing.T) {
 	router := configureAPI(t)
 	testCase := test.RestAPTestCaseFactory(t)
 	testCases := []test.RestAPITestCase{
@@ -61,7 +63,7 @@ func TestApiRestPostE2E(t *testing.T) {
 				Name:             "POST Should get valid response",
 				Method:           "POST",
 				Status:           201,
-				URI:              "/_api/rest/endpoint",
+				URI:              baseURL,
 				RequestFile:      "api-post-request.json",
 				ResponseFile:     "api-post-response.json",
 				ExpectedResponse: rest.EndpointRestDto{},
@@ -76,7 +78,7 @@ func TestApiRestPostE2E(t *testing.T) {
 	}
 }
 
-func TestApiRestGetAllE2E(t *testing.T) {
+func TestApiRestEndpointGetAllE2E(t *testing.T) {
 	router := configureAPI(t)
 	testCase := test.RestAPTestCaseFactory(t)
 	testCases := []test.RestAPITestCase{
@@ -85,7 +87,7 @@ func TestApiRestGetAllE2E(t *testing.T) {
 				Name:             "GET ALL Should return empty array",
 				Method:           "GET",
 				Status:           200,
-				URI:              "/_api/rest/endpoint",
+				URI:              baseURL,
 				RequestFile:      "",
 				ResponseFile:     "api-get-all-empty-response.json",
 				ExpectedResponse: []rest.EndpointRestDto{},
@@ -100,7 +102,7 @@ func TestApiRestGetAllE2E(t *testing.T) {
 	}
 }
 
-func TestApiRestGetAllWithEntryE2E(t *testing.T) {
+func TestApiRestEndpointGetAllWithEntryE2E(t *testing.T) {
 	router, _ := configureAPIWithEntry(t)
 	testCase := test.RestAPTestCaseFactory(t)
 	testCases := []test.RestAPITestCase{
@@ -109,7 +111,7 @@ func TestApiRestGetAllWithEntryE2E(t *testing.T) {
 				Name:             "GET ALL Should return one entry",
 				Method:           "GET",
 				Status:           200,
-				URI:              "/_api/rest/endpoint",
+				URI:              baseURL,
 				RequestFile:      "",
 				ResponseFile:     "api-get-all-response.json",
 				ExpectedResponse: []rest.EndpointRestDto{},
@@ -124,7 +126,7 @@ func TestApiRestGetAllWithEntryE2E(t *testing.T) {
 	}
 }
 
-func TestApiRestDeleteAllWithEntryE2E(t *testing.T) {
+func TestApiRestEndpointDeleteAllWithEntryE2E(t *testing.T) {
 	router, _ := configureAPIWithEntry(t)
 	testCase := test.RestAPTestCaseFactory(t)
 	testCases := []test.RestAPITestCase{
@@ -133,7 +135,7 @@ func TestApiRestDeleteAllWithEntryE2E(t *testing.T) {
 				Name:             "DELETE ALL Should delete all entries",
 				Method:           "DELETE",
 				Status:           204,
-				URI:              "/_api/rest/endpoint",
+				URI:              baseURL,
 				RequestFile:      "",
 				ResponseFile:     "",
 				ExpectedResponse: nil,
@@ -144,7 +146,7 @@ func TestApiRestDeleteAllWithEntryE2E(t *testing.T) {
 				Name:             "GET ALL Should return empty array",
 				Method:           "GET",
 				Status:           200,
-				URI:              "/_api/rest/endpoint",
+				URI:              baseURL,
 				RequestFile:      "",
 				ResponseFile:     "api-get-all-empty-response.json",
 				ExpectedResponse: []rest.EndpointRestDto{},
@@ -159,7 +161,7 @@ func TestApiRestDeleteAllWithEntryE2E(t *testing.T) {
 	}
 }
 
-func TestApiRestGetByIdWithEntryE2E(t *testing.T) {
+func TestApiRestEndpointGetByIdWithEntryE2E(t *testing.T) {
 	router, id := configureAPIWithEntry(t)
 	testCase := test.RestAPTestCaseFactory(t)
 	testCases := []test.RestAPITestCase{
@@ -168,7 +170,7 @@ func TestApiRestGetByIdWithEntryE2E(t *testing.T) {
 				Name:             "GET by ID should return entry",
 				Method:           "GET",
 				Status:           200,
-				URI:              "/_api/rest/endpoint/" + id,
+				URI:              baseURL + "/" + id,
 				RequestFile:      "",
 				ResponseFile:     "api-get-response.json",
 				ExpectedResponse: rest.EndpointRestDto{},
@@ -183,7 +185,7 @@ func TestApiRestGetByIdWithEntryE2E(t *testing.T) {
 	}
 }
 
-func TestApiRestGetByWrongIdE2E(t *testing.T) {
+func TestApiRestEndpointGetByWrongIdE2E(t *testing.T) {
 	router := configureAPI(t)
 	testCase := test.RestAPTestCaseFactory(t)
 	testCases := []test.RestAPITestCase{
@@ -192,7 +194,7 @@ func TestApiRestGetByWrongIdE2E(t *testing.T) {
 				Name:             "GET by wrong ID should return error",
 				Method:           "GET",
 				Status:           404,
-				URI:              "/_api/rest/endpoint/wrong-id",
+				URI:              baseURL + "/wrong-id",
 				RequestFile:      "",
 				ResponseFile:     "",
 				ExpectedResponse: nil,
@@ -207,7 +209,7 @@ func TestApiRestGetByWrongIdE2E(t *testing.T) {
 	}
 }
 
-func TestApiRestPutByWithEntryE2E(t *testing.T) {
+func TestApiRestEndpointPutByWithEntryE2E(t *testing.T) {
 	router, id := configureAPIWithEntry(t)
 	testCase := test.RestAPTestCaseFactory(t)
 	testCases := []test.RestAPITestCase{
@@ -216,7 +218,7 @@ func TestApiRestPutByWithEntryE2E(t *testing.T) {
 				Name:             "PUT by ID should modify entry",
 				Method:           "PUT",
 				Status:           200,
-				URI:              "/_api/rest/endpoint/" + id,
+				URI:              "/_api/rest/endpoints/" + id,
 				RequestFile:      "api-put-request.json",
 				ResponseFile:     "api-put-response.json",
 				ExpectedResponse: rest.EndpointRestDto{},
@@ -227,7 +229,7 @@ func TestApiRestPutByWithEntryE2E(t *testing.T) {
 				Name:             "GET ALL should return modified entries",
 				Method:           "GET",
 				Status:           200,
-				URI:              "/_api/rest/endpoint",
+				URI:              baseURL,
 				RequestFile:      "",
 				ResponseFile:     "api-get-all-modified-response.json",
 				ExpectedResponse: []rest.EndpointRestDto{},
@@ -242,7 +244,7 @@ func TestApiRestPutByWithEntryE2E(t *testing.T) {
 	}
 }
 
-func TestApiRestPutByWrongIdE2E(t *testing.T) {
+func TestApiRestEndpointPutByWrongIdE2E(t *testing.T) {
 	router := configureAPI(t)
 	testCase := test.RestAPTestCaseFactory(t)
 	testCases := []test.RestAPITestCase{
@@ -251,7 +253,7 @@ func TestApiRestPutByWrongIdE2E(t *testing.T) {
 				Name:             "PUT by wrong ID should return error",
 				Method:           "PUT",
 				Status:           404,
-				URI:              "/_api/rest/endpoint/wrong-id",
+				URI:              baseURL + "/wrong-id",
 				RequestFile:      "api-put-request.json",
 				ResponseFile:     "",
 				ExpectedResponse: nil,
@@ -266,7 +268,7 @@ func TestApiRestPutByWrongIdE2E(t *testing.T) {
 	}
 }
 
-func TestApiRestDeleteByWithEntryE2E(t *testing.T) {
+func TestApiRestEndpointDeleteByWithEntryE2E(t *testing.T) {
 	router, id := configureAPIWithEntry(t)
 	testCase := test.RestAPTestCaseFactory(t)
 	testCases := []test.RestAPITestCase{
@@ -275,7 +277,7 @@ func TestApiRestDeleteByWithEntryE2E(t *testing.T) {
 				Name:             "DELETE by ID should delete entry",
 				Method:           "DELETE",
 				Status:           204,
-				URI:              "/_api/rest/endpoint/" + id,
+				URI:              baseURL + "/" + id,
 				RequestFile:      "",
 				ResponseFile:     "",
 				ExpectedResponse: nil,
@@ -286,7 +288,7 @@ func TestApiRestDeleteByWithEntryE2E(t *testing.T) {
 				Name:             "GET ALL Should return empty entries",
 				Method:           "GET",
 				Status:           200,
-				URI:              "/_api/rest/endpoint",
+				URI:              baseURL,
 				RequestFile:      "",
 				ResponseFile:     "api-get-all-empty-response.json",
 				ExpectedResponse: []rest.EndpointRestDto{},
@@ -301,7 +303,7 @@ func TestApiRestDeleteByWithEntryE2E(t *testing.T) {
 	}
 }
 
-func TestApiRestDeleteByWrongIdE2E(t *testing.T) {
+func TestApiRestEndpointDeleteByWrongIdE2E(t *testing.T) {
 	router := configureAPI(t)
 	testCase := test.RestAPTestCaseFactory(t)
 	testCases := []test.RestAPITestCase{
@@ -310,7 +312,7 @@ func TestApiRestDeleteByWrongIdE2E(t *testing.T) {
 				Name:             "DELETE by wrong ID should return error",
 				Method:           "DELETE",
 				Status:           404,
-				URI:              "/_api/rest/endpoint/wrong-id",
+				URI:              baseURL + "/wrong-id",
 				RequestFile:      "",
 				ResponseFile:     "",
 				ExpectedResponse: nil,

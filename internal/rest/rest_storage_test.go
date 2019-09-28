@@ -228,6 +228,101 @@ func TestRestStorageDeleteAll(t *testing.T) {
 	}
 }
 
+func TestRestGlobalStorageAdd(t *testing.T) {
+	storage := MakeStorage()
+	config := getEndpointRestDto()
+
+	actual := storage.AddGlobal(config)
+
+	if actual.ID != "" {
+		t.Errorf("Id must be empty")
+	}
+	config.ID = actual.ID
+	if !reflect.DeepEqual(config, actual) {
+		t.Errorf("Must Be Equal:\nExpected: %+v\nActual: %+v", config, actual)
+	}
+}
+
+func TestRestGlobalStorageAddOverrides(t *testing.T) {
+	storage := MakeStorage()
+	config := getEndpointRestDto()
+	storage.AddGlobal(config)
+	config.Request.Path = "new-path"
+
+	actual := storage.AddGlobal(config)
+
+	if actual.ID != "" {
+		t.Errorf("Id must be empty")
+	}
+	config.ID = actual.ID
+	if !reflect.DeepEqual(config, actual) {
+		t.Errorf("Must Be Equal:\nExpected: %+v\nActual: %+v", config, actual)
+	}
+}
+
+func TestRestGlobalStorageGetEmpty(t *testing.T) {
+	storage := MakeStorage()
+	config := EndpointRestDto{}
+
+	actual := storage.GetGlobal()
+
+	if actual.ID != "" {
+		t.Errorf("Id must be empty")
+	}
+	if !reflect.DeepEqual(config, actual) {
+		t.Errorf("Must Be Equal:\nExpected: %+v\nActual: %+v", config, actual)
+	}
+}
+
+func TestRestGlobalStorageGetWhenExist(t *testing.T) {
+	storage := MakeStorage()
+	config := getEndpointRestDto()
+	storage.AddGlobal(config)
+
+	actual := storage.GetGlobal()
+
+	if actual.ID != "" {
+		t.Errorf("Id must be empty")
+	}
+	config.ID = actual.ID
+	if !reflect.DeepEqual(config, actual) {
+		t.Errorf("Must Be Equal:\nExpected: %+v\nActual: %+v", config, actual)
+	}
+}
+
+func TestRestGlobalStorageDelete(t *testing.T) {
+	storage := MakeStorage()
+	config := EndpointRestDto{}
+
+	storage.DeleteGlobal()
+
+	actual := storage.GetGlobal()
+	if actual.ID != "" {
+		t.Errorf("Id must be empty")
+	}
+	if !reflect.DeepEqual(config, actual) {
+		t.Errorf("Must Be Equal:\nExpected: %+v\nActual: %+v", config, actual)
+	}
+}
+
+func TestRestGlobalStorageDeleteWhenExist(t *testing.T) {
+	storage := MakeStorage()
+	config := getEndpointRestDto()
+	storage.AddGlobal(config)
+
+	storage.DeleteGlobal()
+
+	actual := storage.GetGlobal()
+	config = EndpointRestDto{}
+	if actual.ID != "" {
+		t.Errorf("Id must be empty")
+	}
+	config.ID = actual.ID
+	if !reflect.DeepEqual(config, actual) {
+		t.Errorf("Must Be Equal:\nExpected: %+v\nActual: %+v", config, actual)
+	}
+}
+
 func getEndpointRestDto() EndpointRestDto {
 	return EndpointRestDto{
 		ID: "",

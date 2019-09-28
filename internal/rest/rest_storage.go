@@ -20,6 +20,9 @@ type StorageRest interface {
 	GetAll() []EndpointRestDto
 	FindByRequest(r *http.Request) (EndpointRestDto, error)
 	Size() int
+	AddGlobal(config EndpointRestDto) EndpointRestDto
+	GetGlobal() EndpointRestDto
+	DeleteGlobal()
 }
 
 // MakeStorage Create new Storage
@@ -108,4 +111,24 @@ func (storage *restStorage) DeleteAll() {
 
 func (storage *restStorage) Size() int {
 	return len(storage.data)
+}
+
+func (storage *restStorage) AddGlobal(config EndpointRestDto) EndpointRestDto {
+	config.ID = ""
+	storage.global = &entityRest{
+		Config:  config,
+		created: time.Now().UnixNano(),
+	}
+	return storage.global.Config
+}
+
+func (storage *restStorage) GetGlobal() EndpointRestDto {
+	if storage.global != nil {
+		return storage.global.Config
+	}
+	return EndpointRestDto{}
+}
+
+func (storage *restStorage) DeleteGlobal() {
+	storage.global = nil
 }

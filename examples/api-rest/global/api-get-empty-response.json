@@ -1,0 +1,15 @@
+{
+  "id": "",
+  "request": {
+    "method": "",
+    "path": "",
+    "pathReg": "",
+    "headers": null
+  },
+  "response": {
+    "status": 0,
+    "body": "",
+    "bodyFile": "",
+    "headers": null
+  }
+}

@@ -1,6 +1,6 @@
 # CRUD
 
-There are different combinations of `body` and `bodyFile` are shown in the examples, it is recommended to select one and stick to it.
+In example there are only `bodyFile` configuration, but it is possible to use `body` as text instead.
 
 > `:id` doesn't analyse the `id` of object `body` or `bodyFile`, so if there is need to have `404 Status` in case of not existing `id` or dynamic answer depending on `id` check [Entries](#entries) example.
 
@@ -83,20 +83,13 @@ rest:
         method: GET
         path: planets/:id
       response:
-        body: >
-          { 
-            "id": 3,
-            "name": "Earth",
-            "type": "Terrestrial planet",
-            "period": 1,
-            "atmosphere": ["N2", "O2", "Ar"]
-          }
+        bodyFile: examples/crud/data-id-3.json
     - request:
         method: POST
         path: planets
       response:
         status: 201
-        body: '{"id":3, "name":"Earth", "type":"Terrestrial planet", "period":1, "atmosphere": ["N2", "O2", "Ar"]}'
+        bodyFile: examples/crud/data-id-3.json
     - request:
         method: PUT
         path: planets/:id
@@ -302,7 +295,7 @@ abezpalov/mock-server \
           "path": "planets/:id"
         },
         "response": {
-          "body": "{  \"id\": 3,\n  \"name\": \"Earth\",\n  \"type\": \"Terrestrial planet\",\n  \"period\": 1,\n  \"atmosphere\": [\"N2\", \"O2\", \"Ar\"]\n}\n"
+          "bodyFile": "examples/crud/data-id-3.json"
         }
       },
       {
@@ -312,7 +305,7 @@ abezpalov/mock-server \
         },
         "response": {
           "status": 201,
-          "body": "{\"id\":3, \"name\":\"Earth\", \"type\":\"Terrestrial planet\", \"period\":1, \"atmosphere\": [\"N2\", \"O2\", \"Ar\"]}"
+          "bodyFile": "examples/crud/data-id-3.json"
         }
       },
       {

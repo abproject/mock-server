@@ -259,6 +259,16 @@ Hello, World!
 
 ```yaml
 rest:
+  global:
+    - request:
+        method: method name
+        path: url path
+      response:
+        body: response body
+        bodyFile: response body as file
+        status: http status
+        headers: # Map
+          header-key: header-value
   endpoints: # List of Endpoint Models
     - request:
         method: method name
@@ -285,6 +295,22 @@ rest:
 ```json
 {
   "rest": {
+    "global": [
+      {
+        "request": {
+          "method": "method name",
+          "path": "url path"
+        },
+        "response": {
+          "body": "response body",
+          "bodyFile": "response body as file",
+          "status": "http status",
+          "headers": {
+            "header-key": "header-value"
+          }
+        }
+      }
+    ],
     "endpoints": [
       {
         "request": {

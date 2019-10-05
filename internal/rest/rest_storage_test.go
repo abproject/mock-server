@@ -323,6 +323,69 @@ func TestRestGlobalStorageDeleteWhenExist(t *testing.T) {
 	}
 }
 
+func TestRestStorageGetWhenGlobalConfigured(t *testing.T) {
+	storage := MakeStorage()
+	global := getEndpointRestDto()
+	storage.AddGlobal(global)
+	config := EndpointRestDto{
+		Request: RequestRestDto{
+			Path:    "new-path",
+			PathReg: "new-path-reg",
+		},
+		Response: ResponseRestDto{
+			Body: "new-body",
+		},
+	}
+	created := storage.Add(config)
+	expected := getEndpointRestDto()
+	expected.Request.Path = "new-path"
+	expected.Request.PathReg = "new-path-reg"
+	expected.Response.Body = "new-body"
+
+	actualAgain, err := storage.Get(created.ID)
+
+	if err != nil {
+		t.Errorf(err.Error())
+	}
+	expected.ID = actualAgain.ID
+	if !reflect.DeepEqual(expected, actualAgain) {
+		t.Errorf("Storage entry must be the same:\nBefore: %+v\nAfter: %+v", expected, actualAgain)
+	}
+}
+
+func TestRestStorageGetAllWhenGlobalConfigured(t *testing.T) {
+	storage := MakeStorage()
+	global := getEndpointRestDto()
+	storage.AddGlobal(global)
+	config1 := EndpointRestDto{
+		Request: RequestRestDto{
+			Path: "path-1",
+		},
+	}
+	config2 := EndpointRestDto{
+		Request: RequestRestDto{
+			Path: "path-2",
+		},
+	}
+	// First expected
+	expected1 := getEndpointRestDto()
+	expected1.Request.Path = "path-1"
+	stored1 := storage.Add(config1)
+	expected1.ID = stored1.ID
+	// Second expected
+	expected2 := getEndpointRestDto()
+	expected2.Request.Path = "path-2"
+	stored2 := storage.Add(config2)
+	expected2.ID = stored2.ID
+	expected := []EndpointRestDto{expected1, expected2}
+
+	configs := storage.GetAll()
+
+	if !reflect.DeepEqual(expected, configs) {
+		t.Errorf("Must be the same:\nExpected: %+v\nActual: %+v", expected, configs)
+	}
+}
+
 func getEndpointRestDto() EndpointRestDto {
 	return EndpointRestDto{
 		ID: "",

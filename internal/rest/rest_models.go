@@ -3,6 +3,7 @@ package rest
 //Config Entry point for rest config
 type Config struct {
 	Endpoints []EndpointRestDto `json:"endpoints" yaml:"endpoints"`
+	Global    EndpointRestDto   `json:"global" yaml:"global"`
 }
 
 // EndpointRestDto Rest Endpoint Data Transfer Object

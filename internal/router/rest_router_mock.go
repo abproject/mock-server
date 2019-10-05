@@ -16,7 +16,6 @@ func RouteMock(c Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// Rest endpoint found
-	c.Logger.Printf("%s: \n%+v", r.RequestURI, endpoint)
 	for headerKey, headerValue := range endpoint.Response.Headers {
 		w.Header().Set(headerKey, headerValue)
 	}

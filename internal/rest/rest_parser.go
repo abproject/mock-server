@@ -20,6 +20,7 @@ type Context struct {
 func ParseConfig(c Context, config Config) {
 	restStorage := c.RestStorage
 	fileStorage := c.FileStorage
+	(*restStorage).AddGlobal(config.Global)
 	for _, endpoint := range config.Endpoints {
 		file := endpoint.Response.BodyFile
 		if file != "" && !(*fileStorage).IsExist(file) {

@@ -24,7 +24,7 @@
           "path": "planets/:id"
         },
         "response": {
-          "body": "{  \"id\": 3,\n  \"name\": \"Earth\",\n  \"type\": \"Terrestrial planet\",\n  \"period\": 1,\n  \"atmosphere\": [\"N2\", \"O2\", \"Ar\"]\n}\n"
+          "bodyFile": "examples/crud/data-id-3.json"
         }
       },
       {
@@ -34,7 +34,7 @@
         },
         "response": {
           "status": 201,
-          "body": "{\"id\":3, \"name\":\"Earth\", \"type\":\"Terrestrial planet\", \"period\":1, \"atmosphere\": [\"N2\", \"O2\", \"Ar\"]}"
+          "bodyFile": "examples/crud/data-id-3.json"
         }
       },
       {

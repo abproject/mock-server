@@ -43,7 +43,6 @@ func GetFilesMockCases(t *testing.T) []test.RestMockTestCase {
 					"Content-Type": "application/json",
 				},
 				Body: "{\"message\": \"Hello, World!\"}",
-				Type: body{},
 			}),
 	}
 }

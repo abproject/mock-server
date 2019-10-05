@@ -1,8 +1,8 @@
 # CRUD
 
-There are different combinations of `body` and `bodyFile` are shown in the examples, it is recommended to select one and stick to it.
+In example there are only `bodyFile` configuration, but it is possible to use `body` as text instead.
 
-> `:id` doesn't analyse the amount of objects in `body` or `bodyFile`, if there is need to have `404 Status` in case of not existing `id`, check [Entries](#entries) example.
+> `:id` doesn't analyse the `id` of object `body` or `bodyFile`, so if there is need to have `404 Status` in case of not existing `id` or dynamic answer depending on `id` check [Entries](#entries) example.
 
 !TOC
 

@@ -287,6 +287,7 @@ rest:
 | Path             | Model                                               |
 | ---------------- | --------------------------------------------------- |
 | `rest.endpoints` | List of [Endpoint Model](#restendpointrequestmodel) |
+| `rest.global`    | [Endpoint Model](#restendpointrequestmodel)         |
 
 <a name="configjson"></a>
 
@@ -337,6 +338,7 @@ rest:
 | Path             | Model                                               |
 | ---------------- | --------------------------------------------------- |
 | `rest.endpoints` | List of [Endpoint Model](#restendpointrequestmodel) |
+| `rest.global`    | [Endpoint Model](#restendpointrequestmodel)         |
 
 <a name="api-1"></a>
 

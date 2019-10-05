@@ -7,9 +7,7 @@ In example there are only `bodyFile` configuration, but it is possible to use `b
 1\.  [YAML](#yaml)  
 2\.  [JSON](#json)  
 3\.  [API](#api)  
-4\.  [Models](#models)  
-4.1\.  [CRUD Model All](#crudmodelall)  
-4.2\.  [CRUD Model One](#crudmodelone)  
+4\.  [CRUD Model](#crudmodel)  
 
 <a name="yaml"></a>
 
@@ -106,9 +104,9 @@ rest:
 **Final structure:**
 
 ```bash
-<your-path>/examples/crud/data.json
-<your-path>/examples/crud/data-id-3.json
-<your-path>/examples/crud/config.yaml
+./examples/crud/data.json
+./examples/crud/data-id-3.json
+./examples/crud/config.yaml
 ```
 
 **Run in terminal:**
@@ -142,7 +140,7 @@ abezpalov/mock-server \
       <code>curl -v http://localhost:4242/planets</code>
     </td>
     <td style="text-align:center"><code>200</code></td>
-    <td style="text-align:center"><a href="#crudmodelall">Body All</a>
+    <td style="text-align:center">List of <a href="#crudmodel">Models</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -153,7 +151,7 @@ abezpalov/mock-server \
       <code>curl -v http://localhost:4242/planets/3</code>
     </td>
     <td style="text-align:center"><code>200</code></td>
-    <td style="text-align:center"><a href="#crudmodelone">Body One</a>
+    <td style="text-align:center"><a href="#crudmodel">Model</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -164,7 +162,7 @@ abezpalov/mock-server \
       <code>curl -v http://localhost:4242/planets/42</code>
     </td>
     <td style="text-align:center"><code>200</code></td>
-    <td style="text-align:center"><a href="#crudmodelone">Body One</a>
+    <td style="text-align:center"><a href="#crudmodel">Model</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -175,7 +173,7 @@ abezpalov/mock-server \
       <code>curl -v -X POST http://localhost:4242/planets</code>
     </td>
     <td style="text-align:center"><code>201</code></td>
-    <td style="text-align:center"><a href="#crudmodelone">Body One</a>
+    <td style="text-align:center"><a href="#crudmodel">Model</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -186,7 +184,7 @@ abezpalov/mock-server \
       <code>curl -v -X PUT http://localhost:4242/planets/3</code>
     </td>
     <td style="text-align:center"><code>200</code></td>
-    <td style="text-align:center"><a href="#crudmodelone">Body One</a>
+    <td style="text-align:center"><a href="#crudmodel">Model</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -197,7 +195,7 @@ abezpalov/mock-server \
       <code>curl -v -X PUT  http://localhost:4242/planets/42</code>
     </td>
     <td style="text-align:center"><code>200</code></td>
-    <td style="text-align:center"><a href="#crudmodelone">Body One</a>
+    <td style="text-align:center"><a href="#crudmodel">Model</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -335,9 +333,9 @@ abezpalov/mock-server \
 **Final structure:**
 
 ```bash
-<your-path>/examples/crud/data.json
-<your-path>/examples/crud/data-id-3.json
-<your-path>/examples/crud/config.json
+./examples/crud/data.json
+./examples/crud/data-id-3.json
+./examples/crud/config.json
 ```
 
 **Run in terminal:**
@@ -371,7 +369,7 @@ abezpalov/mock-server \
       <code>curl -v http://localhost:4242/planets</code>
     </td>
     <td style="text-align:center"><code>200</code></td>
-    <td style="text-align:center"><a href="#crudmodelall">Body All</a>
+    <td style="text-align:center">List of <a href="#crudmodel">Models</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -382,7 +380,7 @@ abezpalov/mock-server \
       <code>curl -v http://localhost:4242/planets/3</code>
     </td>
     <td style="text-align:center"><code>200</code></td>
-    <td style="text-align:center"><a href="#crudmodelone">Body One</a>
+    <td style="text-align:center"><a href="#crudmodel">Model</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -393,7 +391,7 @@ abezpalov/mock-server \
       <code>curl -v http://localhost:4242/planets/42</code>
     </td>
     <td style="text-align:center"><code>200</code></td>
-    <td style="text-align:center"><a href="#crudmodelone">Body One</a>
+    <td style="text-align:center"><a href="#crudmodel">Model</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -404,7 +402,7 @@ abezpalov/mock-server \
       <code>curl -v -X POST http://localhost:4242/planets</code>
     </td>
     <td style="text-align:center"><code>201</code></td>
-    <td style="text-align:center"><a href="#crudmodelone">Body One</a>
+    <td style="text-align:center"><a href="#crudmodel">Model</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -415,7 +413,7 @@ abezpalov/mock-server \
       <code>curl -v -X PUT http://localhost:4242/planets/3</code>
     </td>
     <td style="text-align:center"><code>200</code></td>
-    <td style="text-align:center"><a href="#crudmodelone">Body One</a>
+    <td style="text-align:center"><a href="#crudmodel">Model</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -426,7 +424,7 @@ abezpalov/mock-server \
       <code>curl -v -X PUT  http://localhost:4242/planets/42</code>
     </td>
     <td style="text-align:center"><code>200</code></td>
-    <td style="text-align:center"><a href="#crudmodelone">Body One</a>
+    <td style="text-align:center"><a href="#crudmodel">Model</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -504,8 +502,8 @@ docker run -p 4242:8000 abezpalov/mock-server
 **Final structure:**
 
 ```bash
-<your-path>/examples/crud/data.json
-<your-path>/examples/crud/data-id-3.json
+./examples/crud/data.json
+./examples/crud/data-id-3.json
 ```
 
 **Create file for all data**
@@ -814,7 +812,7 @@ EOF
       <code>curl -v http://localhost:4242/planets</code>
     </td>
     <td style="text-align:center"><code>200</code></td>
-    <td style="text-align:center"><a href="#crudmodelall">Body All</a>
+    <td style="text-align:center">List of <a href="#crudmodel">Models</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -825,7 +823,7 @@ EOF
       <code>curl -v http://localhost:4242/planets/3</code>
     </td>
     <td style="text-align:center"><code>200</code></td>
-    <td style="text-align:center"><a href="#crudmodelone">Body One</a>
+    <td style="text-align:center"><a href="#crudmodel">Model</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -836,7 +834,7 @@ EOF
       <code>curl -v http://localhost:4242/planets/42</code>
     </td>
     <td style="text-align:center"><code>200</code></td>
-    <td style="text-align:center"><a href="#crudmodelone">Body One</a>
+    <td style="text-align:center"><a href="#crudmodel">Model</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -847,7 +845,7 @@ EOF
       <code>curl -v -X POST http://localhost:4242/planets</code>
     </td>
     <td style="text-align:center"><code>201</code></td>
-    <td style="text-align:center"><a href="#crudmodelone">Body One</a>
+    <td style="text-align:center"><a href="#crudmodel">Model</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -858,7 +856,7 @@ EOF
       <code>curl -v -X PUT http://localhost:4242/planets/3</code>
     </td>
     <td style="text-align:center"><code>200</code></td>
-    <td style="text-align:center"><a href="#crudmodelone">Body One</a>
+    <td style="text-align:center"><a href="#crudmodel">Model</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -869,7 +867,7 @@ EOF
       <code>curl -v -X PUT  http://localhost:4242/planets/42</code>
     </td>
     <td style="text-align:center"><code>200</code></td>
-    <td style="text-align:center"><a href="#crudmodelone">Body One</a>
+    <td style="text-align:center"><a href="#crudmodel">Model</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -885,51 +883,9 @@ EOF
   </tr>
 </table>
 
-<a name="models"></a>
+<a name="crudmodel"></a>
 
-## 4\. Models
-
-<a name="crudmodelall"></a>
-
-### 4.1\. CRUD Model All
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Mercury",
-    "type": "Terrestrial planet",
-    "period": 0.24,
-    "atmosphere": []
-  },
-  {
-    "id": 2,
-    "name": "Venus",
-    "type": "Terrestrial planet",
-    "period": 0.62,
-    "atmosphere": ["CO2", "N2"]
-  },
-  {
-    "id": 3,
-    "name": "Earth",
-    "type": "Terrestrial planet",
-    "period": 1,
-    "atmosphere": ["N2", "O2", "Ar"]
-  },
-  {
-    "id": 4,
-    "name": "Mars",
-    "type": "Terrestrial planet",
-    "period": 1.88,
-    "atmosphere": ["CO2", "N2", "Ar"]
-  }
-]
-
-```
-
-<a name="crudmodelone"></a>
-
-### 4.2\. CRUD Model One
+## 4\. CRUD Model
 
 ```json
 {

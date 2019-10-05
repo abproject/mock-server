@@ -20,7 +20,7 @@
       <code>curl -v http://localhost:4242/planets</code>
     </td>
     <td style="text-align:center"><code>200</code></td>
-    <td style="text-align:center"><a href="#crudmodelall">Body All</a>
+    <td style="text-align:center">List of <a href="#crudmodel">Models</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -31,7 +31,7 @@
       <code>curl -v http://localhost:4242/planets/3</code>
     </td>
     <td style="text-align:center"><code>200</code></td>
-    <td style="text-align:center"><a href="#crudmodelone">Body One</a>
+    <td style="text-align:center"><a href="#crudmodel">Model</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -42,7 +42,7 @@
       <code>curl -v http://localhost:4242/planets/42</code>
     </td>
     <td style="text-align:center"><code>200</code></td>
-    <td style="text-align:center"><a href="#crudmodelone">Body One</a>
+    <td style="text-align:center"><a href="#crudmodel">Model</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -53,7 +53,7 @@
       <code>curl -v -X POST http://localhost:4242/planets</code>
     </td>
     <td style="text-align:center"><code>201</code></td>
-    <td style="text-align:center"><a href="#crudmodelone">Body One</a>
+    <td style="text-align:center"><a href="#crudmodel">Model</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -64,7 +64,7 @@
       <code>curl -v -X PUT http://localhost:4242/planets/3</code>
     </td>
     <td style="text-align:center"><code>200</code></td>
-    <td style="text-align:center"><a href="#crudmodelone">Body One</a>
+    <td style="text-align:center"><a href="#crudmodel">Model</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>
@@ -75,7 +75,7 @@
       <code>curl -v -X PUT  http://localhost:4242/planets/42</code>
     </td>
     <td style="text-align:center"><code>200</code></td>
-    <td style="text-align:center"><a href="#crudmodelone">Body One</a>
+    <td style="text-align:center"><a href="#crudmodel">Model</a>
     </td>
     <td><code>Content-Type: application/json</code></td>
   </tr>

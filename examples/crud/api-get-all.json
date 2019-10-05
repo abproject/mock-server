@@ -1,0 +1,87 @@
+[
+  {
+    "id": ":id",
+    "request": {
+      "method": "GET",
+      "path": "planets",
+      "pathReg": "",
+      "headers": null
+    },
+    "response": {
+      "body": "",
+      "bodyFile": "examples/crud/data.json",
+      "status": 200,
+      "headers": {
+        "Content-Type": "application/json"
+      }
+    }
+  },
+  {
+    "id": ":id",
+    "request": {
+      "method": "GET",
+      "path": "planets/:id",
+      "pathReg": "",
+      "headers": null
+    },
+    "response": {
+      "body": "",
+      "bodyFile": "examples/crud/data-id-3.json",
+      "status": 200,
+      "headers": {
+        "Content-Type": "application/json"
+      }
+    }
+  },
+  {
+    "id": ":id",
+    "request": {
+      "method": "POST",
+      "path": "planets",
+      "pathReg": "",
+      "headers": null
+    },
+    "response": {
+      "body": "",
+      "bodyFile": "examples/crud/data-id-3.json",
+      "status": 201,
+      "headers": {
+        "Content-Type": "application/json"
+      }
+    }
+  },
+  {
+    "id": ":id",
+    "request": {
+      "method": "PUT",
+      "path": "planets/:id",
+      "pathReg": "",
+      "headers": null
+    },
+    "response": {
+      "body": "",
+      "bodyFile": "examples/crud/data-id-3.json",
+      "status": 200,
+      "headers": {
+        "Content-Type": "application/json"
+      }
+    }
+  },
+  {
+    "id": ":id",
+    "request": {
+      "method": "DELETE",
+      "path": "planets/:id",
+      "pathReg": "",
+      "headers": null
+    },
+    "response": {
+      "body": "",
+      "bodyFile": "",
+      "status": 204,
+      "headers": {
+        "Content-Type": "application/json"
+      }
+    }
+  }
+]

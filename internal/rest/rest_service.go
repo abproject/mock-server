@@ -25,7 +25,10 @@ func IsEqual(entity entityRest, r *http.Request) bool {
 		if len(path) == 0 || path[0] != '/' {
 			path = "/" + path
 		}
-		if strings.ToUpper(path) != strings.ToUpper(r.RequestURI) {
+		regDynamicID := regexp.MustCompile(`:[A-Za-z0-9_-]+`)
+		regPathString := regDynamicID.ReplaceAllString(path, "[A-Za-z0-9_-]+")
+		regPath := regexp.MustCompile("(?i)^" + regPathString + "$")
+		if !regPath.MatchString(r.RequestURI) {
 			return false
 		}
 	}

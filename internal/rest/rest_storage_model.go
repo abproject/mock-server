@@ -6,6 +6,6 @@ type restStorage struct {
 }
 
 type entityRest struct {
-	Config  EndpointRestDto
-	created int64
+	Config         EndpointRestDto
+	sequenceNumber int
 }

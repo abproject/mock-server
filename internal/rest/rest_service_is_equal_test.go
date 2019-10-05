@@ -378,6 +378,42 @@ var isEqualTestCases = []struct {
 		},
 		true,
 	},
+	{
+		RequestRestDto{
+			Method: "GET",
+			Path:   "path/:id",
+		},
+		Request{
+			Method:     "GET",
+			RequestURI: "/path/1",
+			Header:     map[string][]string{},
+		},
+		true,
+	},
+	{
+		RequestRestDto{
+			Method: "GET",
+			Path:   "path/:id",
+		},
+		Request{
+			Method:     "GET",
+			RequestURI: "/path/42",
+			Header:     map[string][]string{},
+		},
+		true,
+	},
+	{
+		RequestRestDto{
+			Method: "GET",
+			Path:   "path",
+		},
+		Request{
+			Method:     "GET",
+			RequestURI: "/path/1",
+			Header:     map[string][]string{},
+		},
+		false,
+	},
 }
 
 func TestRestServiceIsEqual(t *testing.T) {

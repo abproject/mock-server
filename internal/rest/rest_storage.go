@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net/http"
 	"sort"
-	"time"
 
 	"github.com/abproject/mock-server/internal/shared"
 )
@@ -25,10 +24,13 @@ type StorageRest interface {
 	DeleteGlobal()
 }
 
+var increment = 0
+
 // MakeStorage Create new Storage
 func MakeStorage() StorageRest {
 	return &restStorage{
-		data: make(map[string]*entityRest),
+		data:   make(map[string]*entityRest),
+		global: &entityRest{},
 	}
 }
 
@@ -36,15 +38,16 @@ func (storage *restStorage) Add(config EndpointRestDto) EndpointRestDto {
 	id := shared.GetRandomId()
 	config.ID = id
 	storage.data[id] = &entityRest{
-		Config:  config,
-		created: time.Now().UnixNano(),
+		Config:         config,
+		sequenceNumber: increment,
 	}
+	increment++
 	return storage.data[id].Config
 }
 
 func (storage *restStorage) Get(id string) (EndpointRestDto, error) {
 	if entry, ok := storage.data[id]; ok {
-		return entry.Config, nil
+		return mergeConfigs(storage.global.Config, entry.Config), nil
 	}
 	return EndpointRestDto{}, fmt.Errorf("Rest configuration with id=%s not found", id)
 }
@@ -74,13 +77,13 @@ func (storage *restStorage) GetAll() []EndpointRestDto {
 		data = append(data, value)
 	}
 	sort.Slice(data, func(i, j int) bool {
-		return data[i].created < data[j].created
+		return data[i].sequenceNumber < data[j].sequenceNumber
 	})
 
 	configs := make([]EndpointRestDto, len(data))
 	i := 0
 	for k := range data {
-		configs[i] = data[k].Config
+		configs[i] = mergeConfigs(storage.global.Config, data[k].Config)
 		i++
 	}
 
@@ -90,6 +93,7 @@ func (storage *restStorage) GetAll() []EndpointRestDto {
 func (storage *restStorage) FindByRequest(r *http.Request) (EndpointRestDto, error) {
 	var filtered []entityRest
 	for _, entity := range storage.data {
+		entity.Config = mergeConfigs(storage.global.Config, entity.Config)
 		if IsEqual(*entity, r) {
 			filtered = append(filtered, *entity)
 		}
@@ -116,8 +120,8 @@ func (storage *restStorage) Size() int {
 func (storage *restStorage) AddGlobal(config EndpointRestDto) EndpointRestDto {
 	config.ID = ""
 	storage.global = &entityRest{
-		Config:  config,
-		created: time.Now().UnixNano(),
+		Config:         config,
+		sequenceNumber: 0,
 	}
 	return storage.global.Config
 }
@@ -131,4 +135,42 @@ func (storage *restStorage) GetGlobal() EndpointRestDto {
 
 func (storage *restStorage) DeleteGlobal() {
 	storage.global = nil
+}
+
+func mergeConfigs(global EndpointRestDto, endpoint EndpointRestDto) EndpointRestDto {
+	endpoint.Request = mergeRequests(global.Request, endpoint.Request)
+	endpoint.Response = mergeResponse(global.Response, endpoint.Response)
+	return endpoint
+}
+
+func mergeRequests(global RequestRestDto, endpoint RequestRestDto) RequestRestDto {
+	if endpoint.Path == "" {
+		endpoint.Path = global.Path
+	}
+	if endpoint.PathReg == "" {
+		endpoint.PathReg = global.PathReg
+	}
+	if endpoint.Method == "" {
+		endpoint.Method = global.Method
+	}
+	if endpoint.Headers == nil {
+		endpoint.Headers = global.Headers
+	}
+	return endpoint
+}
+
+func mergeResponse(global ResponseRestDto, endpoint ResponseRestDto) ResponseRestDto {
+	if endpoint.Body == "" {
+		endpoint.Body = global.Body
+	}
+	if endpoint.BodyFile == "" {
+		endpoint.BodyFile = global.BodyFile
+	}
+	if endpoint.Status == 0 {
+		endpoint.Status = global.Status
+	}
+	if endpoint.Headers == nil {
+		endpoint.Headers = global.Headers
+	}
+	return endpoint
 }

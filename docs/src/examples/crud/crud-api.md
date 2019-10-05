@@ -11,8 +11,8 @@ docker run -p 4242:8000 abezpalov/mock-server
 **Final structure:**
 
 ```bash
-<your-path>/examples/crud/data.json
-<your-path>/examples/crud/data-id-3.json
+./examples/crud/data.json
+./examples/crud/data-id-3.json
 ```
 
 **Create file for all data**

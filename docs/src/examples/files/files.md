@@ -13,9 +13,9 @@
 **Final structure:**
 
 ```bash
-<your-path>/examples/files/hello.json
-<your-path>/examples/files/hello.txt
-<your-path>/examples/files/config.yaml
+./examples/files/hello.json
+./examples/files/hello.txt
+./examples/files/config.yaml
 ```
 
 **Run in terminal:**
@@ -40,9 +40,9 @@ abezpalov/mock-server \
 **Final structure:**
 
 ```bash
-<your-path>/examples/files/hello.json
-<your-path>/examples/files/hello.txt
-<your-path>/examples/files/config.json
+./examples/files/hello.json
+./examples/files/hello.txt
+./examples/files/config.json
 ```
 
 **Run in terminal:**
@@ -69,8 +69,8 @@ docker run -p 4242:8000 abezpalov/mock-server
 **Final structure:**
 
 ```bash
-<your-path>/examples/files/hello.json
-<your-path>/examples/files/hello.txt
+./examples/files/hello.json
+./examples/files/hello.txt
 ```
 
 **hello.txt**

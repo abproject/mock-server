@@ -17,9 +17,9 @@ In example there are only `bodyFile` configuration, but it is possible to use `b
 **Final structure:**
 
 ```bash
-<your-path>/examples/crud/data.json
-<your-path>/examples/crud/data-id-3.json
-<your-path>/examples/crud/config.yaml
+./examples/crud/data.json
+./examples/crud/data-id-3.json
+./examples/crud/config.yaml
 ```
 
 **Run in terminal:**
@@ -44,9 +44,9 @@ abezpalov/mock-server \
 **Final structure:**
 
 ```bash
-<your-path>/examples/crud/data.json
-<your-path>/examples/crud/data-id-3.json
-<your-path>/examples/crud/config.json
+./examples/crud/data.json
+./examples/crud/data-id-3.json
+./examples/crud/config.json
 ```
 
 **Run in terminal:**
@@ -62,12 +62,6 @@ abezpalov/mock-server \
 
 !INCLUDE "docs/src/examples/crud/crud-api.md", 1
 
-## Models
-
-### CRUD Model All
-
-!INCLUDECODE "examples/crud/data.json" (json)
-
-### CRUD Model One
+## CRUD Model
 
 !INCLUDECODE "examples/crud/data-id-3.json" (json)

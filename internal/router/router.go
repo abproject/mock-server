@@ -50,6 +50,10 @@ func (router *Router) Route(w http.ResponseWriter, r *http.Request) {
 			RouteRestGlobalAPI(*router.context, w, r)
 			return
 		}
+		if strings.HasPrefix(r.RequestURI, "/_api/rest/entities") {
+			RouteRestEntityAPI(*router.context, w, r)
+			return
+		}
 		if strings.HasPrefix(r.RequestURI, "/_api/file") {
 			RouteFileAPI(*router.context, w, r)
 			return

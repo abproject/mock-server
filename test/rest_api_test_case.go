@@ -218,8 +218,7 @@ func (testCase *RestAPITestCase) compareBody(expected interface{}, actual interf
 		}
 	} else {
 		id := actualValue.Interface().(map[string]interface{})["id"]
-		value := expectedValue.Interface()
-		expectedParsedValue, _ := value.(map[string]interface{})
+		expectedParsedValue, _ := expectedValue.Interface().(map[string]interface{})
 		expectedParsedValue["id"] = id
 
 		if !reflect.DeepEqual(expectedParsedValue, actual) {

@@ -2,7 +2,7 @@
 
 In example there are only `bodyFile` configuration, but it is possible to use `body` as text instead.
 
-> `:id` doesn't analyse the `id` of object `body` or `bodyFile`, so if there is need to have `404 Status` in case of not existing `id` or dynamic answer depending on `id` check [Entries](#entries) example.
+> `:id` doesn't analyse the `id` of object `body` or `bodyFile`, so if there is need to have `404 Status` in case of not existing `id` or dynamic answer depending on `id` check [Entities](ENTITIES_EXAMPLE.md) example.
 
 1\.  [YAML](#yaml)  
 2\.  [JSON](#json)  

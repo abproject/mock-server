@@ -1,0 +1,7 @@
+{
+  "id": 3,
+  "name": "Earth",
+  "type": "Terrestrial planet",
+  "period": 1,
+  "atmosphere": ["N2", "O2", "Ar"]
+}

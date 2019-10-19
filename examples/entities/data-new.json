@@ -1,0 +1,7 @@
+{
+  "id": 9,
+  "name": "Pluto",
+  "type": "Dwarf planet",
+  "period": 248,
+  "atmosphere": ["N2", "CH4", "CO"]
+}

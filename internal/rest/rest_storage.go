@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"sort"
 
+	"github.com/abproject/mock-server/internal/rest/restentity"
 	"github.com/abproject/mock-server/internal/shared"
 )
 
@@ -22,6 +23,7 @@ type StorageRest interface {
 	AddGlobal(config EndpointRestDto) EndpointRestDto
 	GetGlobal() EndpointRestDto
 	DeleteGlobal()
+	restentity.StorageRestEntity
 }
 
 var increment = 0
@@ -29,8 +31,9 @@ var increment = 0
 // MakeStorage Create new Storage
 func MakeStorage() StorageRest {
 	return &restStorage{
-		data:   make(map[string]*entityRest),
-		global: &entityRest{},
+		data:     make(map[string]*entityRest),
+		global:   &entityRest{},
+		entities: restentity.MakeEntityStorage(),
 	}
 }
 
@@ -90,6 +93,14 @@ func (storage *restStorage) GetAll() []EndpointRestDto {
 	return configs
 }
 
+func (storage *restStorage) DeleteAll() {
+	storage.data = make(map[string]*entityRest)
+}
+
+func (storage *restStorage) Size() int {
+	return len(storage.data)
+}
+
 func (storage *restStorage) FindByRequest(r *http.Request) (EndpointRestDto, error) {
 	var filtered []entityRest
 	for _, entity := range storage.data {
@@ -107,14 +118,6 @@ func (storage *restStorage) FindByRequest(r *http.Request) (EndpointRestDto, err
 		})
 	}
 	return filtered[0].Config, nil
-}
-
-func (storage *restStorage) DeleteAll() {
-	storage.data = make(map[string]*entityRest)
-}
-
-func (storage *restStorage) Size() int {
-	return len(storage.data)
 }
 
 func (storage *restStorage) AddGlobal(config EndpointRestDto) EndpointRestDto {
@@ -173,4 +176,33 @@ func mergeResponse(global ResponseRestDto, endpoint ResponseRestDto) ResponseRes
 		endpoint.Headers = global.Headers
 	}
 	return endpoint
+}
+
+// Entity
+func (storage *restStorage) AddEntity(config restentity.EntityRestDto) restentity.EntityRestDto {
+	return storage.entities.AddEntity(config)
+}
+
+func (storage *restStorage) GetEntity(id string) (restentity.EntityRestDto, error) {
+	return storage.entities.GetEntity(id)
+}
+
+func (storage *restStorage) PutEntity(id string, config restentity.EntityRestDto) (restentity.EntityRestDto, error) {
+	return storage.entities.PutEntity(id, config)
+}
+
+func (storage *restStorage) DeleteEntity(id string) error {
+	return storage.entities.DeleteEntity(id)
+}
+
+func (storage *restStorage) GetAllEntities() []restentity.EntityRestDto {
+	return storage.entities.GetAllEntities()
+}
+
+func (storage *restStorage) DeleteAllEntities() {
+	storage.entities.DeleteAllEntities()
+}
+
+func (storage *restStorage) SizeEntities() int {
+	return storage.entities.SizeEntities()
 }

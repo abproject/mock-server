@@ -16,6 +16,7 @@
 3\.  [Examples](#examples)  
 3.1\.  [Files](#files)  
 3.2\.  [CRUD](#crud)  
+3.3\.  [Entities](#entities)  
 4\.  [Config](#config)  
 4.1\.  [Config YAML](#configyaml)  
 4.2\.  [Config JSON](#configjson)  
@@ -32,16 +33,24 @@
 5.2.2\.  [Rest Global API Examples](#restglobalapiexamples)  
 5.2.2.1\.  [GET `/_api/rest/global`](#get`/_api/rest/global`)  
 5.2.2.2\.  [POST `/_api/rest/global`](#post`/_api/rest/global`)  
-5.3\.  [Files API](#filesapi)  
-5.3.1\.  [Files API Description](#filesapidescription)  
-5.3.2\.  [Files API Examples](#filesapiexamples)  
-5.3.2.1\.  [GET `/_api/files`](#get`/_api/files`)  
-5.3.2.2\.  [GET `/_api/files/:id`](#get`/_api/files/:id`)  
+5.3\.  [Rest Entity API](#restentityapi)  
+5.3.1\.  [Rest Entity API Description](#restentityapidescription)  
+5.3.2\.  [Rest Entity API Examples](#restentityapiexamples)  
+5.3.2.1\.  [GET `/_api/rest/entities`](#get`/_api/rest/entities`)  
+5.3.2.2\.  [POST `/_api/rest/entities`](#post`/_api/rest/entities`)  
+5.3.2.3\.  [GET `/_api/rest/entities/:id`](#get`/_api/rest/entities/:id`)  
+5.3.2.4\.  [PUT `/_api/rest/entities/:id`](#put`/_api/rest/entities/:id`)  
+5.4\.  [Files API](#filesapi)  
+5.4.1\.  [Files API Description](#filesapidescription)  
+5.4.2\.  [Files API Examples](#filesapiexamples)  
+5.4.2.1\.  [GET `/_api/files`](#get`/_api/files`)  
+5.4.2.2\.  [GET `/_api/files/:id`](#get`/_api/files/:id`)  
 6\.  [Models](#models)  
 6.1\.  [Rest Endpoint Model](#restendpointmodel)  
 6.1.1\.  [Rest Endpoint Request Model](#restendpointrequestmodel)  
 6.1.2\.  [Rest Endpoint Response Model](#restendpointresponsemodel)  
 6.2\.  [File Model](#filemodel)  
+6.3\.  [Rest Entity Model](#restentitymodel)  
 
 <a name="prerequisites"></a>
 
@@ -248,6 +257,10 @@ Hello, World!
 <a name="crud"></a>
 
 ### 3.2\. [CRUD](docs/CRUD_EXAMPLE.md)
+
+<a name="entities"></a>
+
+### 3.3\. [Entities](docs/ENTITIES_EXAMPLE.md)
 
 <a name="config"></a>
 
@@ -605,15 +618,124 @@ URL: `/_api/rest/global`
 
 ```
 
+<a name="restentityapi"></a>
+
+### 5.3\. Rest Entity API
+
+URL: `/_api/rest/entities`
+
+<a name="restentityapidescription"></a>
+
+#### 5.3.1\. Rest Entity API Description
+
+| Path                      | Method   | Description                                         |           Request Body           |              Response Body               | Success Status | Failed Status |
+| ------------------------- | -------- | --------------------------------------------------- | :------------------------------: | :--------------------------------------: | :------------: | :-----------: |
+| `/_api/rest/entities`     | `GET`    | Returns the list of all entities                    |                -                 | List of [Entity Model](#restentitymodel) |    **200**     |       -       |
+| `/_api/rest/entities`     | `POST`   | Creates new entity                                  | [Entity Model](#restentitymodel) |     [Entity Model](#restentitymodel)     |    **201**     |       -       |
+| `/_api/rest/entities`     | `DELETE` | Deletes all entities                                |                -                 |                    -                     |    **204**     |       -       |
+| `/_api/rest/entities/:id` | `GET`    | Returns entity by `id` or error if not found        |                -                 |     [Entity Model](#restentitymodel)     |    **200**     |    **404**    |
+| `/_api/rest/entities/:id` | `PUT`    | Sets new entity by `id`, returns error if not found | [Entity Model](#restentitymodel) |     [Entity Model](#restentitymodel)     |    **200**     |    **404**    |
+| `/_api/rest/entities/:id` | `DELETE` | Deletes entity by `id`, returns error if not found  |                -                 |                    -                     |    **204**     |    **404**    |
+
+<a name="restentityapiexamples"></a>
+
+#### 5.3.2\. Rest Entity API Examples
+
+<a name="get`/_api/rest/entities`"></a>
+
+##### 5.3.2.1\. GET `/_api/rest/entities`
+
+**Response**
+```json
+[
+  {
+    "id": ":id",
+    "path": "planets",
+    "dataFile": "planets.json",
+    "entityId": "id"
+  }
+]
+
+```
+
+<a name="post`/_api/rest/entities`"></a>
+
+##### 5.3.2.2\. POST `/_api/rest/entities`
+
+**Request:**
+
+```json
+{
+  "path": "planets",
+  "dataFile": "planets.json",
+  "entityId": "id"
+}
+
+```
+
+**Response:**
+
+```json
+{
+  "id": ":id",
+  "path": "planets",
+  "dataFile": "planets.json",
+  "entityId": "id"
+}
+
+```
+
+<a name="get`/_api/rest/entities/:id`"></a>
+
+##### 5.3.2.3\. GET `/_api/rest/entities/:id`
+
+**Response**
+```json
+{
+  "id": ":id",
+  "path": "planets",
+  "dataFile": "planets.json",
+  "entityId": "id"
+}
+
+```
+
+<a name="put`/_api/rest/entities/:id`"></a>
+
+##### 5.3.2.4\. PUT `/_api/rest/entities/:id`
+
+**Request:**
+
+```json
+{
+  "path": "planets",
+  "dataFile": "planets2.json",
+  "entityId": "id"
+}
+
+```
+
+**Response:**
+
+```json
+{
+  "id": ":id",
+  "path": "planets",
+  "dataFile": "planets2.json",
+  "entityId": "id"
+}
+
+```
+
 <a name="filesapi"></a>
 
-### 5.3\. Files API
+### 5.4\. Files API
 
 URL: `/_api/files`
 
 <a name="filesapidescription"></a>
 
-#### 5.3.1\. Files API Description
+#### 5.4.1\. Files API Description
 
 | Path              | Method   | Description                                                     |                                                                        Request Body                                                                         |          Response Body           | Success Status | Failed Status |
 | ----------------- | -------- | --------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------: | :------------: | :-----------: |
@@ -626,11 +748,11 @@ URL: `/_api/files`
 
 <a name="filesapiexamples"></a>
 
-#### 5.3.2\. Files API Examples
+#### 5.4.2\. Files API Examples
 
 <a name="get`/_api/files`"></a>
 
-##### 5.3.2.1\. GET `/_api/files`
+##### 5.4.2.1\. GET `/_api/files`
 
 **Response**
 ```json
@@ -646,7 +768,7 @@ URL: `/_api/files`
 
 <a name="get`/_api/files/:id`"></a>
 
-##### 5.3.2.2\. GET `/_api/files/:id`
+##### 5.4.2.2\. GET `/_api/files/:id`
 
 **Response**
 ```json
@@ -703,3 +825,14 @@ URL: `/_api/files`
 | `id`       | `string` | Unique Endpoint ID or file name in case of config parsing <br>**Generates by mock-server** |
 | `name`     | `string` | Provided file name                                                                         |
 | `length`   | `number` | Size of file in bytes                                                                      |
+
+<a name="restentitymodel"></a>
+
+### 6.3\. Rest Entity Model
+
+| Field Name | Type     | Description                                                    |
+| ---------- | -------- | -------------------------------------------------------------- |
+| `id`       | `string` | Unique Entity ID. **Generates by mock-server**                 |
+| `path`     | `string` | Entity path, e.g., `/my-path`. <br>**Required, Not Empty**     |
+| `dataFile` | `string` | Response body is the content of the file (must be JSON format) |
+| `entityId` | `string` | Property identifier name (`@id`) of entity (`dataFile` object) |

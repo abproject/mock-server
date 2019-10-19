@@ -628,14 +628,14 @@ URL: `/_api/rest/entities`
 
 #### 5.3.1\. Rest Entity API Description
 
-| Path                      | Method   | Description                                         |           Request Body           |              Response Body               | Success Status | Failed Status |
-| ------------------------- | -------- | --------------------------------------------------- | :------------------------------: | :--------------------------------------: | :------------: | :-----------: |
-| `/_api/rest/entities`     | `GET`    | Returns the list of all entities                    |                -                 | List of [Entity Model](#restentitymodel) |    **200**     |       -       |
-| `/_api/rest/entities`     | `POST`   | Creates new entity                                  | [Entity Model](#restentitymodel) |     [Entity Model](#restentitymodel)     |    **201**     |       -       |
-| `/_api/rest/entities`     | `DELETE` | Deletes all entities                                |                -                 |                    -                     |    **204**     |       -       |
-| `/_api/rest/entities/:id` | `GET`    | Returns entity by `id` or error if not found        |                -                 |     [Entity Model](#restentitymodel)     |    **200**     |    **404**    |
-| `/_api/rest/entities/:id` | `PUT`    | Sets new entity by `id`, returns error if not found | [Entity Model](#restentitymodel) |     [Entity Model](#restentitymodel)     |    **200**     |    **404**    |
-| `/_api/rest/entities/:id` | `DELETE` | Deletes entity by `id`, returns error if not found  |                -                 |                    -                     |    **204**     |    **404**    |
+| Path                        | Method   | Description                                           |           Request Body           |              Response Body               | Success Status | Failed Status |
+| --------------------------- | -------- | ----------------------------------------------------- | :------------------------------: | :--------------------------------------: | :------------: | :-----------: |
+| `/_api/rest/entities`       | `GET`    | Returns the list of all entities                      |                -                 | List of [Entity Model](#restentitymodel) |    **200**     |       -       |
+| `/_api/rest/entities`       | `POST`   | Creates new entity                                    | [Entity Model](#restentitymodel) |     [Entity Model](#restentitymodel)     |    **201**     |       -       |
+| `/_api/rest/entities`       | `DELETE` | Deletes all entities                                  |                -                 |                    -                     |    **204**     |       -       |
+| `/_api/rest/entities/:name` | `GET`    | Returns entity by `name` or error if not found        |                -                 |     [Entity Model](#restentitymodel)     |    **200**     |    **404**    |
+| `/_api/rest/entities/:name` | `PUT`    | Sets new entity by `name`, returns error if not found | [Entity Model](#restentitymodel) |     [Entity Model](#restentitymodel)     |    **200**     |    **404**    |
+| `/_api/rest/entities/:name` | `DELETE` | Deletes entity by `name`, returns error if not found  |                -                 |                    -                     |    **204**     |    **404**    |
 
 <a name="restentityapiexamples"></a>
 
@@ -649,10 +649,9 @@ URL: `/_api/rest/entities`
 ```json
 [
   {
-    "id": ":id",
-    "path": "planets",
-    "dataFile": "planets.json",
-    "entityId": "id"
+    "name": "planets",
+    "file": "planets.json",
+    "id": "id"
   }
 ]
 
@@ -666,9 +665,9 @@ URL: `/_api/rest/entities`
 
 ```json
 {
-  "path": "planets",
-  "dataFile": "planets.json",
-  "entityId": "id"
+  "name": "planets",
+  "file": "planets.json",
+  "id": "id"
 }
 
 ```
@@ -677,10 +676,9 @@ URL: `/_api/rest/entities`
 
 ```json
 {
-  "id": ":id",
-  "path": "planets",
-  "dataFile": "planets.json",
-  "entityId": "id"
+  "name": "planets",
+  "file": "planets.json",
+  "id": "id"
 }
 
 ```
@@ -692,10 +690,9 @@ URL: `/_api/rest/entities`
 **Response**
 ```json
 {
-  "id": ":id",
-  "path": "planets",
-  "dataFile": "planets.json",
-  "entityId": "id"
+  "name": "planets",
+  "file": "planets.json",
+  "id": "id"
 }
 
 ```
@@ -708,9 +705,9 @@ URL: `/_api/rest/entities`
 
 ```json
 {
-  "path": "planets",
-  "dataFile": "planets2.json",
-  "entityId": "id"
+  "name": "planets",
+  "file": "planets2.json",
+  "id": "id"
 }
 
 ```
@@ -719,10 +716,9 @@ URL: `/_api/rest/entities`
 
 ```json
 {
-  "id": ":id",
-  "path": "planets",
-  "dataFile": "planets2.json",
-  "entityId": "id"
+  "name": "planets",
+  "file": "planets2.json",
+  "id": "id"
 }
 
 ```
@@ -830,9 +826,8 @@ URL: `/_api/files`
 
 ### 6.3\. Rest Entity Model
 
-| Field Name | Type     | Description                                                    |
-| ---------- | -------- | -------------------------------------------------------------- |
-| `id`       | `string` | Unique Entity ID. **Generates by mock-server**                 |
-| `path`     | `string` | Entity path, e.g., `/my-path`. <br>**Required, Not Empty**     |
-| `dataFile` | `string` | Response body is the content of the file (must be JSON format) |
-| `entityId` | `string` | Property identifier name (`@id`) of entity (`dataFile` object) |
+| Field Name | Type     | Description                                                                               |
+| ---------- | -------- | ----------------------------------------------------------------------------------------- |
+| `name`     | `string` | Entity name, will be used as path e.g., `/some-name`. <br>**Required, Not Empty, Unique** |
+| `file`     | `string` | Response body is the content of the file (must be JSON format)                            |
+| `id`       | `string` | Property identifier name (`@id`) of entity (`file` object)                                |

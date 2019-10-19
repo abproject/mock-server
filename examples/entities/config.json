@@ -1,0 +1,12 @@
+{
+  "rest": {
+    "entities": [
+      {
+        "name": "planets",
+        "dataAll": "data-all.json",
+        "dataNew": "data-new.json",
+        "id": "id"
+      }
+    ]
+  }
+}

@@ -3,7 +3,8 @@ package examplescrud
 import (
 	"testing"
 
-	"github.com/abproject/mock-server/internal/rest"
+	"github.com/abproject/mock-server/internal/rest/restentity"
+
 	"github.com/abproject/mock-server/test"
 )
 
@@ -15,8 +16,8 @@ type body struct {
 	Atmosphere []string `json:"atmosphere" yaml:"atmosphere"`
 }
 
-// GetCRUDMockCases Returns all Test Cases
-func GetCRUDMockCases(t *testing.T) []test.RestMockTestCase {
+// GetEntitiesMockCases Returns all Test Cases
+func GetEntitiesMockCases(t *testing.T) []test.RestMockTestCase {
 	testCase := test.RestMockTestCaseFactory(t)
 
 	return []test.RestMockTestCase{
@@ -49,18 +50,18 @@ func GetCRUDMockCases(t *testing.T) []test.RestMockTestCase {
 				BodyFile: "data-id-3.json",
 			}),
 		testCase(
-			"GET should return correct body, headers ans status when id=1",
+			"GET should return 404 when id=42",
 			test.RestMockTestCaseRequest{
 				Type:    "GET",
-				Path:    "/planets/1",
+				Path:    "/planets/42",
 				Headers: map[string]string{},
 			},
 			test.RestMockTestCaseResponse{
-				Status: 200,
+				Status: 404,
 				Headers: map[string]string{
 					"Content-Type": "application/json",
 				},
-				BodyFile: "data-id-3.json",
+				Body: "",
 			}),
 		testCase(
 			"POST should return correct body, headers ans status",
@@ -74,7 +75,7 @@ func GetCRUDMockCases(t *testing.T) []test.RestMockTestCase {
 				Headers: map[string]string{
 					"Content-Type": "application/json",
 				},
-				BodyFile: "data-id-3.json",
+				BodyFile: "data-new.json",
 			}),
 		testCase(
 			"PUT should return correct body, headers ans status when id=3",
@@ -91,18 +92,18 @@ func GetCRUDMockCases(t *testing.T) []test.RestMockTestCase {
 				BodyFile: "data-id-3.json",
 			}),
 		testCase(
-			"PUT should return correct body, headers ans status when id=1",
+			"PUT should return 404 when id=42",
 			test.RestMockTestCaseRequest{
 				Type:    "PUT",
-				Path:    "/planets/1",
+				Path:    "/planets/42",
 				Headers: map[string]string{},
 			},
 			test.RestMockTestCaseResponse{
-				Status: 200,
+				Status: 404,
 				Headers: map[string]string{
 					"Content-Type": "application/json",
 				},
-				BodyFile: "data-id-3.json",
+				Body: "",
 			}),
 		testCase(
 			"DELETE should return correct body, headers ans status when id=3",
@@ -118,23 +119,24 @@ func GetCRUDMockCases(t *testing.T) []test.RestMockTestCase {
 				},
 			}),
 		testCase(
-			"DELETE should return correct body, headers ans status when id=1",
+			"DELETE should return 404 when id=42",
 			test.RestMockTestCaseRequest{
 				Type:    "DELETE",
-				Path:    "/planets/1",
+				Path:    "/planets/42",
 				Headers: map[string]string{},
 			},
 			test.RestMockTestCaseResponse{
-				Status: 204,
+				Status: 404,
 				Headers: map[string]string{
 					"Content-Type": "application/json",
 				},
+				Body: "",
 			}),
 	}
 }
 
-// GetCRUDAPICases Returns all Test Cases
-func GetCRUDAPICases(t *testing.T) []test.RestAPITestCase {
+// GetEntitiesAPICases Returns all Test Cases
+func GetEntitiesAPICases(t *testing.T) []test.RestAPITestCase {
 	testCase := test.RestAPTestCaseFactory(t)
 
 	return []test.RestAPITestCase{
@@ -143,11 +145,11 @@ func GetCRUDAPICases(t *testing.T) []test.RestAPITestCase {
 				Name:             "GET should return all configuration",
 				Method:           "GET",
 				Status:           200,
-				URI:              "/_api/rest/endpoints",
+				URI:              "/_api/rest/entities",
 				RequestFile:      "",
 				ResponseFile:     "api-get-all.json",
-				ExpectedResponse: []rest.EndpointRestDto{},
-				ActualResponse:   []rest.EndpointRestDto{},
+				ExpectedResponse: []restentity.EntityRestDto{},
+				ActualResponse:   []restentity.EntityRestDto{},
 			}),
 	}
 }

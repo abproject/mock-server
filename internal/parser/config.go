@@ -1,8 +1,8 @@
 package parser
 
-import "github.com/abproject/mock-server/internal/rest"
+import "github.com/abproject/mock-server/internal/rest/restmodels"
 
 // Config Entry poinf og configuration file
 type Config struct {
-	Rest rest.Config `json:"rest" yaml:"rest"`
+	Rest restmodels.Config `json:"rest" yaml:"rest"`
 }

@@ -1,9 +1,10 @@
-package rest
+package restmodels
 
 //Config Entry point for rest config
 type Config struct {
 	Endpoints []EndpointRestDto `json:"endpoints" yaml:"endpoints"`
 	Global    EndpointRestDto   `json:"global" yaml:"global"`
+	Entities  []EntityRestDto   `json:"entities" yaml:"entities"`
 }
 
 // EndpointRestDto Rest Endpoint Data Transfer Object

@@ -3,6 +3,8 @@ package rest
 import (
 	"reflect"
 	"testing"
+
+	"github.com/abproject/mock-server/internal/rest/restmodels"
 )
 
 func TestRestStorageNotSingleton(t *testing.T) {
@@ -189,7 +191,7 @@ func TestRestStorageGetAll(t *testing.T) {
 	config := getEndpointRestDto()
 	actual1 := storage.Add(config)
 	actual2 := storage.Add(config)
-	expected := []EndpointRestDto{actual1, actual2}
+	expected := []restmodels.EndpointRestDto{actual1, actual2}
 
 	configs := storage.GetAll()
 
@@ -262,7 +264,7 @@ func TestRestGlobalStorageAddOverrides(t *testing.T) {
 
 func TestRestGlobalStorageGetEmpty(t *testing.T) {
 	storage := MakeStorage()
-	config := EndpointRestDto{}
+	config := restmodels.EndpointRestDto{}
 
 	actual := storage.GetGlobal()
 
@@ -292,7 +294,7 @@ func TestRestGlobalStorageGetWhenExist(t *testing.T) {
 
 func TestRestGlobalStorageDelete(t *testing.T) {
 	storage := MakeStorage()
-	config := EndpointRestDto{}
+	config := restmodels.EndpointRestDto{}
 
 	storage.DeleteGlobal()
 
@@ -313,7 +315,7 @@ func TestRestGlobalStorageDeleteWhenExist(t *testing.T) {
 	storage.DeleteGlobal()
 
 	actual := storage.GetGlobal()
-	config = EndpointRestDto{}
+	config = restmodels.EndpointRestDto{}
 	if actual.ID != "" {
 		t.Errorf("Id must be empty")
 	}
@@ -327,12 +329,12 @@ func TestRestStorageGetWhenGlobalConfigured(t *testing.T) {
 	storage := MakeStorage()
 	global := getEndpointRestDto()
 	storage.AddGlobal(global)
-	config := EndpointRestDto{
-		Request: RequestRestDto{
+	config := restmodels.EndpointRestDto{
+		Request: restmodels.RequestRestDto{
 			Path:    "new-path",
 			PathReg: "new-path-reg",
 		},
-		Response: ResponseRestDto{
+		Response: restmodels.ResponseRestDto{
 			Body: "new-body",
 		},
 	}
@@ -357,13 +359,13 @@ func TestRestStorageGetAllWhenGlobalConfigured(t *testing.T) {
 	storage := MakeStorage()
 	global := getEndpointRestDto()
 	storage.AddGlobal(global)
-	config1 := EndpointRestDto{
-		Request: RequestRestDto{
+	config1 := restmodels.EndpointRestDto{
+		Request: restmodels.RequestRestDto{
 			Path: "path-1",
 		},
 	}
-	config2 := EndpointRestDto{
-		Request: RequestRestDto{
+	config2 := restmodels.EndpointRestDto{
+		Request: restmodels.RequestRestDto{
 			Path: "path-2",
 		},
 	}
@@ -377,7 +379,7 @@ func TestRestStorageGetAllWhenGlobalConfigured(t *testing.T) {
 	expected2.Request.Path = "path-2"
 	stored2 := storage.Add(config2)
 	expected2.ID = stored2.ID
-	expected := []EndpointRestDto{expected1, expected2}
+	expected := []restmodels.EndpointRestDto{expected1, expected2}
 
 	configs := storage.GetAll()
 
@@ -386,10 +388,10 @@ func TestRestStorageGetAllWhenGlobalConfigured(t *testing.T) {
 	}
 }
 
-func getEndpointRestDto() EndpointRestDto {
-	return EndpointRestDto{
+func getEndpointRestDto() restmodels.EndpointRestDto {
+	return restmodels.EndpointRestDto{
 		ID: "",
-		Request: RequestRestDto{
+		Request: restmodels.RequestRestDto{
 			Method:  "method",
 			Path:    "path",
 			PathReg: "path-reg",
@@ -398,7 +400,7 @@ func getEndpointRestDto() EndpointRestDto {
 				"header-request-2": "header-request-value-2",
 			},
 		},
-		Response: ResponseRestDto{
+		Response: restmodels.ResponseRestDto{
 			Body:     "body",
 			BodyFile: "file",
 			Status:   200,

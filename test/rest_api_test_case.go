@@ -200,6 +200,14 @@ func (testCase *RestAPITestCase) compareBody(expected interface{}, actual interf
 		}
 
 		expectedSlice := make([]interface{}, expectedValue.Len())
+		if expectedValue.Len() != actualValue.Len() {
+			lengthGroupName := fmt.Sprintf(`
+			Expected: %#v
+			Actual:   %#v`, expectedValue.Len(), actualValue.Len())
+			compareBodyGroup := testCase.errorHolder.Group(lengthGroupName)
+			compareBodyGroup("Not Equal Amount Items", 1)
+			return
+		}
 		for i := 0; i < expectedValue.Len(); i++ {
 			actualValueReflection := actualValue.Index(i).Interface()
 			id := actualValueReflection.(map[string]interface{})["id"]

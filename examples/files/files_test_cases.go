@@ -3,7 +3,7 @@ package examplesfiles
 import (
 	"testing"
 
-	"github.com/abproject/mock-server/internal/rest"
+	"github.com/abproject/mock-server/internal/rest/restmodels"
 	"github.com/abproject/mock-server/test"
 )
 
@@ -60,8 +60,8 @@ func GetFilesAPICases(t *testing.T) []test.RestAPITestCase {
 				URI:              "/_api/rest/endpoints",
 				RequestFile:      "",
 				ResponseFile:     "api-get-all.json",
-				ExpectedResponse: []rest.EndpointRestDto{},
-				ActualResponse:   []rest.EndpointRestDto{},
+				ExpectedResponse: []restmodels.EndpointRestDto{},
+				ActualResponse:   []restmodels.EndpointRestDto{},
 			}),
 	}
 }

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/abproject/mock-server/internal/rest"
+	"github.com/abproject/mock-server/internal/rest/restmodels"
 )
 
 var restGlobalURL = "/_api/rest/global"
@@ -35,7 +35,7 @@ func getRestGlobalHandler(c Context, w http.ResponseWriter, r *http.Request) {
 
 func postRestGlobalHandler(c Context, w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
-	var dto rest.EndpointRestDto
+	var dto restmodels.EndpointRestDto
 	err := decoder.Decode(&dto)
 	if err != nil {
 		errorHandler(w, err)

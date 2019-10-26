@@ -3,6 +3,8 @@ package restentity
 import (
 	"reflect"
 	"testing"
+
+	"github.com/abproject/mock-server/internal/rest/restmodels"
 )
 
 func TestRestEntityStorageNotSingleton(t *testing.T) {
@@ -85,7 +87,7 @@ func TestRestEntityStoragePut(t *testing.T) {
 	storage := MakeEntityStorage()
 	config := getEndpointRestEntityDto()
 	actual := storage.AddEntity(config)
-	config.File = "new-data.json"
+	config.Data = "new-data.json"
 
 	modified, _ := storage.PutEntity(actual.Name, config)
 
@@ -138,7 +140,7 @@ func TestRestEntityStorageWhenParameterChangedNoEffectOnStorage(t *testing.T) {
 	config := getEndpointRestEntityDto()
 	actual := storage.AddEntity(config)
 
-	config.File = "new-data.json"
+	config.Data = "new-data.json"
 
 	actualAgain, _ := storage.GetEntity(actual.Name)
 	if !reflect.DeepEqual(actual, actualAgain) {
@@ -156,7 +158,7 @@ func TestRestEntityStorageGetAll(t *testing.T) {
 	config2.Name = "name-2"
 	actual1 := storage.AddEntity(config1)
 	actual2 := storage.AddEntity(config2)
-	expected := []EntityRestDto{actual1, actual2}
+	expected := []restmodels.EntityRestDto{actual1, actual2}
 
 	configs := storage.GetAllEntities()
 
@@ -174,8 +176,8 @@ func TestRestEntityStorageGetAllWhenReturnChangedNoEffectOnStorage(t *testing.T)
 	storage.AddEntity(config2)
 	actual := storage.GetAllEntities()
 
-	actual[0].File = "new-data-1.json"
-	actual[1].File = "new-data-2.json"
+	actual[0].Data = "new-data-1.json"
+	actual[1].Data = "new-data-2.json"
 
 	actualAgain := storage.GetAllEntities()
 	if reflect.DeepEqual(actual, actualAgain) {
@@ -199,10 +201,11 @@ func TestRestEntityStorageDeleteAll(t *testing.T) {
 	}
 }
 
-func getEndpointRestEntityDto() EntityRestDto {
-	return EntityRestDto{
-		Name: "name",
-		File: "data.json",
-		ID:   "id",
+func getEndpointRestEntityDto() restmodels.EntityRestDto {
+	return restmodels.EntityRestDto{
+		Name:      "name",
+		Data:      "data.json",
+		NewEntity: "data-new.json",
+		ID:        "id",
 	}
 }

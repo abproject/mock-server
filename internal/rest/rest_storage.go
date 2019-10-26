@@ -7,21 +7,22 @@ import (
 	"sort"
 
 	"github.com/abproject/mock-server/internal/rest/restentity"
+	"github.com/abproject/mock-server/internal/rest/restmodels"
 	"github.com/abproject/mock-server/internal/shared"
 )
 
 // StorageRest Rest Repository
 type StorageRest interface {
-	Add(config EndpointRestDto) EndpointRestDto
-	Get(id string) (EndpointRestDto, error)
-	Put(id string, config EndpointRestDto) (EndpointRestDto, error)
+	Add(config restmodels.EndpointRestDto) restmodels.EndpointRestDto
+	Get(id string) (restmodels.EndpointRestDto, error)
+	Put(id string, config restmodels.EndpointRestDto) (restmodels.EndpointRestDto, error)
 	Delete(id string) error
 	DeleteAll()
-	GetAll() []EndpointRestDto
-	FindByRequest(r *http.Request) (EndpointRestDto, error)
+	GetAll() []restmodels.EndpointRestDto
+	FindByRequest(r *http.Request) (restmodels.EndpointRestDto, error)
 	Size() int
-	AddGlobal(config EndpointRestDto) EndpointRestDto
-	GetGlobal() EndpointRestDto
+	AddGlobal(config restmodels.EndpointRestDto) restmodels.EndpointRestDto
+	GetGlobal() restmodels.EndpointRestDto
 	DeleteGlobal()
 	restentity.StorageRestEntity
 }
@@ -37,7 +38,7 @@ func MakeStorage() StorageRest {
 	}
 }
 
-func (storage *restStorage) Add(config EndpointRestDto) EndpointRestDto {
+func (storage *restStorage) Add(config restmodels.EndpointRestDto) restmodels.EndpointRestDto {
 	id := shared.GetRandomId()
 	config.ID = id
 	storage.data[id] = &entityRest{
@@ -48,14 +49,14 @@ func (storage *restStorage) Add(config EndpointRestDto) EndpointRestDto {
 	return storage.data[id].Config
 }
 
-func (storage *restStorage) Get(id string) (EndpointRestDto, error) {
+func (storage *restStorage) Get(id string) (restmodels.EndpointRestDto, error) {
 	if entry, ok := storage.data[id]; ok {
 		return mergeConfigs(storage.global.Config, entry.Config), nil
 	}
-	return EndpointRestDto{}, fmt.Errorf("Rest configuration with id=%s not found", id)
+	return restmodels.EndpointRestDto{}, fmt.Errorf("Rest configuration with id=%s not found", id)
 }
 
-func (storage *restStorage) Put(id string, config EndpointRestDto) (EndpointRestDto, error) {
+func (storage *restStorage) Put(id string, config restmodels.EndpointRestDto) (restmodels.EndpointRestDto, error) {
 	if _, ok := storage.data[id]; ok {
 		config.ID = id
 		storage.data[id] = &entityRest{
@@ -63,7 +64,7 @@ func (storage *restStorage) Put(id string, config EndpointRestDto) (EndpointRest
 		}
 		return storage.data[id].Config, nil
 	}
-	return EndpointRestDto{}, fmt.Errorf("Rest configuration with id=%s not found", id)
+	return restmodels.EndpointRestDto{}, fmt.Errorf("Rest configuration with id=%s not found", id)
 }
 
 func (storage *restStorage) Delete(id string) error {
@@ -74,7 +75,7 @@ func (storage *restStorage) Delete(id string) error {
 	return fmt.Errorf("Rest configuration with id=%s not found", id)
 }
 
-func (storage *restStorage) GetAll() []EndpointRestDto {
+func (storage *restStorage) GetAll() []restmodels.EndpointRestDto {
 	data := []*entityRest{}
 	for _, value := range storage.data {
 		data = append(data, value)
@@ -83,7 +84,7 @@ func (storage *restStorage) GetAll() []EndpointRestDto {
 		return data[i].sequenceNumber < data[j].sequenceNumber
 	})
 
-	configs := make([]EndpointRestDto, len(data))
+	configs := make([]restmodels.EndpointRestDto, len(data))
 	i := 0
 	for k := range data {
 		configs[i] = mergeConfigs(storage.global.Config, data[k].Config)
@@ -101,7 +102,7 @@ func (storage *restStorage) Size() int {
 	return len(storage.data)
 }
 
-func (storage *restStorage) FindByRequest(r *http.Request) (EndpointRestDto, error) {
+func (storage *restStorage) FindByRequest(r *http.Request) (restmodels.EndpointRestDto, error) {
 	var filtered []entityRest
 	for _, entity := range storage.data {
 		entity.Config = mergeConfigs(storage.global.Config, entity.Config)
@@ -111,7 +112,11 @@ func (storage *restStorage) FindByRequest(r *http.Request) (EndpointRestDto, err
 	}
 	count := len(filtered)
 	if count == 0 {
-		return EndpointRestDto{}, errors.New("No Entity Found")
+		restDto, err := storage.FindEntityByRequest(r)
+		if err != nil {
+			return restDto, nil
+		}
+		return restmodels.EndpointRestDto{}, errors.New("No Entity Found")
 	} else if count > 1 {
 		sort.Slice(filtered, func(i, j int) bool {
 			return Compare(filtered[i].Config.Request, filtered[j].Config.Request)
@@ -120,7 +125,7 @@ func (storage *restStorage) FindByRequest(r *http.Request) (EndpointRestDto, err
 	return filtered[0].Config, nil
 }
 
-func (storage *restStorage) AddGlobal(config EndpointRestDto) EndpointRestDto {
+func (storage *restStorage) AddGlobal(config restmodels.EndpointRestDto) restmodels.EndpointRestDto {
 	config.ID = ""
 	storage.global = &entityRest{
 		Config:         config,
@@ -129,24 +134,24 @@ func (storage *restStorage) AddGlobal(config EndpointRestDto) EndpointRestDto {
 	return storage.global.Config
 }
 
-func (storage *restStorage) GetGlobal() EndpointRestDto {
+func (storage *restStorage) GetGlobal() restmodels.EndpointRestDto {
 	if storage.global != nil {
 		return storage.global.Config
 	}
-	return EndpointRestDto{}
+	return restmodels.EndpointRestDto{}
 }
 
 func (storage *restStorage) DeleteGlobal() {
 	storage.global = nil
 }
 
-func mergeConfigs(global EndpointRestDto, endpoint EndpointRestDto) EndpointRestDto {
+func mergeConfigs(global restmodels.EndpointRestDto, endpoint restmodels.EndpointRestDto) restmodels.EndpointRestDto {
 	endpoint.Request = mergeRequests(global.Request, endpoint.Request)
 	endpoint.Response = mergeResponse(global.Response, endpoint.Response)
 	return endpoint
 }
 
-func mergeRequests(global RequestRestDto, endpoint RequestRestDto) RequestRestDto {
+func mergeRequests(global restmodels.RequestRestDto, endpoint restmodels.RequestRestDto) restmodels.RequestRestDto {
 	if endpoint.Path == "" {
 		endpoint.Path = global.Path
 	}
@@ -162,7 +167,7 @@ func mergeRequests(global RequestRestDto, endpoint RequestRestDto) RequestRestDt
 	return endpoint
 }
 
-func mergeResponse(global ResponseRestDto, endpoint ResponseRestDto) ResponseRestDto {
+func mergeResponse(global restmodels.ResponseRestDto, endpoint restmodels.ResponseRestDto) restmodels.ResponseRestDto {
 	if endpoint.Body == "" {
 		endpoint.Body = global.Body
 	}
@@ -179,15 +184,15 @@ func mergeResponse(global ResponseRestDto, endpoint ResponseRestDto) ResponseRes
 }
 
 // Entity
-func (storage *restStorage) AddEntity(config restentity.EntityRestDto) restentity.EntityRestDto {
+func (storage *restStorage) AddEntity(config restmodels.EntityRestDto) restmodels.EntityRestDto {
 	return storage.entities.AddEntity(config)
 }
 
-func (storage *restStorage) GetEntity(id string) (restentity.EntityRestDto, error) {
+func (storage *restStorage) GetEntity(id string) (restmodels.EntityRestDto, error) {
 	return storage.entities.GetEntity(id)
 }
 
-func (storage *restStorage) PutEntity(id string, config restentity.EntityRestDto) (restentity.EntityRestDto, error) {
+func (storage *restStorage) PutEntity(id string, config restmodels.EntityRestDto) (restmodels.EntityRestDto, error) {
 	return storage.entities.PutEntity(id, config)
 }
 
@@ -195,7 +200,7 @@ func (storage *restStorage) DeleteEntity(id string) error {
 	return storage.entities.DeleteEntity(id)
 }
 
-func (storage *restStorage) GetAllEntities() []restentity.EntityRestDto {
+func (storage *restStorage) GetAllEntities() []restmodels.EntityRestDto {
 	return storage.entities.GetAllEntities()
 }
 
@@ -205,4 +210,8 @@ func (storage *restStorage) DeleteAllEntities() {
 
 func (storage *restStorage) SizeEntities() int {
 	return storage.entities.SizeEntities()
+}
+
+func (storage *restStorage) FindEntityByRequest(r *http.Request) (restmodels.EndpointRestDto, error) {
+	return storage.entities.FindEntityByRequest(r)
 }

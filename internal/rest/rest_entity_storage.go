@@ -96,7 +96,7 @@ func (storage *restEntityStorage) FindEntityByRequest(r *http.Request, c models.
 		id := groups[2]
 
 		if entity, ok := storage.data[entityName]; ok {
-			a, err := storage.parseEntity(strings.ToUpper(r.Method), id, entity)
+			a, err := storage.parseEntity(strings.ToUpper(r.Method), id, entity, c)
 
 			return a, err
 		}
@@ -104,40 +104,105 @@ func (storage *restEntityStorage) FindEntityByRequest(r *http.Request, c models.
 	return models.EndpointRestDto{}, errors.New("Entity not found")
 }
 
-func (storage *restEntityStorage) parseEntity(method string, id string, entity *models.EntityRestEntity) (models.EndpointRestDto, error) {
+func (storage *restEntityStorage) parseEntity(method string, id string, entity *models.EntityRestEntity, c models.AppContext) (models.EndpointRestDto, error) {
 	if method == "GET" {
 		if id == "" {
-			return models.EndpointRestDto{
-				Response: models.ResponseRestDto{
-					BodyFile: entity.Config.Data,
-					Status:   200,
-					Headers: map[string]string{
-						"Content-Type": "application/json",
-					},
-				},
-			}, nil
+			return storage.getAll(entity), nil
 		}
+		return storage.getOne(entity, id, c)
+	} else if method == "PUT" && id != "" {
+		return storage.putOne(entity, id, c)
+	} else if method == "DELETE" && id != "" {
+		return storage.deleteOne(entity, id, c)
+	} else if method == "POST" && id == "" {
+		return storage.post(entity), nil
+	}
+	return models.EndpointRestDto{}, errors.New("Entity not found")
+}
 
-		var data []map[string]interface{}
-		json.Unmarshal([]byte(entity.Config.Data), &data)
-		fmt.Printf("Birds : %+v", data)
+func (storage *restEntityStorage) getAll(entity *models.EntityRestEntity) models.EndpointRestDto {
+	return models.EndpointRestDto{
+		Response: models.ResponseRestDto{
+			BodyFile: entity.Config.Data,
+			Status:   200,
+			Headers: map[string]string{
+				"Content-Type": "application/json",
+			},
+		},
+	}
+}
 
+func (storage *restEntityStorage) getOne(entity *models.EntityRestEntity, id string, c models.AppContext) (models.EndpointRestDto, error) {
+	body := storage.getEntityBodyByID(entity, id, c)
+	if body != "" {
 		return models.EndpointRestDto{
 			Response: models.ResponseRestDto{
-				BodyFile: entity.Config.Data,
-				Status:   200,
+				Body:   body,
+				Status: 200,
 				Headers: map[string]string{
 					"Content-Type": "application/json",
 				},
 			},
 		}, nil
-
-	} else if method == "PUT" && id != "" {
-
-	} else if method == "DELETE" {
-
-	} else if method == "POST" && id == "" {
-
 	}
-	return models.EndpointRestDto{}, errors.New("Entity not found")
+	return models.EndpointRestDto{}, errors.New("Endpoint not found")
+}
+
+func (storage *restEntityStorage) post(entity *models.EntityRestEntity) models.EndpointRestDto {
+	return models.EndpointRestDto{
+		Response: models.ResponseRestDto{
+			BodyFile: entity.Config.NewEntity,
+			Status:   201,
+			Headers: map[string]string{
+				"Content-Type": "application/json",
+			},
+		},
+	}
+}
+
+func (storage *restEntityStorage) putOne(entity *models.EntityRestEntity, id string, c models.AppContext) (models.EndpointRestDto, error) {
+	body := storage.getEntityBodyByID(entity, id, c)
+	if body != "" {
+		return models.EndpointRestDto{
+			Response: models.ResponseRestDto{
+				Body:   body,
+				Status: 200,
+				Headers: map[string]string{
+					"Content-Type": "application/json",
+				},
+			},
+		}, nil
+	}
+	return models.EndpointRestDto{}, errors.New("Endpoint not found")
+}
+
+func (storage *restEntityStorage) deleteOne(entity *models.EntityRestEntity, id string, c models.AppContext) (models.EndpointRestDto, error) {
+	body := storage.getEntityBodyByID(entity, id, c)
+	if body != "" {
+		return models.EndpointRestDto{
+			Response: models.ResponseRestDto{
+				Body:   "",
+				Status: 204,
+				Headers: map[string]string{
+					"Content-Type": "application/json",
+				},
+			},
+		}, nil
+	}
+	return models.EndpointRestDto{}, errors.New("Endpoint not found")
+}
+
+func (storage *restEntityStorage) getEntityBodyByID(entity *models.EntityRestEntity, id string, c models.AppContext) string {
+	file, _ := (*c.FileStorage).GetBody(entity.Config.Data)
+	var data []map[string]interface{}
+	json.Unmarshal(file, &data)
+	for i := 0; i < len(data); i++ {
+		dataIDInterface := data[i][entity.Config.ID]
+		dataID := fmt.Sprintf("%v", dataIDInterface)
+		if dataID == id {
+			jsonString, _ := json.Marshal(data[i])
+			return string(jsonString)
+		}
+	}
+	return ""
 }

@@ -2,24 +2,15 @@ package parser
 
 import (
 	"io/ioutil"
-	"log"
 
-	"github.com/abproject/mock-server/internal/file"
+	"github.com/abproject/mock-server/internal/models"
 	"github.com/abproject/mock-server/internal/rest"
 	"gopkg.in/yaml.v2"
 )
 
-// Context Parser Context
-type Context struct {
-	Logger      *log.Logger
-	RestStorage *rest.StorageRest
-	FileStorage *file.StorageFile
-	Path        string
-}
-
 // Parser Parser
 type Parser struct {
-	context *Context
+	context *models.AppContext
 }
 
 // IParser interface
@@ -28,7 +19,7 @@ type IParser interface {
 }
 
 // New Create new Router with Context
-func New(context Context) IParser {
+func New(context models.AppContext) IParser {
 	return &Parser{
 		context: &context,
 	}
@@ -38,7 +29,7 @@ func New(context Context) IParser {
 func (parser *Parser) Parse(filePath string) {
 	config := parser.makeConfig(filePath)
 
-	restContext := rest.Context{
+	restContext := models.AppContext{
 		Logger:      parser.context.Logger,
 		RestStorage: parser.context.RestStorage,
 		FileStorage: parser.context.FileStorage,

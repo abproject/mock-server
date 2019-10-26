@@ -1,4 +1,4 @@
-package file
+package models
 
 // File File structure
 type File struct {

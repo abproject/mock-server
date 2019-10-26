@@ -11,8 +11,8 @@ import (
 	"testing"
 
 	"github.com/abproject/mock-server/internal/file"
+	"github.com/abproject/mock-server/internal/models"
 	"github.com/abproject/mock-server/internal/rest"
-	"github.com/abproject/mock-server/internal/rest/restmodels"
 	"github.com/abproject/mock-server/internal/router"
 	"github.com/abproject/mock-server/test"
 )
@@ -42,7 +42,7 @@ func TestCRUDApiE2E(t *testing.T) {
 func configureAPI(t *testing.T) router.IRouter {
 	restStorage := rest.MakeStorage()
 	fileStorage := file.MakeStorage()
-	routerContext := router.Context{
+	routerContext := models.AppContext{
 		Logger:      log.New(os.Stdout, "api e2e ", log.LstdFlags|log.Lshortfile),
 		RestStorage: &restStorage,
 		FileStorage: &fileStorage,
@@ -62,7 +62,7 @@ func configureAPI(t *testing.T) router.IRouter {
 	return router
 }
 
-func configureFile(t *testing.T, router router.IRouter, dataFile string) file.File {
+func configureFile(t *testing.T, router router.IRouter, dataFile string) models.File {
 	path, _ := filepath.Abs("./../..")
 	return test.SendFile(t, router, path, dataFile)
 }
@@ -74,7 +74,7 @@ func configureRequest(t *testing.T, router router.IRouter, configFile string, fi
 	if err != nil {
 		t.Fatal(err)
 	}
-	data := restmodels.EndpointRestDto{}
+	data := models.EndpointRestDto{}
 	_ = json.Unmarshal([]byte(file), &data)
 
 	if fileID != "" {

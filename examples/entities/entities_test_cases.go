@@ -3,7 +3,7 @@ package examplescrud
 import (
 	"testing"
 
-	"github.com/abproject/mock-server/internal/rest/restmodels"
+	"github.com/abproject/mock-server/internal/models"
 	"github.com/abproject/mock-server/test"
 )
 
@@ -17,23 +17,23 @@ type body struct {
 
 // GetEntitiesMockCases Returns all Test Cases
 func GetEntitiesMockCases(t *testing.T) []test.RestMockTestCase {
-	// testCase := test.RestMockTestCaseFactory(t)
+	testCase := test.RestMockTestCaseFactory(t)
 
 	return []test.RestMockTestCase{
-		// testCase(
-		// 	"GET ALL should return correct body, headers ans status",
-		// 	test.RestMockTestCaseRequest{
-		// 		Type:    "GET",
-		// 		Path:    "/planets",
-		// 		Headers: map[string]string{},
-		// 	},
-		// 	test.RestMockTestCaseResponse{
-		// 		Status: 200,
-		// 		Headers: map[string]string{
-		// 			"Content-Type": "application/json",
-		// 		},
-		// 		BodyFile: "data-all.json",
-		// 	}),
+		testCase(
+			"GET ALL should return correct body, headers ans status",
+			test.RestMockTestCaseRequest{
+				Type:    "GET",
+				Path:    "/planets",
+				Headers: map[string]string{},
+			},
+			test.RestMockTestCaseResponse{
+				Status: 200,
+				Headers: map[string]string{
+					"Content-Type": "application/json",
+				},
+				BodyFile: "data-all.json",
+			}),
 		// testCase(
 		// 	"GET should return correct body, headers ans status when id=3",
 		// 	test.RestMockTestCaseRequest{
@@ -147,8 +147,8 @@ func GetEntitiesAPICases(t *testing.T) []test.RestAPITestCase {
 				URI:              "/_api/rest/entities",
 				RequestFile:      "",
 				ResponseFile:     "api-get-all.json",
-				ExpectedResponse: []restmodels.EntityRestDto{},
-				ActualResponse:   []restmodels.EntityRestDto{},
+				ExpectedResponse: []models.EntityRestDto{},
+				ActualResponse:   []models.EntityRestDto{},
 			}),
 	}
 }

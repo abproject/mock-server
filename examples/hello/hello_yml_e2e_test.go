@@ -5,6 +5,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/abproject/mock-server/internal/models"
 	"github.com/abproject/mock-server/internal/parser"
 	"github.com/abproject/mock-server/internal/rest"
 	"github.com/abproject/mock-server/internal/router"
@@ -36,14 +37,14 @@ func configureYml(t *testing.T) router.IRouter {
 	logger := log.New(os.Stdout, "yaml e2e ", log.LstdFlags|log.Lshortfile)
 	restStorage := rest.MakeStorage()
 
-	parserContext := parser.Context{
+	parserContext := models.AppContext{
 		Logger:      logger,
 		RestStorage: &restStorage,
 	}
 	parser := parser.New(parserContext)
 	parser.Parse("config.yaml")
 
-	routerContext := router.Context{
+	routerContext := models.AppContext{
 		Logger:      logger,
 		RestStorage: &restStorage,
 	}

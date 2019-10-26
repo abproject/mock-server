@@ -1,4 +1,4 @@
-package restmodels
+package models
 
 //Config Entry point for rest config
 type Config struct {

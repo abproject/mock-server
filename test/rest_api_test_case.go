@@ -15,7 +15,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/abproject/mock-server/internal/file"
+	"github.com/abproject/mock-server/internal/models"
 	"github.com/abproject/mock-server/internal/router"
 )
 
@@ -107,7 +107,7 @@ func (testCase *RestAPITestCase) AssertEquals(response *httptest.ResponseRecorde
 }
 
 // SendFile Sends file as form to /_api/files API
-func SendFile(t *testing.T, router router.IRouter, path string, fileName string) file.File {
+func SendFile(t *testing.T, router router.IRouter, path string, fileName string) models.File {
 	requestFile, err := os.Open(filepath.Join(path, fileName))
 	if err != nil {
 		t.Fatal(err)
@@ -132,7 +132,7 @@ func SendFile(t *testing.T, router router.IRouter, path string, fileName string)
 	response := httptest.NewRecorder()
 	router.Route(response, request)
 
-	responseFile := file.File{}
+	responseFile := models.File{}
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(response.Result().Body)
 	err = json.Unmarshal(buf.Bytes(), &responseFile)

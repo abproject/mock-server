@@ -1,10 +1,10 @@
-package restentity
+package rest
 
 import (
 	"reflect"
 	"testing"
 
-	"github.com/abproject/mock-server/internal/rest/restmodels"
+	"github.com/abproject/mock-server/internal/models"
 )
 
 func TestRestEntityStorageNotSingleton(t *testing.T) {
@@ -158,7 +158,7 @@ func TestRestEntityStorageGetAll(t *testing.T) {
 	config2.Name = "name-2"
 	actual1 := storage.AddEntity(config1)
 	actual2 := storage.AddEntity(config2)
-	expected := []restmodels.EntityRestDto{actual1, actual2}
+	expected := []models.EntityRestDto{actual1, actual2}
 
 	configs := storage.GetAllEntities()
 
@@ -201,8 +201,8 @@ func TestRestEntityStorageDeleteAll(t *testing.T) {
 	}
 }
 
-func getEndpointRestEntityDto() restmodels.EntityRestDto {
-	return restmodels.EntityRestDto{
+func getEndpointRestEntityDto() models.EntityRestDto {
+	return models.EntityRestDto{
 		Name:      "name",
 		Data:      "data.json",
 		NewEntity: "data-new.json",

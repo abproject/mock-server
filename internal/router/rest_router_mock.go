@@ -5,12 +5,12 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/abproject/mock-server/internal/rest/restmodels"
+	"github.com/abproject/mock-server/internal/models"
 )
 
 // RouteMock Rest API
-func RouteMock(c Context, w http.ResponseWriter, r *http.Request) {
-	endpoint, err := (*c.RestStorage).FindByRequest(r)
+func RouteMock(c models.AppContext, w http.ResponseWriter, r *http.Request) {
+	endpoint, err := (*c.RestStorage).FindByRequest(r, c)
 	if err != nil {
 		notFoundMockHandler(w, r)
 		return
@@ -37,7 +37,7 @@ func notFoundMockHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotFound)
 }
 
-func notFoundMockFileHandler(w http.ResponseWriter, r *http.Request, endpoint restmodels.EndpointRestDto) {
+func notFoundMockFileHandler(w http.ResponseWriter, r *http.Request, endpoint models.EndpointRestDto) {
 	log.Printf("File Not Found: %v", endpoint.Response.BodyFile)
 	w.WriteHeader(http.StatusBadRequest)
 	w.Write([]byte(fmt.Sprintf("File '%s' not found", endpoint.Response.BodyFile)))

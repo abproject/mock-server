@@ -19,3 +19,8 @@ rest:
         status: http status
         headers: # Map
           header-key: header-value
+  entities: # List of Entity Models
+    - name: entity name (used as path)
+      dataAll: data of all entities (Array of objects)
+      dataNew: object for POST request
+      id: id property in object

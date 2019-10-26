@@ -292,6 +292,11 @@ rest:
         status: http status
         headers: # Map
           header-key: header-value
+  entities: # List of Entity Models
+    - name: entity name (used as path)
+      dataAll: data of all entities (Array of objects)
+      dataNew: object for POST request
+      id: id property in object
 
 ```
 
@@ -308,40 +313,47 @@ rest:
 
 ```json
 {
-  "rest": {
-    "global": {
-      "request": {
-        "method": "method name",
-        "path": "url path"
-      },
-      "response": {
-        "body": "response body",
-        "bodyFile": "response body as file",
-        "status": "http status",
-        "headers": {
-          "header-key": "header-value"
-        }
-      }
-    },
-    "endpoints": [
-      {
-        "request": {
-          "method": "method name",
-          "path": "url path"
-        },
-        "response": {
-          "body": "response body",
-          "bodyFile": "response body as file",
-          "status": "http status",
-          "headers": {
-            "header-key": "header-value"
-          }
-        }
-      }
-    ]
-  }
+	"rest": {
+		"global": {
+			"request": {
+				"method": "method name",
+				"path": "url path"
+			},
+			"response": {
+				"body": "response body",
+				"bodyFile": "response body as file",
+				"status": "http status",
+				"headers": {
+					"header-key": "header-value"
+				}
+			}
+		},
+		"endpoints": [
+			{
+				"request": {
+					"method": "method name",
+					"path": "url path"
+				},
+				"response": {
+					"body": "response body",
+					"bodyFile": "response body as file",
+					"status": "http status",
+					"headers": {
+						"header-key": "header-value"
+					}
+				}
+			}
+		],
+		"entities": [
+			{
+				"name": "entity name (used as path)",
+				"dataAll": "data of all entities (Array of objects)",
+				"dataNew": "object for POST request",
+				"id": "id property in object"
+			}
+		]
+	}
 }
-
 ```
 
 **Details of model description:**
@@ -650,7 +662,8 @@ URL: `/_api/rest/entities`
 [
   {
     "name": "planets",
-    "file": "planets.json",
+    "dataAll": "planets.json",
+    "dataNew": "planets-new.json",
     "id": "id"
   }
 ]
@@ -666,7 +679,8 @@ URL: `/_api/rest/entities`
 ```json
 {
   "name": "planets",
-  "file": "planets.json",
+  "dataAll": "planets.json",
+  "dataNew": "planets-new.json",
   "id": "id"
 }
 
@@ -677,7 +691,8 @@ URL: `/_api/rest/entities`
 ```json
 {
   "name": "planets",
-  "file": "planets.json",
+  "dataAll": "planets.json",
+  "dataNew": "planets-new.json",
   "id": "id"
 }
 
@@ -691,7 +706,8 @@ URL: `/_api/rest/entities`
 ```json
 {
   "name": "planets",
-  "file": "planets.json",
+  "dataAll": "planets.json",
+  "dataNew": "planets-new.json",
   "id": "id"
 }
 
@@ -706,7 +722,8 @@ URL: `/_api/rest/entities`
 ```json
 {
   "name": "planets",
-  "file": "planets2.json",
+  "dataAll": "planets2.json",
+  "dataNew": "planets-new.json",
   "id": "id"
 }
 
@@ -717,7 +734,8 @@ URL: `/_api/rest/entities`
 ```json
 {
   "name": "planets",
-  "file": "planets2.json",
+  "dataAll": "planets2.json",
+  "dataNew": "planets-new.json",
   "id": "id"
 }
 
@@ -829,5 +847,6 @@ URL: `/_api/files`
 | Field Name | Type     | Description                                                                               |
 | ---------- | -------- | ----------------------------------------------------------------------------------------- |
 | `name`     | `string` | Entity name, will be used as path e.g., `/some-name`. <br>**Required, Not Empty, Unique** |
-| `file`     | `string` | Response body is the content of the file (must be JSON format)                            |
-| `id`       | `string` | Property identifier name (`@id`) of entity (`file` object)                                |
+| `dataAll`     | `string` | Name of file with database (array of entity objects)              
+| `dataNew`     | `string` | Name of file with response for creating new entity (POST request)
+| `id`       | `string` | Property identifier name (`@id`) of entity                             |

@@ -1,4 +1,4 @@
-package examplescrud
+package examplesentities
 
 import (
 	"log"

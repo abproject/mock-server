@@ -1,5 +1,6 @@
 {
   "name": "planets",
-  "file": "planets.json",
+  "dataAll": "planets.json",
+  "dataNew": "planets-new.json",
   "id": "id"
 }

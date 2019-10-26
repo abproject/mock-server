@@ -1,6 +1,9 @@
 package rest
 
-import "github.com/abproject/mock-server/internal/rest/restentity"
+import (
+	"github.com/abproject/mock-server/internal/rest/restentity"
+	"github.com/abproject/mock-server/internal/rest/restmodels"
+)
 
 type restStorage struct {
 	data     map[string]*entityRest
@@ -9,6 +12,6 @@ type restStorage struct {
 }
 
 type entityRest struct {
-	Config         EndpointRestDto
+	Config         restmodels.EndpointRestDto
 	sequenceNumber int
 }

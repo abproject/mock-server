@@ -10,6 +10,7 @@ import (
 	"testing"
 
 	"github.com/abproject/mock-server/internal/rest"
+	"github.com/abproject/mock-server/internal/rest/restmodels"
 	"github.com/abproject/mock-server/internal/router"
 	"github.com/abproject/mock-server/test"
 )
@@ -43,7 +44,7 @@ func configureAPIWithEntry(t *testing.T) (router.IRouter, string) {
 	response := httptest.NewRecorder()
 	router.Route(response, request)
 
-	configureBody := rest.EndpointRestDto{}
+	configureBody := restmodels.EndpointRestDto{}
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(response.Result().Body)
 	err = json.Unmarshal(buf.Bytes(), &configureBody)
@@ -66,8 +67,8 @@ func TestApiRestGlobalPostE2E(t *testing.T) {
 				URI:              baseURL,
 				RequestFile:      "api-post-request.json",
 				ResponseFile:     "api-post-response.json",
-				ExpectedResponse: rest.EndpointRestDto{},
-				ActualResponse:   rest.EndpointRestDto{},
+				ExpectedResponse: restmodels.EndpointRestDto{},
+				ActualResponse:   restmodels.EndpointRestDto{},
 			}),
 	}
 
@@ -90,8 +91,8 @@ func TestApiRestGlobalGetE2E(t *testing.T) {
 				URI:              baseURL,
 				RequestFile:      "",
 				ResponseFile:     "api-get-empty-response.json",
-				ExpectedResponse: rest.EndpointRestDto{},
-				ActualResponse:   rest.EndpointRestDto{},
+				ExpectedResponse: restmodels.EndpointRestDto{},
+				ActualResponse:   restmodels.EndpointRestDto{},
 			}),
 	}
 
@@ -114,8 +115,8 @@ func TestApiRestGlobalGetWithEntryE2E(t *testing.T) {
 				URI:              baseURL,
 				RequestFile:      "",
 				ResponseFile:     "api-get-response.json",
-				ExpectedResponse: rest.EndpointRestDto{},
-				ActualResponse:   rest.EndpointRestDto{},
+				ExpectedResponse: restmodels.EndpointRestDto{},
+				ActualResponse:   restmodels.EndpointRestDto{},
 			}),
 	}
 
@@ -173,8 +174,8 @@ func TestApiRestGlobalDeleteWithEntryE2E(t *testing.T) {
 				URI:              baseURL,
 				RequestFile:      "",
 				ResponseFile:     "api-get-empty-response.json",
-				ExpectedResponse: rest.EndpointRestDto{},
-				ActualResponse:   rest.EndpointRestDto{},
+				ExpectedResponse: restmodels.EndpointRestDto{},
+				ActualResponse:   restmodels.EndpointRestDto{},
 			}),
 	}
 

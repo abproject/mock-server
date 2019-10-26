@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/abproject/mock-server/internal/rest"
-	"github.com/abproject/mock-server/internal/rest/restentity"
+	"github.com/abproject/mock-server/internal/rest/restmodels"
 	"github.com/abproject/mock-server/internal/router"
 	"github.com/abproject/mock-server/test"
 )
@@ -44,7 +44,7 @@ func configureAPIWithEntry(t *testing.T) (router.IRouter, string) {
 	response := httptest.NewRecorder()
 	router.Route(response, request)
 
-	configureBody := restentity.EntityRestDto{}
+	configureBody := restmodels.EntityRestDto{}
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(response.Result().Body)
 	err = json.Unmarshal(buf.Bytes(), &configureBody)
@@ -67,8 +67,8 @@ func TestApiRestEndpointPostE2E(t *testing.T) {
 				URI:              baseURL,
 				RequestFile:      "api-post-request.json",
 				ResponseFile:     "api-post-response.json",
-				ExpectedResponse: restentity.EntityRestDto{},
-				ActualResponse:   restentity.EntityRestDto{},
+				ExpectedResponse: restmodels.EntityRestDto{},
+				ActualResponse:   restmodels.EntityRestDto{},
 			}),
 	}
 
@@ -91,8 +91,8 @@ func TestApiRestEndpointGetAllE2E(t *testing.T) {
 				URI:              baseURL,
 				RequestFile:      "",
 				ResponseFile:     "api-get-all-empty-response.json",
-				ExpectedResponse: []restentity.EntityRestDto{},
-				ActualResponse:   []restentity.EntityRestDto{},
+				ExpectedResponse: []restmodels.EntityRestDto{},
+				ActualResponse:   []restmodels.EntityRestDto{},
 			}),
 	}
 
@@ -115,8 +115,8 @@ func TestApiRestEndpointGetAllWithEntryE2E(t *testing.T) {
 				URI:              baseURL,
 				RequestFile:      "",
 				ResponseFile:     "api-get-all-response.json",
-				ExpectedResponse: []restentity.EntityRestDto{},
-				ActualResponse:   []restentity.EntityRestDto{},
+				ExpectedResponse: []restmodels.EntityRestDto{},
+				ActualResponse:   []restmodels.EntityRestDto{},
 			}),
 	}
 
@@ -150,8 +150,8 @@ func TestApiRestEndpointDeleteAllWithEntryE2E(t *testing.T) {
 				URI:              baseURL,
 				RequestFile:      "",
 				ResponseFile:     "api-get-all-empty-response.json",
-				ExpectedResponse: []restentity.EntityRestDto{},
-				ActualResponse:   []restentity.EntityRestDto{},
+				ExpectedResponse: []restmodels.EntityRestDto{},
+				ActualResponse:   []restmodels.EntityRestDto{},
 			}),
 	}
 
@@ -174,8 +174,8 @@ func TestApiRestEndpointGetByIdWithEntryE2E(t *testing.T) {
 				URI:              baseURL + "/" + id,
 				RequestFile:      "",
 				ResponseFile:     "api-get-response.json",
-				ExpectedResponse: restentity.EntityRestDto{},
-				ActualResponse:   restentity.EntityRestDto{},
+				ExpectedResponse: restmodels.EntityRestDto{},
+				ActualResponse:   restmodels.EntityRestDto{},
 			}),
 	}
 
@@ -222,8 +222,8 @@ func TestApiRestEndpointPutByWithEntryE2E(t *testing.T) {
 				URI:              baseURL + "/" + id,
 				RequestFile:      "api-put-request.json",
 				ResponseFile:     "api-put-response.json",
-				ExpectedResponse: restentity.EntityRestDto{},
-				ActualResponse:   restentity.EntityRestDto{},
+				ExpectedResponse: restmodels.EntityRestDto{},
+				ActualResponse:   restmodels.EntityRestDto{},
 			}),
 		testCase(
 			&test.RestAPITestCaseConfig{
@@ -233,8 +233,8 @@ func TestApiRestEndpointPutByWithEntryE2E(t *testing.T) {
 				URI:              baseURL,
 				RequestFile:      "",
 				ResponseFile:     "api-get-all-modified-response.json",
-				ExpectedResponse: []restentity.EntityRestDto{},
-				ActualResponse:   []restentity.EntityRestDto{},
+				ExpectedResponse: []restmodels.EntityRestDto{},
+				ActualResponse:   []restmodels.EntityRestDto{},
 			}),
 	}
 
@@ -292,8 +292,8 @@ func TestApiRestEndpointDeleteByWithEntryE2E(t *testing.T) {
 				URI:              baseURL,
 				RequestFile:      "",
 				ResponseFile:     "api-get-all-empty-response.json",
-				ExpectedResponse: []restentity.EntityRestDto{},
-				ActualResponse:   []restentity.EntityRestDto{},
+				ExpectedResponse: []restmodels.EntityRestDto{},
+				ActualResponse:   []restmodels.EntityRestDto{},
 			}),
 	}
 

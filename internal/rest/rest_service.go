@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
+
+	"github.com/abproject/mock-server/internal/rest/restmodels"
 )
 
 // IsEqual compares Storage Entity with http.Request
@@ -54,7 +56,7 @@ func IsEqual(entity entityRest, r *http.Request) bool {
 }
 
 // Compare requests for sorting
-func Compare(request1 RequestRestDto, request2 RequestRestDto) bool {
+func Compare(request1 restmodels.RequestRestDto, request2 restmodels.RequestRestDto) bool {
 	if request1.Method != "" && request2.Method == "" {
 		return true
 	} else if request1.Method == "" && request2.Method != "" {

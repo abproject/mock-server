@@ -12,6 +12,7 @@ import (
 
 	"github.com/abproject/mock-server/internal/file"
 	"github.com/abproject/mock-server/internal/rest"
+	"github.com/abproject/mock-server/internal/rest/restmodels"
 	"github.com/abproject/mock-server/internal/router"
 	"github.com/abproject/mock-server/test"
 )
@@ -62,7 +63,7 @@ func configureFile(t *testing.T, router router.IRouter, dataFile string, configF
 	if err != nil {
 		t.Fatal(err)
 	}
-	data := rest.EndpointRestDto{}
+	data := restmodels.EndpointRestDto{}
 	_ = json.Unmarshal([]byte(file), &data)
 	data.Response.BodyFile = responseFile.ID
 

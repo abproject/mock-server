@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/abproject/mock-server/internal/rest/restentity"
+	"github.com/abproject/mock-server/internal/rest/restmodels"
 )
 
 var restEntityURL = "/_api/rest/entities"
@@ -62,7 +62,7 @@ func getRestEntityHandler(c Context, w http.ResponseWriter, r *http.Request, id 
 
 func postRestEntityHandler(c Context, w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
-	var dto restentity.EntityRestDto
+	var dto restmodels.EntityRestDto
 	err := decoder.Decode(&dto)
 	if err != nil {
 		errorHandler(w, err)
@@ -75,7 +75,7 @@ func postRestEntityHandler(c Context, w http.ResponseWriter, r *http.Request) {
 
 func putRestEntityHandler(c Context, w http.ResponseWriter, r *http.Request, id string) {
 	decoder := json.NewDecoder(r.Body)
-	var dto restentity.EntityRestDto
+	var dto restmodels.EntityRestDto
 	err := decoder.Decode(&dto)
 	if err != nil {
 		errorHandler(w, err)

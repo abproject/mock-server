@@ -3,21 +3,23 @@ package rest
 import (
 	"encoding/json"
 	"testing"
+
+	"github.com/abproject/mock-server/internal/rest/restmodels"
 )
 
 var compareTestCases = []struct {
-	Request1 RequestRestDto `json:"request1"`
-	Request2 RequestRestDto `json:"request2"`
+	Request1 restmodels.RequestRestDto `json:"request1"`
+	Request2 restmodels.RequestRestDto `json:"request2"`
 	expect   bool
 }{
 	{
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "",
 			PathReg: "",
 			Headers: nil,
 		},
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "",
 			PathReg: "",
@@ -26,13 +28,13 @@ var compareTestCases = []struct {
 		true,
 	},
 	{
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "",
 			Path:    "path",
 			PathReg: "",
 			Headers: nil,
 		},
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
@@ -41,13 +43,13 @@ var compareTestCases = []struct {
 		false,
 	},
 	{
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
 			Headers: nil,
 		},
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "",
 			Path:    "path",
 			PathReg: "",
@@ -56,13 +58,13 @@ var compareTestCases = []struct {
 		true,
 	},
 	{
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
 			Headers: nil,
 		},
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path2",
 			PathReg: "",
@@ -71,13 +73,13 @@ var compareTestCases = []struct {
 		true,
 	},
 	{
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path2",
 			PathReg: "",
 			Headers: nil,
 		},
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
@@ -86,13 +88,13 @@ var compareTestCases = []struct {
 		true,
 	},
 	{
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "",
 			PathReg: "path",
 			Headers: nil,
 		},
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
@@ -101,13 +103,13 @@ var compareTestCases = []struct {
 		false,
 	},
 	{
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
 			Headers: nil,
 		},
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "",
 			PathReg: "path",
@@ -116,13 +118,13 @@ var compareTestCases = []struct {
 		true,
 	},
 	{
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "",
 			PathReg: "path",
 			Headers: nil,
 		},
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "",
 			PathReg: "path",
@@ -131,7 +133,7 @@ var compareTestCases = []struct {
 		true,
 	},
 	{
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
@@ -140,7 +142,7 @@ var compareTestCases = []struct {
 				"header2": "value3",
 			},
 		},
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
@@ -149,13 +151,13 @@ var compareTestCases = []struct {
 		true,
 	},
 	{
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
 			Headers: map[string]string{},
 		},
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
@@ -167,7 +169,7 @@ var compareTestCases = []struct {
 		false,
 	},
 	{
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
@@ -176,7 +178,7 @@ var compareTestCases = []struct {
 				"header2": "value3",
 			},
 		},
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
@@ -188,7 +190,7 @@ var compareTestCases = []struct {
 		true,
 	},
 	{
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
@@ -197,7 +199,7 @@ var compareTestCases = []struct {
 				"header2": "value3",
 			},
 		},
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
@@ -209,7 +211,7 @@ var compareTestCases = []struct {
 		true,
 	},
 	{
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
@@ -218,7 +220,7 @@ var compareTestCases = []struct {
 				"header2": "value3",
 			},
 		},
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
@@ -230,7 +232,7 @@ var compareTestCases = []struct {
 		false,
 	},
 	{
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
@@ -238,28 +240,7 @@ var compareTestCases = []struct {
 				"header1": "value1;value2",
 			},
 		},
-		RequestRestDto{
-			Method:  "GET",
-			Path:    "path",
-			PathReg: "",
-			Headers: map[string]string{
-				"header1": "value1;value2",
-				"header2": "value3",
-			},
-		},
-		false,
-	},
-	{
-		RequestRestDto{
-			Method:  "GET",
-			Path:    "path",
-			PathReg: "",
-			Headers: map[string]string{
-				"header1": "value1",
-				"header2": "value3",
-			},
-		},
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
@@ -271,7 +252,7 @@ var compareTestCases = []struct {
 		false,
 	},
 	{
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
@@ -280,7 +261,28 @@ var compareTestCases = []struct {
 				"header2": "value3",
 			},
 		},
-		RequestRestDto{
+		restmodels.RequestRestDto{
+			Method:  "GET",
+			Path:    "path",
+			PathReg: "",
+			Headers: map[string]string{
+				"header1": "value1;value2",
+				"header2": "value3",
+			},
+		},
+		false,
+	},
+	{
+		restmodels.RequestRestDto{
+			Method:  "GET",
+			Path:    "path",
+			PathReg: "",
+			Headers: map[string]string{
+				"header1": "value1",
+				"header2": "value3",
+			},
+		},
+		restmodels.RequestRestDto{
 			Method:  "",
 			Path:    "path",
 			PathReg: "",
@@ -292,7 +294,7 @@ var compareTestCases = []struct {
 		true,
 	},
 	{
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "",
 			Path:    "path",
 			PathReg: "",
@@ -301,7 +303,7 @@ var compareTestCases = []struct {
 				"header2": "value3",
 			},
 		},
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
@@ -313,7 +315,7 @@ var compareTestCases = []struct {
 		false,
 	},
 	{
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "",
 			PathReg: "path",
@@ -322,7 +324,7 @@ var compareTestCases = []struct {
 				"header2": "value3",
 			},
 		},
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
@@ -334,7 +336,7 @@ var compareTestCases = []struct {
 		true,
 	},
 	{
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "path",
 			PathReg: "",
@@ -343,7 +345,7 @@ var compareTestCases = []struct {
 				"header2": "value3",
 			},
 		},
-		RequestRestDto{
+		restmodels.RequestRestDto{
 			Method:  "GET",
 			Path:    "",
 			PathReg: "path",

@@ -2,7 +2,10 @@ package restentity
 
 import (
 	"fmt"
+	"net/http"
 	"sort"
+
+	"github.com/abproject/mock-server/internal/rest/restmodels"
 )
 
 type restEntityStorage struct {
@@ -10,19 +13,20 @@ type restEntityStorage struct {
 }
 
 type entityRestEntity struct {
-	Config         EntityRestDto
+	Config         restmodels.EntityRestDto
 	sequenceNumber int
 }
 
 // StorageRestEntity Rest Entity Repository
 type StorageRestEntity interface {
-	AddEntity(config EntityRestDto) EntityRestDto
-	GetEntity(name string) (EntityRestDto, error)
-	PutEntity(name string, config EntityRestDto) (EntityRestDto, error)
+	AddEntity(config restmodels.EntityRestDto) restmodels.EntityRestDto
+	GetEntity(name string) (restmodels.EntityRestDto, error)
+	PutEntity(name string, config restmodels.EntityRestDto) (restmodels.EntityRestDto, error)
 	DeleteEntity(name string) error
 	DeleteAllEntities()
-	GetAllEntities() []EntityRestDto
+	GetAllEntities() []restmodels.EntityRestDto
 	SizeEntities() int
+	FindEntityByRequest(r *http.Request) (restmodels.EndpointRestDto, error)
 }
 
 var increment = 0
@@ -34,7 +38,7 @@ func MakeEntityStorage() StorageRestEntity {
 	}
 }
 
-func (storage *restEntityStorage) AddEntity(config EntityRestDto) EntityRestDto {
+func (storage *restEntityStorage) AddEntity(config restmodels.EntityRestDto) restmodels.EntityRestDto {
 	key := config.Name
 	storage.data[key] = &entityRestEntity{
 		Config:         config,
@@ -44,21 +48,21 @@ func (storage *restEntityStorage) AddEntity(config EntityRestDto) EntityRestDto 
 	return storage.data[key].Config
 }
 
-func (storage *restEntityStorage) GetEntity(name string) (EntityRestDto, error) {
+func (storage *restEntityStorage) GetEntity(name string) (restmodels.EntityRestDto, error) {
 	if entry, ok := storage.data[name]; ok {
 		return entry.Config, nil
 	}
-	return EntityRestDto{}, fmt.Errorf("Rest Entity configuration with name=%s not found", name)
+	return restmodels.EntityRestDto{}, fmt.Errorf("Rest Entity configuration with name=%s not found", name)
 }
 
-func (storage *restEntityStorage) PutEntity(name string, config EntityRestDto) (EntityRestDto, error) {
+func (storage *restEntityStorage) PutEntity(name string, config restmodels.EntityRestDto) (restmodels.EntityRestDto, error) {
 	if _, ok := storage.data[name]; ok {
 		storage.data[name] = &entityRestEntity{
 			Config: config,
 		}
 		return storage.data[name].Config, nil
 	}
-	return EntityRestDto{}, fmt.Errorf("Rest Entity configuration with name=%s not found", name)
+	return restmodels.EntityRestDto{}, fmt.Errorf("Rest Entity configuration with name=%s not found", name)
 }
 
 func (storage *restEntityStorage) DeleteEntity(name string) error {
@@ -69,7 +73,7 @@ func (storage *restEntityStorage) DeleteEntity(name string) error {
 	return fmt.Errorf("Rest Entity configuration with name=%s not found", name)
 }
 
-func (storage *restEntityStorage) GetAllEntities() []EntityRestDto {
+func (storage *restEntityStorage) GetAllEntities() []restmodels.EntityRestDto {
 	data := []*entityRestEntity{}
 	for _, value := range storage.data {
 		data = append(data, value)
@@ -78,7 +82,7 @@ func (storage *restEntityStorage) GetAllEntities() []EntityRestDto {
 		return data[i].sequenceNumber < data[j].sequenceNumber
 	})
 
-	configs := make([]EntityRestDto, len(data))
+	configs := make([]restmodels.EntityRestDto, len(data))
 	i := 0
 	for k := range data {
 		configs[i] = data[k].Config
@@ -94,4 +98,8 @@ func (storage *restEntityStorage) DeleteAllEntities() {
 
 func (storage *restEntityStorage) SizeEntities() int {
 	return len(storage.data)
+}
+
+func (storage *restEntityStorage) FindEntityByRequest(r *http.Request) (restmodels.EndpointRestDto, error) {
+	return restmodels.EndpointRestDto{}, nil
 }

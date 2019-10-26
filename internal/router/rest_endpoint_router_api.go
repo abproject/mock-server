@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/abproject/mock-server/internal/rest"
+	"github.com/abproject/mock-server/internal/rest/restmodels"
 )
 
 var restEndpointURL = "/_api/rest/endpoints"
@@ -62,7 +62,7 @@ func getRestEndpointHandler(c Context, w http.ResponseWriter, r *http.Request, i
 
 func postRestEndpointHandler(c Context, w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
-	var dto rest.EndpointRestDto
+	var dto restmodels.EndpointRestDto
 	err := decoder.Decode(&dto)
 	if err != nil {
 		errorHandler(w, err)
@@ -75,7 +75,7 @@ func postRestEndpointHandler(c Context, w http.ResponseWriter, r *http.Request) 
 
 func putRestEndpointHandler(c Context, w http.ResponseWriter, r *http.Request, id string) {
 	decoder := json.NewDecoder(r.Body)
-	var dto rest.EndpointRestDto
+	var dto restmodels.EndpointRestDto
 	err := decoder.Decode(&dto)
 	if err != nil {
 		errorHandler(w, err)

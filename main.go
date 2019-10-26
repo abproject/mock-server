@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 
 	"github.com/abproject/mock-server/internal/file"
+	"github.com/abproject/mock-server/internal/models"
 	"github.com/abproject/mock-server/internal/parser"
 	"github.com/abproject/mock-server/internal/rest"
 	"github.com/abproject/mock-server/internal/router"

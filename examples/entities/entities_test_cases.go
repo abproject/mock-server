@@ -34,103 +34,97 @@ func GetEntitiesMockCases(t *testing.T) []test.RestMockTestCase {
 				},
 				BodyFile: "data-all.json",
 			}),
-		// testCase(
-		// 	"GET should return correct body, headers ans status when id=3",
-		// 	test.RestMockTestCaseRequest{
-		// 		Type:    "GET",
-		// 		Path:    "/planets/3",
-		// 		Headers: map[string]string{},
-		// 	},
-		// 	test.RestMockTestCaseResponse{
-		// 		Status: 200,
-		// 		Headers: map[string]string{
-		// 			"Content-Type": "application/json",
-		// 		},
-		// 		BodyFile: "data-id-3.json",
-		// 	}),
-		// testCase(
-		// 	"GET should return 404 when id=42",
-		// 	test.RestMockTestCaseRequest{
-		// 		Type:    "GET",
-		// 		Path:    "/planets/42",
-		// 		Headers: map[string]string{},
-		// 	},
-		// 	test.RestMockTestCaseResponse{
-		// 		Status: 404,
-		// 		Headers: map[string]string{
-		// 			"Content-Type": "application/json",
-		// 		},
-		// 		Body: "",
-		// 	}),
-		// testCase(
-		// 	"POST should return correct body, headers ans status",
-		// 	test.RestMockTestCaseRequest{
-		// 		Type:    "POST",
-		// 		Path:    "/planets",
-		// 		Headers: map[string]string{},
-		// 	},
-		// 	test.RestMockTestCaseResponse{
-		// 		Status: 201,
-		// 		Headers: map[string]string{
-		// 			"Content-Type": "application/json",
-		// 		},
-		// 		BodyFile: "data-new.json",
-		// 	}),
-		// testCase(
-		// 	"PUT should return correct body, headers ans status when id=3",
-		// 	test.RestMockTestCaseRequest{
-		// 		Type:    "PUT",
-		// 		Path:    "/planets/3",
-		// 		Headers: map[string]string{},
-		// 	},
-		// 	test.RestMockTestCaseResponse{
-		// 		Status: 200,
-		// 		Headers: map[string]string{
-		// 			"Content-Type": "application/json",
-		// 		},
-		// 		BodyFile: "data-id-3.json",
-		// 	}),
-		// testCase(
-		// 	"PUT should return 404 when id=42",
-		// 	test.RestMockTestCaseRequest{
-		// 		Type:    "PUT",
-		// 		Path:    "/planets/42",
-		// 		Headers: map[string]string{},
-		// 	},
-		// 	test.RestMockTestCaseResponse{
-		// 		Status: 404,
-		// 		Headers: map[string]string{
-		// 			"Content-Type": "application/json",
-		// 		},
-		// 		Body: "",
-		// 	}),
-		// testCase(
-		// 	"DELETE should return correct body, headers ans status when id=3",
-		// 	test.RestMockTestCaseRequest{
-		// 		Type:    "DELETE",
-		// 		Path:    "/planets/3",
-		// 		Headers: map[string]string{},
-		// 	},
-		// 	test.RestMockTestCaseResponse{
-		// 		Status: 204,
-		// 		Headers: map[string]string{
-		// 			"Content-Type": "application/json",
-		// 		},
-		// 	}),
-		// testCase(
-		// 	"DELETE should return 404 when id=42",
-		// 	test.RestMockTestCaseRequest{
-		// 		Type:    "DELETE",
-		// 		Path:    "/planets/42",
-		// 		Headers: map[string]string{},
-		// 	},
-		// 	test.RestMockTestCaseResponse{
-		// 		Status: 404,
-		// 		Headers: map[string]string{
-		// 			"Content-Type": "application/json",
-		// 		},
-		// 		Body: "",
-		// 	}),
+		testCase(
+			"GET should return correct body, headers ans status when id=3",
+			test.RestMockTestCaseRequest{
+				Type:    "GET",
+				Path:    "/planets/3",
+				Headers: map[string]string{},
+			},
+			test.RestMockTestCaseResponse{
+				Status: 200,
+				Headers: map[string]string{
+					"Content-Type": "application/json",
+				},
+				BodyFile: "data-id-3.json",
+			}),
+		testCase(
+			"GET should return 404 when id=42",
+			test.RestMockTestCaseRequest{
+				Type:    "GET",
+				Path:    "/planets/42",
+				Headers: map[string]string{},
+			},
+			test.RestMockTestCaseResponse{
+				Status:  404,
+				Headers: map[string]string{},
+				Body:    "",
+			}),
+		testCase(
+			"POST should return correct body, headers ans status",
+			test.RestMockTestCaseRequest{
+				Type:    "POST",
+				Path:    "/planets",
+				Headers: map[string]string{},
+			},
+			test.RestMockTestCaseResponse{
+				Status: 201,
+				Headers: map[string]string{
+					"Content-Type": "application/json",
+				},
+				BodyFile: "data-new.json",
+			}),
+		testCase(
+			"PUT should return correct body, headers ans status when id=3",
+			test.RestMockTestCaseRequest{
+				Type:    "PUT",
+				Path:    "/planets/3",
+				Headers: map[string]string{},
+			},
+			test.RestMockTestCaseResponse{
+				Status: 200,
+				Headers: map[string]string{
+					"Content-Type": "application/json",
+				},
+				BodyFile: "data-id-3.json",
+			}),
+		testCase(
+			"PUT should return 404 when id=42",
+			test.RestMockTestCaseRequest{
+				Type:    "PUT",
+				Path:    "/planets/42",
+				Headers: map[string]string{},
+			},
+			test.RestMockTestCaseResponse{
+				Status:  404,
+				Headers: map[string]string{},
+				Body:    "",
+			}),
+		testCase(
+			"DELETE should return correct body, headers ans status when id=3",
+			test.RestMockTestCaseRequest{
+				Type:    "DELETE",
+				Path:    "/planets/3",
+				Headers: map[string]string{},
+			},
+			test.RestMockTestCaseResponse{
+				Status: 204,
+				Headers: map[string]string{
+					"Content-Type": "application/json",
+				},
+			}),
+		testCase(
+			"DELETE should return 404 when id=42",
+			test.RestMockTestCaseRequest{
+				Type:    "DELETE",
+				Path:    "/planets/42",
+				Headers: map[string]string{},
+			},
+			test.RestMockTestCaseResponse{
+				Status:  404,
+				Headers: map[string]string{},
+				Body:    "",
+			}),
 	}
 }
 

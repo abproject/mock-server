@@ -130,6 +130,7 @@ Actual Response:   %+v`, expected, *actual)
 	expectedParts := r.FindAllString(expectedBody, -1)
 	actualTrimmedBody := strings.Join(actualParts[:], "")
 	expectedTrimmedBody := strings.Join(expectedParts[:], "")
+
 	if expectedTrimmedBody != actualTrimmedBody {
 		errorMessage := fmt.Sprintf("Body:\n\t\tExpected: %s\n\t\tActual:   %s", expectedTrimmedBody, actualTrimmedBody)
 		actualResponseGroup(errorMessage, 1)

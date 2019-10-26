@@ -3,8 +3,8 @@
     "entities": [
       {
         "name": "planets",
-        "dataAll": "data-all.json",
-        "dataNew": "data-new.json",
+        "dataAll": "examples/entities/data-all.json",
+        "dataNew": "examples/entities/data-new.json",
         "id": "id"
       }
     ]

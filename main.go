@@ -27,7 +27,7 @@ func main() {
 
 	path, _ := filepath.Abs(".")
 	if *config != "" {
-		parserContext := parser.Context{
+		parserContext := models.AppContext{
 			Logger:      logger,
 			RestStorage: &restStorage,
 			FileStorage: &fileStorage,
@@ -37,7 +37,7 @@ func main() {
 		parser.Parse(*config)
 	}
 
-	routerContext := router.Context{
+	routerContext := models.AppContext{
 		Logger:      logger,
 		RestStorage: &restStorage,
 		FileStorage: &fileStorage,

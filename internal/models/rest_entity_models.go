@@ -1,4 +1,4 @@
-package restmodels
+package models
 
 // EntityRestDto Rest Entity Data Transfer Object
 type EntityRestDto struct {

@@ -12,7 +12,7 @@ import (
 
 	"github.com/abproject/mock-server/internal/file"
 	"github.com/abproject/mock-server/internal/rest"
-	"github.com/abproject/mock-server/internal/rest/restmodels"
+	"github.com/abproject/mock-server/internal/models"
 	"github.com/abproject/mock-server/internal/router"
 	"github.com/abproject/mock-server/test"
 )
@@ -42,7 +42,7 @@ func TestFilesApiE2E(t *testing.T) {
 func configureAPI(t *testing.T) router.IRouter {
 	restStorage := rest.MakeStorage()
 	fileStorage := file.MakeStorage()
-	routerContext := router.Context{
+	routerContext := models.AppContext{
 		Logger:      log.New(os.Stdout, "api e2e ", log.LstdFlags|log.Lshortfile),
 		RestStorage: &restStorage,
 		FileStorage: &fileStorage,
@@ -63,7 +63,7 @@ func configureFile(t *testing.T, router router.IRouter, dataFile string, configF
 	if err != nil {
 		t.Fatal(err)
 	}
-	data := restmodels.EndpointRestDto{}
+	data := models.EndpointRestDto{}
 	_ = json.Unmarshal([]byte(file), &data)
 	data.Response.BodyFile = responseFile.ID
 

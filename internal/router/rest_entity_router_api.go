@@ -6,13 +6,13 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/abproject/mock-server/internal/rest/restmodels"
+	"github.com/abproject/mock-server/internal/models"
 )
 
 var restEntityURL = "/_api/rest/entities"
 
 // RouteRestEntityAPI Rest API
-func RouteRestEntityAPI(c Context, w http.ResponseWriter, r *http.Request) {
+func RouteRestEntityAPI(c models.AppContext, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	if r.RequestURI == restEntityURL {
 		switch r.Method {
@@ -47,11 +47,11 @@ func RouteRestEntityAPI(c Context, w http.ResponseWriter, r *http.Request) {
 	notFoundHandler(c, w, r)
 }
 
-func getAllRestEntityHandlers(c Context, w http.ResponseWriter, r *http.Request) {
+func getAllRestEntityHandlers(c models.AppContext, w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode((*c.RestStorage).GetAllEntities())
 }
 
-func getRestEntityHandler(c Context, w http.ResponseWriter, r *http.Request, id string) {
+func getRestEntityHandler(c models.AppContext, w http.ResponseWriter, r *http.Request, id string) {
 	entity, err := (*c.RestStorage).GetEntity(id)
 	if err != nil {
 		notFoundHandler(c, w, r)
@@ -60,9 +60,9 @@ func getRestEntityHandler(c Context, w http.ResponseWriter, r *http.Request, id 
 	json.NewEncoder(w).Encode(entity)
 }
 
-func postRestEntityHandler(c Context, w http.ResponseWriter, r *http.Request) {
+func postRestEntityHandler(c models.AppContext, w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
-	var dto restmodels.EntityRestDto
+	var dto models.EntityRestDto
 	err := decoder.Decode(&dto)
 	if err != nil {
 		errorHandler(w, err)
@@ -73,9 +73,9 @@ func postRestEntityHandler(c Context, w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(entity)
 }
 
-func putRestEntityHandler(c Context, w http.ResponseWriter, r *http.Request, id string) {
+func putRestEntityHandler(c models.AppContext, w http.ResponseWriter, r *http.Request, id string) {
 	decoder := json.NewDecoder(r.Body)
-	var dto restmodels.EntityRestDto
+	var dto models.EntityRestDto
 	err := decoder.Decode(&dto)
 	if err != nil {
 		errorHandler(w, err)
@@ -90,7 +90,7 @@ func putRestEntityHandler(c Context, w http.ResponseWriter, r *http.Request, id 
 	json.NewEncoder(w).Encode(entity)
 }
 
-func deleteRestEntityHandler(c Context, w http.ResponseWriter, r *http.Request, id string) {
+func deleteRestEntityHandler(c models.AppContext, w http.ResponseWriter, r *http.Request, id string) {
 	err := (*c.RestStorage).DeleteEntity(id)
 	if err != nil {
 		notFoundHandler(c, w, r)
@@ -99,7 +99,7 @@ func deleteRestEntityHandler(c Context, w http.ResponseWriter, r *http.Request, 
 	w.WriteHeader(http.StatusNoContent)
 }
 
-func deleteAllRestEntityHandlers(c Context, w http.ResponseWriter, r *http.Request) {
+func deleteAllRestEntityHandlers(c models.AppContext, w http.ResponseWriter, r *http.Request) {
 	(*c.RestStorage).DeleteAllEntities()
 	w.WriteHeader(http.StatusNoContent)
 }

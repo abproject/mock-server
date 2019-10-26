@@ -4,6 +4,8 @@ import (
 	"reflect"
 	"sort"
 	"testing"
+
+	"github.com/abproject/mock-server/internal/models"
 )
 
 func TestFileStorageNotSingleton(t *testing.T) {
@@ -189,7 +191,7 @@ func TestFileStorageGetAll(t *testing.T) {
 	name := "file-name"
 	actual1 := storage.Add(name, data)
 	actual2 := storage.Add(name, data)
-	expected := []File{actual1, actual2}
+	expected := []models.File{actual1, actual2}
 	sort.Slice(expected, func(i, j int) bool {
 		return expected[i].ID < expected[j].ID
 	})

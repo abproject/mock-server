@@ -1,25 +1,15 @@
 package router
 
 import (
-	"log"
 	"net/http"
 	"strings"
 
-	"github.com/abproject/mock-server/internal/file"
-
-	"github.com/abproject/mock-server/internal/rest"
+	"github.com/abproject/mock-server/internal/models"
 )
-
-// Context Router Context
-type Context struct {
-	Logger      *log.Logger
-	RestStorage *rest.StorageRest
-	FileStorage *file.StorageFile
-}
 
 // Router Router
 type Router struct {
-	context *Context
+	context *models.AppContext
 }
 
 // IRouter interface
@@ -27,8 +17,8 @@ type IRouter interface {
 	Route(w http.ResponseWriter, r *http.Request)
 }
 
-// New Create new Router with Context
-func New(context Context) IRouter {
+// New Create new Router with models.AppContext
+func New(context models.AppContext) IRouter {
 	return &Router{
 		context: &context,
 	}
@@ -66,7 +56,7 @@ func (router *Router) Route(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func notFoundHandler(c Context, w http.ResponseWriter, r *http.Request) {
+func notFoundHandler(c models.AppContext, w http.ResponseWriter, r *http.Request) {
 	c.Logger.Printf("API Endpoint Not Found\nURI: %s\nMethod: %s", r.RequestURI, r.Method)
 	w.Header().Set("Content-Type", "text/html")
 	w.WriteHeader(http.StatusNotFound)

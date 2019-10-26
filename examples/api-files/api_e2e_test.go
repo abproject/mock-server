@@ -7,13 +7,14 @@ import (
 	"testing"
 
 	"github.com/abproject/mock-server/internal/file"
+	"github.com/abproject/mock-server/internal/models"
 	"github.com/abproject/mock-server/internal/router"
 	"github.com/abproject/mock-server/test"
 )
 
 func configureAPI(t *testing.T) router.IRouter {
 	fileStorage := file.MakeStorage()
-	routerContext := router.Context{
+	routerContext := models.AppContext{
 		Logger:      log.New(os.Stdout, "api e2e ", log.LstdFlags|log.Lshortfile),
 		FileStorage: &fileStorage,
 	}
@@ -23,7 +24,7 @@ func configureAPI(t *testing.T) router.IRouter {
 
 func configureAPIWithEntry(t *testing.T) (router.IRouter, string) {
 	fileStorage := file.MakeStorage()
-	routerContext := router.Context{
+	routerContext := models.AppContext{
 		Logger:      log.New(os.Stdout, "api e2e ", log.LstdFlags|log.Lshortfile),
 		FileStorage: &fileStorage,
 	}
@@ -49,8 +50,8 @@ func TestApiFilePostE2E(t *testing.T) {
 				RequestFile:         "api-post-request.txt",
 				RequestFileIsSource: true,
 				ResponseFile:        "api-post-response.json",
-				ExpectedResponse:    file.File{},
-				ActualResponse:      file.File{},
+				ExpectedResponse:    models.File{},
+				ActualResponse:      models.File{},
 			}),
 	}
 
@@ -73,8 +74,8 @@ func TestApiFileGetAllE2E(t *testing.T) {
 				URI:              "/_api/files",
 				RequestFile:      "",
 				ResponseFile:     "api-get-all-empty-response.json",
-				ExpectedResponse: []file.File{},
-				ActualResponse:   []file.File{},
+				ExpectedResponse: []models.File{},
+				ActualResponse:   []models.File{},
 			}),
 	}
 
@@ -97,8 +98,8 @@ func TestApiFileGetAllWithEntryE2E(t *testing.T) {
 				URI:              "/_api/files",
 				RequestFile:      "",
 				ResponseFile:     "api-get-all-response.json",
-				ExpectedResponse: []file.File{},
-				ActualResponse:   []file.File{},
+				ExpectedResponse: []models.File{},
+				ActualResponse:   []models.File{},
 			}),
 	}
 
@@ -132,8 +133,8 @@ func TestApiFileDeleteAllWithEntryE2E(t *testing.T) {
 				URI:              "/_api/files",
 				RequestFile:      "",
 				ResponseFile:     "api-get-all-empty-response.json",
-				ExpectedResponse: []file.File{},
-				ActualResponse:   []file.File{},
+				ExpectedResponse: []models.File{},
+				ActualResponse:   []models.File{},
 			}),
 	}
 
@@ -156,8 +157,8 @@ func TestApiFileGetByIdWithEntryE2E(t *testing.T) {
 				URI:              "/_api/files/" + id,
 				RequestFile:      "",
 				ResponseFile:     "api-get-response.json",
-				ExpectedResponse: file.File{},
-				ActualResponse:   file.File{},
+				ExpectedResponse: models.File{},
+				ActualResponse:   models.File{},
 			}),
 	}
 
@@ -205,8 +206,8 @@ func TestApiFilePutE2E(t *testing.T) {
 				RequestFile:         "api-put-request.txt",
 				RequestFileIsSource: true,
 				ResponseFile:        "api-put-response.json",
-				ExpectedResponse:    file.File{},
-				ActualResponse:      file.File{},
+				ExpectedResponse:    models.File{},
+				ActualResponse:      models.File{},
 			}),
 		testCase(
 			&test.RestAPITestCaseConfig{
@@ -216,8 +217,8 @@ func TestApiFilePutE2E(t *testing.T) {
 				URI:              "/_api/files",
 				RequestFile:      "",
 				ResponseFile:     "api-get-all-modified-response.json",
-				ExpectedResponse: []file.File{},
-				ActualResponse:   []file.File{},
+				ExpectedResponse: []models.File{},
+				ActualResponse:   []models.File{},
 			}),
 	}
 
@@ -241,8 +242,8 @@ func TestApiFilePutByWithEntryE2E(t *testing.T) {
 				RequestFile:         "api-put-request.txt",
 				RequestFileIsSource: true,
 				ResponseFile:        "api-put-response.json",
-				ExpectedResponse:    file.File{},
-				ActualResponse:      file.File{},
+				ExpectedResponse:    models.File{},
+				ActualResponse:      models.File{},
 			}),
 		testCase(
 			&test.RestAPITestCaseConfig{
@@ -252,8 +253,8 @@ func TestApiFilePutByWithEntryE2E(t *testing.T) {
 				URI:              "/_api/files",
 				RequestFile:      "",
 				ResponseFile:     "api-get-all-modified-response.json",
-				ExpectedResponse: []file.File{},
-				ActualResponse:   []file.File{},
+				ExpectedResponse: []models.File{},
+				ActualResponse:   []models.File{},
 			}),
 	}
 
@@ -287,8 +288,8 @@ func TestApiFileDeleteByWithEntryE2E(t *testing.T) {
 				URI:              "/_api/files",
 				RequestFile:      "",
 				ResponseFile:     "api-get-all-empty-response.json",
-				ExpectedResponse: []file.File{},
-				ActualResponse:   []file.File{},
+				ExpectedResponse: []models.File{},
+				ActualResponse:   []models.File{},
 			}),
 	}
 

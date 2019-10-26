@@ -6,13 +6,15 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
+
+	"github.com/abproject/mock-server/internal/models"
 )
 
 var fileURL = "/_api/files"
 var maxFileSize int64 = 20 << 20
 
 // RouteFileAPI Rest API
-func RouteFileAPI(c Context, w http.ResponseWriter, r *http.Request) {
+func RouteFileAPI(c models.AppContext, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	if r.RequestURI == fileURL {
 		switch r.Method {
@@ -47,11 +49,11 @@ func RouteFileAPI(c Context, w http.ResponseWriter, r *http.Request) {
 	notFoundHandler(c, w, r)
 }
 
-func getAllFileHandlers(c Context, w http.ResponseWriter, r *http.Request) {
+func getAllFileHandlers(c models.AppContext, w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode((*c.FileStorage).GetAll())
 }
 
-func getFileHandler(c Context, w http.ResponseWriter, r *http.Request, id string) {
+func getFileHandler(c models.AppContext, w http.ResponseWriter, r *http.Request, id string) {
 	fileDto, err := (*c.FileStorage).Get(id)
 	if err != nil {
 		notFoundHandler(c, w, r)
@@ -60,7 +62,7 @@ func getFileHandler(c Context, w http.ResponseWriter, r *http.Request, id string
 	json.NewEncoder(w).Encode(fileDto)
 }
 
-func postFileHandler(c Context, w http.ResponseWriter, r *http.Request) {
+func postFileHandler(c models.AppContext, w http.ResponseWriter, r *http.Request) {
 	r.ParseMultipartForm(maxFileSize)
 	file, handler, err := r.FormFile("file")
 	if err != nil {
@@ -78,7 +80,7 @@ func postFileHandler(c Context, w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(fileDto)
 }
 
-func putFileHandler(c Context, w http.ResponseWriter, r *http.Request, id string) {
+func putFileHandler(c models.AppContext, w http.ResponseWriter, r *http.Request, id string) {
 	r.ParseMultipartForm(maxFileSize)
 	file, handler, err := r.FormFile("file")
 	if err != nil {
@@ -96,7 +98,7 @@ func putFileHandler(c Context, w http.ResponseWriter, r *http.Request, id string
 	json.NewEncoder(w).Encode(fileDto)
 }
 
-func deleteFileHandler(c Context, w http.ResponseWriter, r *http.Request, id string) {
+func deleteFileHandler(c models.AppContext, w http.ResponseWriter, r *http.Request, id string) {
 	err := (*c.FileStorage).Delete(id)
 	if err != nil {
 		notFoundHandler(c, w, r)
@@ -105,7 +107,7 @@ func deleteFileHandler(c Context, w http.ResponseWriter, r *http.Request, id str
 	w.WriteHeader(http.StatusNoContent)
 }
 
-func deleteAllFileHandlers(c Context, w http.ResponseWriter, r *http.Request) {
+func deleteAllFileHandlers(c models.AppContext, w http.ResponseWriter, r *http.Request) {
 	(*c.FileStorage).DeleteAll()
 	w.WriteHeader(http.StatusNoContent)
 }

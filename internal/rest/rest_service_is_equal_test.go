@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/abproject/mock-server/internal/rest/restmodels"
+	"github.com/abproject/mock-server/internal/models"
 )
 
 type Request struct {
@@ -15,12 +15,12 @@ type Request struct {
 }
 
 var isEqualTestCases = []struct {
-	Dto     restmodels.RequestRestDto `json:"entity"`
+	Dto     models.RequestRestDto `json:"entity"`
 	Request Request                   `json:"request"`
 	expect  bool
 }{
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "GET",
 			Path:   "",
 		},
@@ -32,7 +32,7 @@ var isEqualTestCases = []struct {
 		true,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "get",
 			Path:   "",
 		},
@@ -44,7 +44,7 @@ var isEqualTestCases = []struct {
 		true,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "Get",
 			Path:   "",
 		},
@@ -56,7 +56,7 @@ var isEqualTestCases = []struct {
 		true,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "",
 			Path:   "path",
 		},
@@ -68,7 +68,7 @@ var isEqualTestCases = []struct {
 		true,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "",
 			Path:   "path",
 		},
@@ -80,7 +80,7 @@ var isEqualTestCases = []struct {
 		true,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "GET",
 			Path:   "/",
 		},
@@ -92,7 +92,7 @@ var isEqualTestCases = []struct {
 		true,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "GET",
 			Path:   "path",
 		},
@@ -104,7 +104,7 @@ var isEqualTestCases = []struct {
 		true,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "GET",
 			Path:   "path",
 		},
@@ -116,7 +116,7 @@ var isEqualTestCases = []struct {
 		true,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "GET",
 			Path:   "PATH",
 		},
@@ -128,7 +128,7 @@ var isEqualTestCases = []struct {
 		true,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "GET",
 			Path:   "/path",
 		},
@@ -140,7 +140,7 @@ var isEqualTestCases = []struct {
 		true,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "GET",
 			Path:   "path",
 		},
@@ -152,7 +152,7 @@ var isEqualTestCases = []struct {
 		false,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "GET",
 			Path:   "path/hello/world",
 		},
@@ -164,7 +164,7 @@ var isEqualTestCases = []struct {
 		true,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "GET",
 			Path:   "//path",
 		},
@@ -176,7 +176,7 @@ var isEqualTestCases = []struct {
 		false,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "GET",
 			Path:   "/path",
 		},
@@ -188,7 +188,7 @@ var isEqualTestCases = []struct {
 		false,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method:  "GET",
 			Path:    "",
 			PathReg: "^/path/.*",
@@ -201,7 +201,7 @@ var isEqualTestCases = []struct {
 		true,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method:  "GET",
 			Path:    "",
 			PathReg: "^/path/.*",
@@ -214,7 +214,7 @@ var isEqualTestCases = []struct {
 		false,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method:  "GET",
 			Path:    "",
 			PathReg: "^/path(/.*)?",
@@ -227,7 +227,7 @@ var isEqualTestCases = []struct {
 		true,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method:  "GET",
 			Path:    "",
 			PathReg: "^/path(/.*)?",
@@ -240,7 +240,7 @@ var isEqualTestCases = []struct {
 		true,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "GET",
 			Path:   "path",
 		},
@@ -255,7 +255,7 @@ var isEqualTestCases = []struct {
 		true,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "GET",
 			Path:   "path",
 			Headers: map[string]string{
@@ -271,7 +271,7 @@ var isEqualTestCases = []struct {
 		false,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "GET",
 			Path:   "path",
 			Headers: map[string]string{
@@ -290,7 +290,7 @@ var isEqualTestCases = []struct {
 		true,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "GET",
 			Path:   "path",
 			Headers: map[string]string{
@@ -310,7 +310,7 @@ var isEqualTestCases = []struct {
 		true,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "GET",
 			Path:   "path",
 			Headers: map[string]string{
@@ -328,7 +328,7 @@ var isEqualTestCases = []struct {
 		false,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "GET",
 			Path:   "path",
 			Headers: map[string]string{
@@ -347,7 +347,7 @@ var isEqualTestCases = []struct {
 		false,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "GET",
 			Path:   "path",
 			Headers: map[string]string{
@@ -364,7 +364,7 @@ var isEqualTestCases = []struct {
 		true,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "GET",
 			Path:   "path",
 			Headers: map[string]string{
@@ -381,7 +381,7 @@ var isEqualTestCases = []struct {
 		true,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "GET",
 			Path:   "path/:id",
 		},
@@ -393,7 +393,7 @@ var isEqualTestCases = []struct {
 		true,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "GET",
 			Path:   "path/:id",
 		},
@@ -405,7 +405,7 @@ var isEqualTestCases = []struct {
 		true,
 	},
 	{
-		restmodels.RequestRestDto{
+		models.RequestRestDto{
 			Method: "GET",
 			Path:   "path",
 		},
@@ -427,8 +427,8 @@ func TestRestServiceIsEqual(t *testing.T) {
 			Header:     testCase.Request.Header,
 		}
 		entityRest := entityRest{
-			Config: restmodels.EndpointRestDto{
-				Request: restmodels.RequestRestDto{
+			Config: models.EndpointRestDto{
+				Request: models.RequestRestDto{
 					Method:  testCase.Dto.Method,
 					Path:    testCase.Dto.Path,
 					PathReg: testCase.Dto.PathReg,

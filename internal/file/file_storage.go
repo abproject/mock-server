@@ -4,30 +4,27 @@ import (
 	"fmt"
 	"sort"
 
+	"github.com/abproject/mock-server/internal/models"
 	"github.com/abproject/mock-server/internal/shared"
 )
 
-// StorageFile File Repository
-type StorageFile interface {
-	Add(name string, data []byte) File
-	Get(id string) (File, error)
-	Put(id string, name string, data []byte) File
-	Delete(id string) error
-	DeleteAll()
-	GetAll() []File
-	Size() int
-	IsExist(id string) bool
-	GetBody(id string) ([]byte, error)
+type fileEntity struct {
+	name string
+	body []byte
+}
+
+type fileStorage struct {
+	data map[string]*fileEntity
 }
 
 // MakeStorage Create new Storage
-func MakeStorage() StorageFile {
+func MakeStorage() models.StorageFile {
 	return &fileStorage{
 		data: make(map[string]*fileEntity),
 	}
 }
 
-func (storage *fileStorage) Add(name string, data []byte) File {
+func (storage *fileStorage) Add(name string, data []byte) models.File {
 	id := shared.GetRandomId()
 	body := make([]byte, len(data))
 	copy(body, data)
@@ -35,32 +32,32 @@ func (storage *fileStorage) Add(name string, data []byte) File {
 		name: name,
 		body: body,
 	}
-	return File{
+	return models.File{
 		ID:     id,
 		Name:   storage.data[id].name,
 		Length: len(storage.data[id].body),
 	}
 }
 
-func (storage *fileStorage) Get(id string) (File, error) {
+func (storage *fileStorage) Get(id string) (models.File, error) {
 	if entry, ok := storage.data[id]; ok {
-		return File{
+		return models.File{
 			ID:     id,
 			Name:   storage.data[id].name,
 			Length: len(entry.body),
 		}, nil
 	}
-	return File{}, fmt.Errorf("File with id=%s not found", id)
+	return models.File{}, fmt.Errorf("File with id=%s not found", id)
 }
 
-func (storage *fileStorage) Put(id string, name string, data []byte) File {
+func (storage *fileStorage) Put(id string, name string, data []byte) models.File {
 	body := make([]byte, len(data))
 	copy(body, data)
 	storage.data[id] = &fileEntity{
 		name: name,
 		body: body,
 	}
-	return File{
+	return models.File{
 		ID:     id,
 		Name:   storage.data[id].name,
 		Length: len(storage.data[id].body),
@@ -75,11 +72,11 @@ func (storage *fileStorage) Delete(id string) error {
 	return fmt.Errorf("File with id=%s not found", id)
 }
 
-func (storage *fileStorage) GetAll() []File {
-	files := make([]File, len(storage.data))
+func (storage *fileStorage) GetAll() []models.File {
+	files := make([]models.File, len(storage.data))
 	i := 0
 	for id := range storage.data {
-		files[i] = File{
+		files[i] = models.File{
 			ID:     id,
 			Name:   storage.data[id].name,
 			Length: len(storage.data[id].body),

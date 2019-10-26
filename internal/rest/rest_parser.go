@@ -2,23 +2,13 @@ package rest
 
 import (
 	"io/ioutil"
-	"log"
 	"path/filepath"
 
-	"github.com/abproject/mock-server/internal/file"
-	"github.com/abproject/mock-server/internal/rest/restmodels"
+	"github.com/abproject/mock-server/internal/models"
 )
 
-// Context Rest Parser Context
-type Context struct {
-	Logger      *log.Logger
-	RestStorage *StorageRest
-	FileStorage *file.StorageFile
-	Path        string
-}
-
-// ParseConfig Parsing Rest restmodels.Config
-func ParseConfig(c Context, config restmodels.Config) {
+// ParseConfig Parsing Rest models.Config
+func ParseConfig(c models.AppContext, config models.Config) {
 	restStorage := c.RestStorage
 	fileStorage := c.FileStorage
 	(*restStorage).AddGlobal(config.Global)
@@ -47,7 +37,7 @@ func ParseConfig(c Context, config restmodels.Config) {
 				(*fileStorage).Put(dataFile, dataFile, data)
 			}
 		}
-		newItemFile := entity.Data
+		newItemFile := entity.NewEntity
 		if newItemFile != "" && !(*fileStorage).IsExist(newItemFile) {
 			path := filepath.Join(c.Path, newItemFile)
 			data, err := ioutil.ReadFile(path)

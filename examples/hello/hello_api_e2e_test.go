@@ -8,6 +8,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/abproject/mock-server/internal/models"
 	"github.com/abproject/mock-server/internal/rest"
 	"github.com/abproject/mock-server/internal/router"
 )
@@ -36,7 +37,7 @@ func TestHelloApiE2E(t *testing.T) {
 
 func configureAPI(t *testing.T) router.IRouter {
 	restStorage := rest.MakeStorage()
-	routerContext := router.Context{
+	routerContext := models.AppContext{
 		Logger:      log.New(os.Stdout, "api e2e ", log.LstdFlags|log.Lshortfile),
 		RestStorage: &restStorage,
 	}

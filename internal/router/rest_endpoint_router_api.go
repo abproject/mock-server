@@ -6,13 +6,13 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/abproject/mock-server/internal/rest/restmodels"
+	"github.com/abproject/mock-server/internal/models"
 )
 
 var restEndpointURL = "/_api/rest/endpoints"
 
 // RouteRestEndpointAPI Rest API
-func RouteRestEndpointAPI(c Context, w http.ResponseWriter, r *http.Request) {
+func RouteRestEndpointAPI(c models.AppContext, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	if r.RequestURI == restEndpointURL {
 		switch r.Method {
@@ -47,11 +47,11 @@ func RouteRestEndpointAPI(c Context, w http.ResponseWriter, r *http.Request) {
 	notFoundHandler(c, w, r)
 }
 
-func getAllRestEndpointHandlers(c Context, w http.ResponseWriter, r *http.Request) {
+func getAllRestEndpointHandlers(c models.AppContext, w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode((*c.RestStorage).GetAll())
 }
 
-func getRestEndpointHandler(c Context, w http.ResponseWriter, r *http.Request, id string) {
+func getRestEndpointHandler(c models.AppContext, w http.ResponseWriter, r *http.Request, id string) {
 	endpoint, err := (*c.RestStorage).Get(id)
 	if err != nil {
 		notFoundHandler(c, w, r)
@@ -60,9 +60,9 @@ func getRestEndpointHandler(c Context, w http.ResponseWriter, r *http.Request, i
 	json.NewEncoder(w).Encode(endpoint)
 }
 
-func postRestEndpointHandler(c Context, w http.ResponseWriter, r *http.Request) {
+func postRestEndpointHandler(c models.AppContext, w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
-	var dto restmodels.EndpointRestDto
+	var dto models.EndpointRestDto
 	err := decoder.Decode(&dto)
 	if err != nil {
 		errorHandler(w, err)
@@ -73,9 +73,9 @@ func postRestEndpointHandler(c Context, w http.ResponseWriter, r *http.Request) 
 	json.NewEncoder(w).Encode(endpoint)
 }
 
-func putRestEndpointHandler(c Context, w http.ResponseWriter, r *http.Request, id string) {
+func putRestEndpointHandler(c models.AppContext, w http.ResponseWriter, r *http.Request, id string) {
 	decoder := json.NewDecoder(r.Body)
-	var dto restmodels.EndpointRestDto
+	var dto models.EndpointRestDto
 	err := decoder.Decode(&dto)
 	if err != nil {
 		errorHandler(w, err)
@@ -90,7 +90,7 @@ func putRestEndpointHandler(c Context, w http.ResponseWriter, r *http.Request, i
 	json.NewEncoder(w).Encode(endpoint)
 }
 
-func deleteRestEndpointHandler(c Context, w http.ResponseWriter, r *http.Request, id string) {
+func deleteRestEndpointHandler(c models.AppContext, w http.ResponseWriter, r *http.Request, id string) {
 	err := (*c.RestStorage).Delete(id)
 	if err != nil {
 		notFoundHandler(c, w, r)
@@ -99,7 +99,7 @@ func deleteRestEndpointHandler(c Context, w http.ResponseWriter, r *http.Request
 	w.WriteHeader(http.StatusNoContent)
 }
 
-func deleteAllRestEndpointHandlers(c Context, w http.ResponseWriter, r *http.Request) {
+func deleteAllRestEndpointHandlers(c models.AppContext, w http.ResponseWriter, r *http.Request) {
 	(*c.RestStorage).DeleteAll()
 	w.WriteHeader(http.StatusNoContent)
 }

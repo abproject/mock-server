@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/abproject/mock-server/internal/file"
+	"github.com/abproject/mock-server/internal/models"
 	"github.com/abproject/mock-server/internal/parser"
 	"github.com/abproject/mock-server/internal/rest"
 	"github.com/abproject/mock-server/internal/router"
@@ -40,7 +41,7 @@ func configureJSON(t *testing.T) router.IRouter {
 	fileStorage := file.MakeStorage()
 
 	path, _ := filepath.Abs("./../..")
-	parserContext := parser.Context{
+	parserContext := models.AppContext{
 		Logger:      logger,
 		RestStorage: &restStorage,
 		FileStorage: &fileStorage,
@@ -49,7 +50,7 @@ func configureJSON(t *testing.T) router.IRouter {
 	parser := parser.New(parserContext)
 	parser.Parse("config.json")
 
-	routerContext := router.Context{
+	routerContext := models.AppContext{
 		Logger:      logger,
 		RestStorage: &restStorage,
 		FileStorage: &fileStorage,

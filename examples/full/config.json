@@ -1,34 +1,42 @@
 {
-  "rest": {
-    "global": {
-      "request": {
-        "method": "method name",
-        "path": "url path"
-      },
-      "response": {
-        "body": "response body",
-        "bodyFile": "response body as file",
-        "status": "http status",
-        "headers": {
-          "header-key": "header-value"
-        }
-      }
-    },
-    "endpoints": [
-      {
-        "request": {
-          "method": "method name",
-          "path": "url path"
-        },
-        "response": {
-          "body": "response body",
-          "bodyFile": "response body as file",
-          "status": "http status",
-          "headers": {
-            "header-key": "header-value"
-          }
-        }
-      }
-    ]
-  }
+	"rest": {
+		"global": {
+			"request": {
+				"method": "method name",
+				"path": "url path"
+			},
+			"response": {
+				"body": "response body",
+				"bodyFile": "response body as file",
+				"status": "http status",
+				"headers": {
+					"header-key": "header-value"
+				}
+			}
+		},
+		"endpoints": [
+			{
+				"request": {
+					"method": "method name",
+					"path": "url path"
+				},
+				"response": {
+					"body": "response body",
+					"bodyFile": "response body as file",
+					"status": "http status",
+					"headers": {
+						"header-key": "header-value"
+					}
+				}
+			}
+		],
+		"entities": [
+			{
+				"name": "entity name (used as path)",
+				"dataAll": "data of all entities (Array of objects)",
+				"dataNew": "object for POST request",
+				"id": "id property in object"
+			}
+		]
+	}
 }

@@ -101,11 +101,11 @@
 
 ```json
 {
+  "atmosphere": ["N2", "CH4", "CO"],
   "id": 9,
   "name": "Pluto",
-  "type": "Dwarf planet",
   "period": 248,
-  "atmosphere": ["N2", "CH4", "CO"]
+  "type": "Dwarf planet"
 }
 
 ```
@@ -116,8 +116,8 @@
 rest:
   entities:
     - name: planets
-      dataAll: data.json
-      dataNew: data-new.json
+      dataAll: examples/entities/data-all.json
+      dataNew: examples/entities/data-new.json
       id: id
 
 ```
@@ -311,11 +311,11 @@ abezpalov/mock-server \
 
 ```json
 {
+  "atmosphere": ["N2", "CH4", "CO"],
   "id": 9,
   "name": "Pluto",
-  "type": "Dwarf planet",
   "period": 248,
-  "atmosphere": ["N2", "CH4", "CO"]
+  "type": "Dwarf planet"
 }
 
 ```
@@ -328,8 +328,8 @@ abezpalov/mock-server \
     "entities": [
       {
         "name": "planets",
-        "dataAll": "data.json",
-        "dataNew": "data-new.json",
+        "dataAll": "examples/entities/data-all.json",
+        "dataNew": "examples/entities/data-new.json",
         "id": "id"
       }
     ]
@@ -441,11 +441,112 @@ abezpalov/mock-server \
 docker run -p 4242:8000 abezpalov/mock-server
 ```
 
+**Create file `examples/entities/data-all.json` with content:**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Mercury",
+    "type": "Terrestrial planet",
+    "period": 0.24,
+    "atmosphere": []
+  },
+  {
+    "id": 2,
+    "name": "Venus",
+    "type": "Terrestrial planet",
+    "period": 0.62,
+    "atmosphere": [
+      "CO2",
+      "N2"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Earth",
+    "type": "Terrestrial planet",
+    "period": 1,
+    "atmosphere": [
+      "N2",
+      "O2",
+      "Ar"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Mars",
+    "type": "Terrestrial planet",
+    "period": 1.88,
+    "atmosphere": [
+      "CO2",
+      "N2",
+      "Ar"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Jupiter",
+    "type": "Gas giant",
+    "period": 11.86,
+    "atmosphere": [
+      "H2",
+      "He"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Saturn",
+    "type": "Gas giant",
+    "period": 29.46,
+    "atmosphere": [
+      "H2",
+      "He"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Uranus",
+    "type": "Ice giant",
+    "period": 84.01,
+    "atmosphere": [
+      "H2",
+      "He",
+      "CH4"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Neptune",
+    "type": "Ice giant",
+    "period": 164.8,
+    "atmosphere": [
+      "H2",
+      "He",
+      "CH4"
+    ]
+  }
+]
+```
+
+**Create file `examples/entities/data-new.json` with content:**
+
+```json
+{
+  "atmosphere": ["N2", "CH4", "CO"],
+  "id": 9,
+  "name": "Pluto",
+  "period": 248,
+  "type": "Dwarf planet"
+}
+
+```
 
 **Final structure:**
 
 ```bash
-./examples/crud/data.json
+./examples/entities/data-all.json
+./examples/entities/data-new.json
 ```
 
 **Create file for all data**
@@ -484,7 +585,7 @@ curl -F 'file=@examples/entities/data-new.json' http://localhost:4242/_api/files
 {"id":"95af5a25367941baa2ff6cd471c483f1","name":"data-new.json","length":113}
 ```
 
-> **`file-all-data-id`** ("95af5a25367941baa2ff6cd471c483f1") should be used in the request below
+> **`file-new-data-id`** ("95af5a25367941baa2ff6cd471c483f1") should be used in the request below
 
 **Send `POST` request to URL `http://localhost:4242/_api/rest/entities` with body:**
 
@@ -602,11 +703,11 @@ EOF
 
 ```json
 {
+  "atmosphere": ["N2", "O2", "Ar"],
   "id": 3,
   "name": "Earth",
-  "type": "Terrestrial planet",
   "period": 1,
-  "atmosphere": ["N2", "O2", "Ar"]
+  "type": "Terrestrial planet"
 }
 
 ```

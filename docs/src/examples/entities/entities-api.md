@@ -6,12 +6,13 @@
 docker run -p 4242:8000 abezpalov/mock-server
 ```
 
-!INCLUDE "crud-create.md"
+!INCLUDE "entities-create.md"
 
 **Final structure:**
 
 ```bash
-./examples/crud/data.json
+./examples/entities/data-all.json
+./examples/entities/data-new.json
 ```
 
 **Create file for all data**

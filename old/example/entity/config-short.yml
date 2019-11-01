@@ -1,4 +1,0 @@
-entity:
-  - path: planets
-    id: id
-    file: example/entity/data.json

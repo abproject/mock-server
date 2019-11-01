@@ -103,10 +103,7 @@ rest:
 **Run in terminal:**
 
 ```bash
-docker run -p 4242:8000 \
--v ${PWD}/examples:/examples \
-abezpalov/mock-server \
--file=/examples/hello/config.yaml
+docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file=/examples/hello/config.yaml
 ```
 
 **Check by opening in browser http://localhost:4242/hello or making `GET` request, e.g., with `curl`:**
@@ -154,10 +151,7 @@ Hello, World!
 **Run in terminal:**
 
 ```bash
-docker run -p 4242:8000 \
--v ${PWD}/examples:/examples \
-abezpalov/mock-server \
--file=/examples/hello/config.json
+docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file=/examples/hello/config.json
 ```
 
 **Check by opening in browser http://localhost:4242/hello or making `GET` request, e.g., with `curl`:**

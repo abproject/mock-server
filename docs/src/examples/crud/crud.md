@@ -25,10 +25,7 @@ In example there are only `bodyFile` configuration, but it is possible to use `b
 **Run in terminal:**
 
 ```bash
-docker run -p 4242:8000 \
--v ${PWD}/examples:/examples \
-abezpalov/mock-server \
--file=/examples/crud/config.yaml
+docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file=/examples/crud/config.yaml
 ```
 
 !INCLUDE "docs/src/examples/crud/crud-check.md", 2
@@ -52,10 +49,7 @@ abezpalov/mock-server \
 **Run in terminal:**
 
 ```bash
-docker run -p 4242:8000 \
--v ${PWD}/examples:/examples \
-abezpalov/mock-server \
--file=/examples/crud/config.json
+docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file=/examples/crud/config.json
 ```
 
 !INCLUDE "docs/src/examples/crud/crud-check.md", 2

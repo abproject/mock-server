@@ -21,10 +21,7 @@
 **Run in terminal:**
 
 ```bash
-docker run -p 4242:8000 \
--v ${PWD}/examples:/examples \
-abezpalov/mock-server \
--file=/examples/files/config.yaml
+docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file=/examples/files/config.yaml
 ```
 
 !INCLUDE "docs/src/examples/files/files-check.md"
@@ -48,10 +45,7 @@ abezpalov/mock-server \
 **Run in terminal:**
 
 ```bash
-docker run -p 4242:8000 \
--v ${PWD}/examples:/examples \
-abezpalov/mock-server \
--file=/examples/files/config.json
+docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file=/examples/files/config.json
 ```
 
 !INCLUDE "docs/src/examples/files/files-check.md"

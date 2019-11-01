@@ -133,10 +133,7 @@ rest:
 **Run in terminal:**
 
 ```bash
-docker run -p 4242:8000 \
--v ${PWD}/examples:/examples \
-abezpalov/mock-server \
--file=/examples/entities/config.yaml
+docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file=/examples/entities/config.yaml
 ```
 
 **Checks:**
@@ -349,10 +346,7 @@ abezpalov/mock-server \
 **Run in terminal:**
 
 ```bash
-docker run -p 4242:8000 \
--v ${PWD}/examples:/examples \
-abezpalov/mock-server \
--file=/examples/entities/config.json
+docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file=/examples/entities/config.json
 ```
 
 **Checks:**

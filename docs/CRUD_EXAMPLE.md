@@ -112,10 +112,7 @@ rest:
 **Run in terminal:**
 
 ```bash
-docker run -p 4242:8000 \
--v ${PWD}/examples:/examples \
-abezpalov/mock-server \
--file=/examples/crud/config.yaml
+docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file=/examples/crud/config.yaml
 ```
 
 **Checks:**
@@ -341,10 +338,7 @@ abezpalov/mock-server \
 **Run in terminal:**
 
 ```bash
-docker run -p 4242:8000 \
--v ${PWD}/examples:/examples \
-abezpalov/mock-server \
--file=/examples/crud/config.json
+docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file=/examples/crud/config.json
 ```
 
 **Checks:**

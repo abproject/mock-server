@@ -7,10 +7,7 @@
 **Run in terminal:**
 
 ```bash
-docker run -p 4242:8000 \
--v ${PWD}/examples:/examples \
-abezpalov/mock-server \
--file=/examples/hello/config.yaml
+docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file=/examples/hello/config.yaml
 ```
 
 !INCLUDE "hello-world-check.md"
@@ -24,10 +21,7 @@ abezpalov/mock-server \
 **Run in terminal:**
 
 ```bash
-docker run -p 4242:8000 \
--v ${PWD}/examples:/examples \
-abezpalov/mock-server \
--file=/examples/hello/config.json
+docker run -p 4242:8000 -v ${PWD}/examples:/examples abezpalov/mock-server -file=/examples/hello/config.json
 ```
 
 !INCLUDE "hello-world-check.md"

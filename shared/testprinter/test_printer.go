@@ -44,7 +44,11 @@ Actual:
 	printer.t.Log(string(debug.Stack()))
 }
 
-func prettyPrint(i interface{}) string {
-	s, _ := json.MarshalIndent(i, "", "  ")
-	return string(s)
+func prettyPrint(instance interface{}) string {
+	bytes, ok := instance.([]byte)
+	if ok {
+		return string(bytes)
+	}
+	formattedValue, _ := json.MarshalIndent(instance, "", "  ")
+	return string(formattedValue)
 }

@@ -248,3 +248,92 @@ func TestBaseComparatorEqual(t *testing.T) {
 		}
 	}
 }
+
+func TestBaseComparatorEqualJson(t *testing.T) {
+	comparator := NewComparator()
+	testCases := []struct {
+		printer testprinter.Printer
+		param1  []byte
+		param2  []byte
+		isEqual bool
+	}{
+		{
+			printer: testprinter.NewTestPrinter(t, "Equal content"),
+			param1:  []byte("data"),
+			param2:  []byte("data"),
+			isEqual: true,
+		},
+		{
+			printer: testprinter.NewTestPrinter(t, "Not equal: subscring content"),
+			param1:  []byte("data"),
+			param2:  []byte("data1"),
+			isEqual: false,
+		},
+		{
+			printer: testprinter.NewTestPrinter(t, "Equal JSON"),
+			param1:  []byte(`{"A": "str", "B": 42, "C": true}`),
+			param2:  []byte(`{"A": "str", "B": 42, "C": true}`),
+			isEqual: true,
+		},
+		{
+			printer: testprinter.NewTestPrinter(t, "Not Equal JSON: string is different"),
+			param1:  []byte(`{"A": "str", "B": 42, "C": true}`),
+			param2:  []byte(`{"A": "str1", "B": 42, "C": true}`),
+			isEqual: false,
+		},
+		{
+			printer: testprinter.NewTestPrinter(t, "Not Equal JSON: integer is different"),
+			param1:  []byte(`{"A": "str", "B": 42, "C": true}`),
+			param2:  []byte(`{"A": "str", "B": 13, "C": true}`),
+			isEqual: false,
+		},
+		{
+			printer: testprinter.NewTestPrinter(t, "Not Equal JSON: bool is different"),
+			param1:  []byte(`{"A": "str", "B": 42, "C": true}`),
+			param2:  []byte(`{"A": "str", "B": 42, "C": false}`),
+			isEqual: false,
+		},
+		{
+			printer: testprinter.NewTestPrinter(t, "Not Equal JSON: missing string"),
+			param1:  []byte(`{"A": "str", "B": 42, "C": true}`),
+			param2:  []byte(`{"B": 42, "C": true}`),
+			isEqual: false,
+		},
+		{
+			printer: testprinter.NewTestPrinter(t, "Not Equal JSON: missing integer"),
+			param1:  []byte(`{"A": "str", "B": 42, "C": true}`),
+			param2:  []byte(`{"A": "str", "C": true}`),
+			isEqual: false,
+		},
+		{
+			printer: testprinter.NewTestPrinter(t, "Not Equal JSON: missing bool"),
+			param1:  []byte(`{"A": "str", "B": 42, "C": true}`),
+			param2:  []byte(`{"A": "str", "B": 42}`),
+			isEqual: false,
+		},
+		{
+			printer: testprinter.NewTestPrinter(t, "Equal JSON: changed order of last"),
+			param1:  []byte(`{"A": "str", "B": 42, "C": true}`),
+			param2:  []byte(`{"A": "str", "C": true, "B": 42}`),
+			isEqual: true,
+		},
+		{
+			printer: testprinter.NewTestPrinter(t, "Equal JSON: changed order of first"),
+			param1:  []byte(`{"A": "str", "B": 42, "C": true}`),
+			param2:  []byte(`{"B": 42, "A": "str", "C": true}`),
+			isEqual: true,
+		},
+	}
+
+	for _, testCase := range testCases {
+		if testCase.isEqual != comparator.EqualJson(testCase.param1, testCase.param2) {
+			var message string
+			if testCase.isEqual == true {
+				message = "must be equal"
+			} else {
+				message = "must not be equal"
+			}
+			testCase.printer.ComparationError(testCase.param1, testCase.param2, message)
+		}
+	}
+}

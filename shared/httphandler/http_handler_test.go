@@ -5,13 +5,6 @@ import (
 	"testing"
 )
 
-type httpHandlerTestCaseOptions struct {
-	name     string
-	request  HttpRequest
-	response HttpResponse
-	router   func(w http.ResponseWriter, r *http.Request)
-}
-
 func TestHttpHandler(t *testing.T) {
 	testCaseFactory := httpHandlerTestCaseFactory(t)
 	testCases := []httpHandlerTest{

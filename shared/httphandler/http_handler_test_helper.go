@@ -24,6 +24,13 @@ type httpHandlerTestCase struct {
 	router     func(w http.ResponseWriter, r *http.Request)
 }
 
+type httpHandlerTestCaseOptions struct {
+	name     string
+	request  HttpRequest
+	response HttpResponse
+	router   func(w http.ResponseWriter, r *http.Request)
+}
+
 func httpHandlerTestCaseFactory(t *testing.T) func(options *httpHandlerTestCaseOptions) httpHandlerTest {
 	comparator := comparator.NewComparator()
 

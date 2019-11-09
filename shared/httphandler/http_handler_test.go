@@ -7,6 +7,7 @@ import (
 
 func TestHttpHandler(t *testing.T) {
 	testCaseFactory := httpHandlerTestCaseFactory(t)
+
 	testCases := []httpHandlerTest{
 		testCaseFactory(&httpHandlerTestCaseOptions{
 			name: "GET request",

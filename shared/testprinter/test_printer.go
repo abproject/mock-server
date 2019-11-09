@@ -1,4 +1,4 @@
-package sharedprinter
+package testprinter
 
 import (
 	"encoding/json"
@@ -7,19 +7,23 @@ import (
 	"testing"
 )
 
-type TestingPrinter struct {
+type Printer interface {
+	ComparationError(expected interface{}, actual interface{}, message string)
+}
+
+type TestPrinter struct {
 	t     *testing.T
 	title string
 }
 
-func NewTestingPrinter(t *testing.T, title string) IPrinter {
-	return &TestingPrinter{
+func NewTestPrinter(t *testing.T, title string) Printer {
+	return &TestPrinter{
 		t:     t,
 		title: title,
 	}
 }
 
-func (printer *TestingPrinter) Error(expected interface{}, actual interface{}, message string) {
+func (printer *TestPrinter) ComparationError(expected interface{}, actual interface{}, message string) {
 	frame := strings.Repeat("*", 6+len(message))
 	printer.t.Errorf(
 		`

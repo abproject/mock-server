@@ -1,17 +1,17 @@
-package sharedhttphandler
+package httphandler
 
 import "net/http"
 
-type HTTPRouter func(w http.ResponseWriter, r *http.Request)
+type HttpRouter func(w http.ResponseWriter, r *http.Request)
 
-type HTTPRequest struct {
+type HttpRequest struct {
 	Method  string
 	URL     string
 	Body    []byte
 	Headers map[string]string
 }
 
-type HTTPResponse struct {
+type HttpResponse struct {
 	Status  int
 	Body    []byte
 	Headers map[string]string

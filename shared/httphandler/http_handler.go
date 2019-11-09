@@ -1,37 +1,60 @@
-package sharedhttphandler
+package httphandler
 
 import (
 	"bytes"
 	"io/ioutil"
+	"net/http"
 	"net/http/httptest"
 	"strings"
 )
 
-func SendHTTPRequest(router HTTPRouter, httpRequest *HTTPRequest) HTTPResponse {
+func SendHttpRequest(router HttpRouter, httpRequest *HttpRequest) HttpResponse {
+	request := prepareRequest(httpRequest)
+	response := makeRequest(router, request)
+	return parseResponse(response)
+}
+
+func prepareRequest(httpRequest *HttpRequest) *http.Request {
 	reader := bytes.NewReader(httpRequest.Body)
 	request := httptest.NewRequest(httpRequest.Method, httpRequest.URL, reader)
 	for header, value := range httpRequest.Headers {
 		request.Header.Add(header, value)
 	}
+	return request
+}
+
+func makeRequest(router HttpRouter, request *http.Request) *httptest.ResponseRecorder {
 	response := httptest.NewRecorder()
 	router(response, request)
-	r := response.Result()
+	return response
+}
 
-	status := r.StatusCode
+func parseResponse(response *httptest.ResponseRecorder) HttpResponse {
+	result := response.Result()
 
-	body, err := ioutil.ReadAll(r.Body)
+	return HttpResponse{
+		Status:  parseStatus(result),
+		Body:    parseBody(result),
+		Headers: parseHeaders(result),
+	}
+}
+
+func parseStatus(result *http.Response) int {
+	return result.StatusCode
+}
+
+func parseBody(result *http.Response) []byte {
+	body, err := ioutil.ReadAll(result.Body)
 	if err != nil {
 		panic(err)
 	}
+	return body
+}
 
+func parseHeaders(result *http.Response) map[string]string {
 	headers := make(map[string]string)
-	for k, v := range r.Header {
-		headers[k] = strings.Join(v[:], "; ")
+	for key, header := range result.Header {
+		headers[key] = strings.Join(header[:], "; ")
 	}
-
-	return HTTPResponse{
-		Status:  status,
-		Body:    body,
-		Headers: headers,
-	}
+	return headers
 }

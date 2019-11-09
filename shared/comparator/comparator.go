@@ -1,5 +1,6 @@
-package sharedcomparator
+package comparator
 
 type Comparator interface {
-	Equal(expected interface{}, actual interface{}, message string)
+	Equal(expected interface{}, actual interface{}) bool
+	// EqualJSON(expected []byte, actual []byte)
 }
